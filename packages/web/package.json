@@ -1,0 +1,52 @@
+{
+  "name": "@vercel/analytics",
+  "version": "0.1.0",
+  "keywords": [
+    "analytics",
+    "vercel"
+  ],
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./react": {
+      "require": "./dist/react/index.cjs",
+      "import": "./dist/react/index.js"
+    }
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "react": [
+        "dist/react/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@vercel/eslint-config"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.2",
+    "@types/react": "^16.8||^17||^18",
+    "@vercel/eslint-config": "workspace:0.0.0",
+    "tsup": "^6.3.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8||^17||^18"
+  }
+}

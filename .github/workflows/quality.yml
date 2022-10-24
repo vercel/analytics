@@ -1,0 +1,39 @@
+name: ci
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  typescript:
+    name: typescript
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+      - name: install
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: 'pnpm'
+      - name: install
+        run: pnpm install
+      - name: lint
+        run: pnpm -r lint
+      - name: type-check
+        run: pnpm -r type-check
+      - name: prettier
+        run: pnpm prettier -c .
+      - name: build
+        run: pnpm -r build
