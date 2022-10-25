@@ -6,12 +6,14 @@ const isBrowser = typeof window !== 'undefined';
 export const inject = ({
   beforeSend,
 }: { beforeSend?: BeforeSend } = {}): void => {
-  if (!isBrowser || window.vai) return;
+  if (!isBrowser) return;
   initQueue();
 
   if (beforeSend) {
     window.va?.('beforeSend', beforeSend);
   }
+
+  if (document.head.querySelector('script[src="/va/script.js"]')) return;
 
   const script = document.createElement('script');
   script.src = '/va/script.js';

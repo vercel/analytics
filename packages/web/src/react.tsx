@@ -1,11 +1,6 @@
 import { useEffect } from 'react';
-import { initQueue } from './queue';
+import { inject } from './generic';
 import type { BeforeSend } from './types';
-
-if (typeof window !== 'undefined') {
-  // initialise va until script is loaded
-  initQueue();
-}
 
 interface AnalyticsProps {
   beforeSend?: BeforeSend;
@@ -19,14 +14,12 @@ export function Analytics(props: AnalyticsProps): JSX.Element {
   return <EnabledAnalytics {...props} />;
 }
 
-function EnabledAnalytics({ beforeSend }: AnalyticsProps): JSX.Element {
+function EnabledAnalytics({ beforeSend }: AnalyticsProps): null {
   useEffect(() => {
-    if (beforeSend) {
-      window.va?.('beforeSend', beforeSend);
-    }
+    inject({ beforeSend });
   }, [beforeSend]);
 
-  return <script async src="/va/script.js" />;
+  return null;
 }
 
 function NoopAnalytics(): null {
