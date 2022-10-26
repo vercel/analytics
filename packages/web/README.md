@@ -1,4 +1,4 @@
-![Analytics](.github/banner.png)
+![Analytics](../../.github/banner.png)
 
 <div align="center"><strong>Vercel Analytics for Audiences</strong></div>
 <div align="center">Privacy-friendly, real-time traffic insights</div>
