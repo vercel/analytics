@@ -5,9 +5,16 @@
     "url": "git+https://github.com/vercel/analytics.git"
   },
   "license": "MPL-2.0",
+  "scripts": {
+    "prepare": "husky install"
+  },
   "prettier": "@vercel/style-guide/prettier",
+  "dependencies": {
+    "lint-staged": "^13.0.3"
+  },
   "devDependencies": {
     "@vercel/style-guide": "^4.0.2",
+    "husky": "^8.0.0",
     "prettier": "2.7.1",
     "typescript": "^4.8.4"
   }
