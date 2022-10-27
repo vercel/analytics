@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { inject } from './generic';
 import type { BeforeSend } from './types';
 

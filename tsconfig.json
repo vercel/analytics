@@ -8,7 +8,7 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "moduleResolution": "node"
   }
 }
