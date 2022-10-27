@@ -11,7 +11,7 @@ declare global {
     // Base interface
     va?: (event: string, properties?: unknown) => void;
     // Queue for actions, before the library is loaded
-    vaq?: [string, unknown][];
+    vaq?: [string, unknown?][];
     vai?: boolean;
   }
 }
