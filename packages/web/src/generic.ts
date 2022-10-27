@@ -17,7 +17,7 @@ export const inject = ({
 
   const script = document.createElement('script');
   script.src = '/va/script.js';
-  script.async = true;
+  script.defer = true;
 
   document.head.appendChild(script);
 };
