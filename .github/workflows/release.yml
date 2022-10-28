@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: 16
           cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
       - name: install
         run: pnpm install
       - name: lint
