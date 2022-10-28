@@ -27,6 +27,6 @@ jobs:
         run: pnpm prettier -c .
       - name: build
         run: pnpm -r build
-      - run: pnpm --filter @vercel/analytics publish
+      - run: pnpm --filter @vercel/analytics publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_ELEVATED }}
