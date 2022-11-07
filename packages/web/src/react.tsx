@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { inject } from './generic';
 import type { AnalyticsProps } from './types';
 import { isProduction } from './utils';
@@ -9,7 +9,7 @@ export function Analytics({
 }: AnalyticsProps): null {
   useEffect(() => {
     inject({ beforeSend, debug });
-  }, [beforeSend]);
+  }, [beforeSend, debug]);
 
   return null;
 }
