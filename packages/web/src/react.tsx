@@ -1,34 +1,15 @@
 import React, { useEffect } from 'react';
 import { inject } from './generic';
-import type { BeforeSend } from './types';
+import type { AnalyticsProps } from './types';
+import { isProduction } from './utils';
 
-interface AnalyticsProps {
-  beforeSend?: BeforeSend;
-}
-
-export function Analytics(props: AnalyticsProps): JSX.Element {
-  if (process.env.NODE_ENV !== 'production') {
-    return <NoopAnalytics />;
-  }
-
-  return <EnabledAnalytics {...props} />;
-}
-
-function EnabledAnalytics({ beforeSend }: AnalyticsProps): null {
+export function Analytics({
+  beforeSend,
+  debug = !isProduction(),
+}: AnalyticsProps): null {
   useEffect(() => {
-    inject({ beforeSend });
+    inject({ beforeSend, debug });
   }, [beforeSend]);
-
-  return null;
-}
-
-function NoopAnalytics(): null {
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.warn(
-      'Vercel Analytics is set up, but detected a non-production environment.\n\nPlease note that no analytics events will be sent.',
-    );
-  }, []);
 
   return null;
 }
