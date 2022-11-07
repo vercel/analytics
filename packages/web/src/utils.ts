@@ -2,8 +2,8 @@ export function isBrowser(): boolean {
   return typeof window !== 'undefined';
 }
 
-export function isProduction(): boolean {
+export function isDevelopment(): boolean {
   return (
-    typeof process !== 'undefined' && process.env.NODE_ENV === 'production'
+    typeof process !== 'undefined' && process.env.NODE_ENV !== 'production'
   );
 }
