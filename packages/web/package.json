@@ -1,6 +1,6 @@
 {
   "name": "@vercel/analytics",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "keywords": [
     "analytics",
     "vercel"
@@ -32,6 +32,7 @@
   },
   "scripts": {
     "build": "tsup",
+    "dev": "tsup --watch",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "type-check": "tsc --noEmit"

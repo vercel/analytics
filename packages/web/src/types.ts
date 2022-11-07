@@ -5,7 +5,10 @@ interface PageViewEvent {
 type IEvent = PageViewEvent;
 
 export type BeforeSend = (event: IEvent) => IEvent | null;
-
+export interface AnalyticsProps {
+  beforeSend?: BeforeSend;
+  debug?: boolean;
+}
 declare global {
   interface Window {
     // Base interface
