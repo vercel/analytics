@@ -3,7 +3,8 @@ export function isBrowser(): boolean {
 }
 
 export function isDevelopment(): boolean {
+  if (typeof process === 'undefined') return false;
   return (
-    typeof process !== 'undefined' && process.env.NODE_ENV !== 'production'
+    process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
   );
 }
