@@ -1,19 +1,26 @@
 import { initQueue } from './queue';
 import type { AnalyticsProps } from './types';
-import { isBrowser, isDevelopment } from './utils';
+import { isBrowser, isDevelopment, getMode } from './utils';
 
 export const inject = (
-  { beforeSend, debug }: AnalyticsProps = { debug: isDevelopment() },
+  props: AnalyticsProps = {
+    debug: isDevelopment(),
+  },
 ): void => {
   if (!isBrowser()) return;
+
+  const mode = getMode(props.mode);
+
   initQueue();
 
-  if (beforeSend) {
-    window.va?.('beforeSend', beforeSend);
+  if (props.beforeSend) {
+    window.va?.('beforeSend', props.beforeSend);
   }
-  const src = false
-    ? 'https://cdn.vercel-insights.com/v1/script.debug.js'
-    : '/_vercel/insights/script.js';
+
+  const src =
+    mode === 'development'
+      ? 'https://cdn.vercel-insights.com/v1/script.debug.js'
+      : '/_vercel/insights/script.js';
 
   if (document.head.querySelector(`script[src*="${src}"]`)) return;
 
@@ -21,7 +28,7 @@ export const inject = (
   script.src = src;
   script.defer = true;
 
-  if (isDevelopment() && debug === false) {
+  if (mode === 'development' && props.debug === false) {
     script.setAttribute('data-debug', 'false');
   }
 

@@ -6,16 +6,8 @@ describe('<Analytics />', () => {
   afterEach(() => cleanup());
 
   describe('in development mode', () => {
-    beforeEach(() => {
-      process.env.NODE_ENV = 'development';
-    });
-
-    afterEach(() => {
-      process.env.NODE_ENV = 'test';
-    });
-
     it('should add the script tag correctly', () => {
-      render(<Analytics />);
+      render(<Analytics mode="development" />);
 
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);
@@ -34,17 +26,8 @@ describe('<Analytics />', () => {
   });
 
   describe('in production mode', () => {
-    beforeEach(() => {
-      jest.resetModules();
-      process.env.NODE_ENV = 'production';
-    });
-
-    afterEach(() => {
-      process.env.NODE_ENV = 'test';
-    });
-
     it('should add the script tag correctly', () => {
-      render(<Analytics />);
+      render(<Analytics mode="production" />);
 
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);

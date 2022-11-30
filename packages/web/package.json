@@ -35,6 +35,7 @@
     "dev": "tsup --watch",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
+    "test": "jest",
     "type-check": "tsc --noEmit"
   },
   "eslintConfig": {

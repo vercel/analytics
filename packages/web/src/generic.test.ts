@@ -1,19 +1,9 @@
-import { inject } from '../src/generic';
-
-// TODO: test beforeSend as well
+import { inject } from './generic';
 
 describe('inject', () => {
   describe('in development mode', () => {
-    beforeEach(() => {
-      process.env.NODE_ENV = 'development';
-    });
-
-    afterEach(() => {
-      process.env.NODE_ENV = 'test';
-    });
-
     it('should add the script tag correctly', () => {
-      inject();
+      inject({ mode: 'development' });
 
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);
@@ -32,17 +22,8 @@ describe('inject', () => {
   });
 
   describe('in production mode', () => {
-    beforeEach(() => {
-      jest.resetModules();
-      process.env.NODE_ENV = 'production';
-    });
-
-    afterEach(() => {
-      process.env.NODE_ENV = 'test';
-    });
-
     it('should add the script tag correctly', () => {
-      inject();
+      inject({ mode: 'production' });
 
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);
