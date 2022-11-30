@@ -38,3 +38,32 @@ jobs:
         run: pnpm prettier -c .
       - name: build
         run: pnpm -r build
+      - name: test
+        run: pnpm -r test
+
+  playwright:
+    name: playwright
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        test:
+          - 'test:e2e:production'
+          - 'test:e2e:development'
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: setup-pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+      - name: setup-node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
+      - name: install
+        run: pnpm install --filter nextjs...
+      - name: test
+        run: pnpm -r ${{ matrix.test }}
