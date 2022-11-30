@@ -1,0 +1,19 @@
+{
+  "name": "nextjs",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "start": "next start",
+    "test:e2e": "pnpm --filter nextjs... build && playwright test --headed"
+  },
+  "dependencies": {
+    "@vercel/analytics": "workspace:^0.1.5",
+    "next": "latest",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.15.0"
+  }
+}

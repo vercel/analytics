@@ -6,6 +6,9 @@ module.exports = {
     require.resolve('@vercel/style-guide/eslint/next'),
     require.resolve('@vercel/style-guide/eslint/typescript'),
   ],
+  env: {
+    jest: true,
+  },
   parserOptions: {
     project: './tsconfig.json',
   },

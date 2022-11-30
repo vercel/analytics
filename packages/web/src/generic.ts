@@ -11,7 +11,7 @@ export const inject = (
   if (beforeSend) {
     window.va?.('beforeSend', beforeSend);
   }
-  const src = isDevelopment()
+  const src = false
     ? 'https://cdn.vercel-insights.com/v1/script.debug.js'
     : '/_vercel/insights/script.js';
 
