@@ -11,7 +11,7 @@ export type BeforeSend = (event: Event) => Event | null;
 export interface AnalyticsProps {
   beforeSend?: BeforeSend;
   debug?: boolean;
-  mode?: Mode;
+  __mode?: Mode;
 }
 declare global {
   interface Window {

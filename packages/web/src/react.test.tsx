@@ -7,7 +7,7 @@ describe('<Analytics />', () => {
 
   describe('in development mode', () => {
     it('should add the script tag correctly', () => {
-      render(<Analytics mode="development" />);
+      render(<Analytics __mode="development" />);
 
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);
@@ -27,7 +27,7 @@ describe('<Analytics />', () => {
 
   describe('in production mode', () => {
     it('should add the script tag correctly', () => {
-      render(<Analytics mode="production" />);
+      render(<Analytics __mode="production" />);
 
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);

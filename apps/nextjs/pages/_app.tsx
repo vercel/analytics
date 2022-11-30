@@ -8,7 +8,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Analytics mode={mode} />
+      <Analytics __mode={mode} />
       <Component {...pageProps} />
     </>
   );

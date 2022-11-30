@@ -6,11 +6,11 @@ import { isDevelopment } from './utils';
 export function Analytics({
   beforeSend,
   debug = isDevelopment(),
-  mode = 'auto',
+  __mode = 'auto',
 }: AnalyticsProps): null {
   useEffect(() => {
-    inject({ beforeSend, debug, mode });
-  }, [beforeSend, debug, mode]);
+    inject({ beforeSend, debug, __mode });
+  }, [beforeSend, debug, __mode]);
 
   return null;
 }
