@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { useMockForProductionScript } from '../utils';
 
-test.describe('navigation', () => {
+test.describe('pageviews', () => {
   test('should track page views when navigating between pages', async ({
     page,
   }) => {

@@ -1,10 +1,10 @@
 import { initQueue } from './queue';
 import type { AnalyticsProps } from './types';
-import { isBrowser, isDevelopment, getMode } from './utils';
+import { isBrowser, getMode } from './utils';
 
 export const inject = (
   props: AnalyticsProps = {
-    debug: isDevelopment(),
+    debug: true,
   },
 ): void => {
   if (!isBrowser()) return;
