@@ -64,6 +64,6 @@ jobs:
           node-version: 16
           cache: 'pnpm'
       - name: install
-        run: pnpm install --filter nextjs...
+        run: pnpm install
       - name: test
         run: pnpm -r ${{ matrix.test }}
