@@ -65,5 +65,7 @@ jobs:
           cache: 'pnpm'
       - name: install
         run: pnpm install
+      - name: install playwright
+        run: pnpx playwright install
       - name: test
         run: pnpm -r ${{ matrix.test }}
