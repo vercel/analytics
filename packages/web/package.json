@@ -41,6 +41,9 @@
   "eslintConfig": {
     "extends": [
       "@vercel/eslint-config"
+    ],
+    "ignorePatterns": [
+      "jest.setup.ts"
     ]
   },
   "devDependencies": {

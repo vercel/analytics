@@ -11,7 +11,7 @@ describe('inject', () => {
       const script = document.head.querySelector('script');
 
       if (!script) {
-        return fail('Could not find script tag');
+        throw new Error('Could not find script tag');
       }
 
       expect(script.src).toEqual(
@@ -31,7 +31,7 @@ describe('inject', () => {
       const script = document.head.querySelector('script');
 
       if (!script) {
-        return fail('Could not find script tag');
+        throw new Error('Could not find script tag');
       }
 
       expect(script.src).toEqual('http://localhost/_vercel/insights/script.js');
