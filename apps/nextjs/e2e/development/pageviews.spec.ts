@@ -14,13 +14,13 @@ test.describe('pageviews', () => {
       }
     });
 
-    await page.goto('/');
+    await page.goto('/navigation/first');
     await page.waitForTimeout(200);
 
-    await page.click('text=Public');
+    await page.click('text=Next');
 
-    await expect(page).toHaveURL('/public');
-    await expect(page.locator('h1')).toContainText('Public');
+    await expect(page).toHaveURL('/navigation/second');
+    await expect(page.locator('h1')).toContainText('Second Page');
 
     await page.waitForTimeout(200);
 
