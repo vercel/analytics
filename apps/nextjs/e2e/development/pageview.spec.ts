@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('pageviews', () => {
+test.describe('pageview', () => {
   test('should track page views when navigating between pages', async ({
     page,
   }) => {

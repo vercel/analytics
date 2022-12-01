@@ -10,4 +10,15 @@ function Page() {
   );
 }
 
-export default withAnalytics(Page);
+export default withAnalytics(Page, {
+  beforeSend: (event) => {
+    const url = new URL(event.url);
+    if (url.searchParams.has('secret')) {
+      url.searchParams.set('secret', 'REDACTED');
+    }
+    return {
+      ...event,
+      url: url.toString(),
+    };
+  },
+});

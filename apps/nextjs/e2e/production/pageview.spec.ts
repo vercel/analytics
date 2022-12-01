@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { useMockForProductionScript } from '../utils';
 
-test.describe('pageviews', () => {
+test.describe('pageview', () => {
   test('should track page views when navigating between pages', async ({
     page,
   }) => {
@@ -19,8 +19,8 @@ test.describe('pageviews', () => {
 
     await page.click('text=Next');
 
-    await expect(page).toHaveURL('/navigation/first');
-    await expect(page.locator('h1')).toContainText('First Page');
+    await expect(page).toHaveURL('/navigation/second');
+    await expect(page.locator('h1')).toContainText('Second Page');
 
     await page.waitForLoadState('networkidle');
 
