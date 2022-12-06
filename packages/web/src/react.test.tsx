@@ -1,6 +1,3 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable testing-library/no-node-access */
-
 import * as React from 'react';
 import { cleanup, render } from '@testing-library/react';
 import { Analytics } from './react';
@@ -12,9 +9,11 @@ describe('<Analytics />', () => {
     it('should add the script tag correctly', () => {
       render(<Analytics __mode="development" />);
 
+      // eslint-disable-next-line testing-library/no-node-access
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);
 
+      // eslint-disable-next-line testing-library/no-node-access
       const script = document.head.querySelector('script');
 
       if (!script) {
@@ -32,9 +31,11 @@ describe('<Analytics />', () => {
     it('should add the script tag correctly', () => {
       render(<Analytics __mode="production" />);
 
+      // eslint-disable-next-line testing-library/no-node-access
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);
 
+      // eslint-disable-next-line testing-library/no-node-access
       const script = document.head.querySelector('script');
 
       if (!script) {
