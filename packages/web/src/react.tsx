@@ -1,15 +1,17 @@
 import { useEffect } from 'react';
 import { inject } from './generic';
 import type { AnalyticsProps } from './types';
-import { isDevelopment } from './utils';
+
+export type { AnalyticsProps } from './types';
 
 export function Analytics({
   beforeSend,
-  debug = isDevelopment(),
+  debug = true,
+  mode = 'auto',
 }: AnalyticsProps): null {
   useEffect(() => {
-    inject({ beforeSend, debug });
-  }, [beforeSend, debug]);
+    inject({ beforeSend, debug, mode });
+  }, [beforeSend, debug, mode]);
 
   return null;
 }
