@@ -1,7 +1,7 @@
 import { Analytics, AnalyticsProps } from '@vercel/analytics/react';
 import React from 'react';
 
-export function withAnalytics<P extends Omit<AnalyticsProps, '__mode'>>(
+export function withAnalytics<P extends Omit<AnalyticsProps, 'mode'>>(
   Component: React.ComponentType,
   props?: P,
 ) {
@@ -9,7 +9,7 @@ export function withAnalytics<P extends Omit<AnalyticsProps, '__mode'>>(
     return (
       <>
         <Analytics
-          __mode={
+          mode={
             (process.env.NEXT_PUBLIC_ANALYTICS_MODE as
               | 'development'
               | 'production') || 'auto'

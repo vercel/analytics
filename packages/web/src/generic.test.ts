@@ -3,7 +3,7 @@ import { inject } from './generic';
 describe('inject', () => {
   describe('in development mode', () => {
     it('should add the script tag correctly', () => {
-      inject({ __mode: 'development' });
+      inject({ mode: 'development' });
 
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);
@@ -23,7 +23,7 @@ describe('inject', () => {
 
   describe('in production mode', () => {
     it('should add the script tag correctly', () => {
-      inject({ __mode: 'production' });
+      inject({ mode: 'production' });
 
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);

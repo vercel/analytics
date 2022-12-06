@@ -9,7 +9,7 @@ export const inject = (
 ): void => {
   if (!isBrowser()) return;
 
-  const mode = getMode(props.__mode);
+  const mode = getMode(props.mode);
 
   initQueue();
 

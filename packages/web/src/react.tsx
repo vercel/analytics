@@ -7,11 +7,11 @@ export type { AnalyticsProps } from './types';
 export function Analytics({
   beforeSend,
   debug = true,
-  __mode = 'auto',
+  mode = 'auto',
 }: AnalyticsProps): null {
   useEffect(() => {
-    inject({ beforeSend, debug, __mode });
-  }, [beforeSend, debug, __mode]);
+    inject({ beforeSend, debug, mode });
+  }, [beforeSend, debug, mode]);
 
   return null;
 }

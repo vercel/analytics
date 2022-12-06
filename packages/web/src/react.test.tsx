@@ -7,7 +7,7 @@ describe('<Analytics />', () => {
 
   describe('in development mode', () => {
     it('should add the script tag correctly', () => {
-      render(<Analytics __mode="development" />);
+      render(<Analytics mode="development" />);
 
       // eslint-disable-next-line testing-library/no-node-access
       const scripts = document.getElementsByTagName('script');
@@ -29,7 +29,7 @@ describe('<Analytics />', () => {
 
   describe('in production mode', () => {
     it('should add the script tag correctly', () => {
-      render(<Analytics __mode="production" />);
+      render(<Analytics mode="production" />);
 
       // eslint-disable-next-line testing-library/no-node-access
       const scripts = document.getElementsByTagName('script');
