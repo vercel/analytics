@@ -6,7 +6,7 @@
 <div align="center">
 <a href="https://vercel.com/analytics">Website</a>
 <span> · </span>
-<a href="https://vercel.com/docs/concepts/analytics/audiences/quickstart">Documentation</a>
+<a href="https://vercel.com/docs/concepts/analytics/audiences/package">Documentation</a>
 <span> · </span>
 <a href="https://twitter.com/vercel">Twitter</a>
 </div>
