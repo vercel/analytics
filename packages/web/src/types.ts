@@ -2,12 +2,16 @@ interface PageViewEvent {
   type: 'pageview';
   url: string;
 }
-type IEvent = PageViewEvent;
 
-export type BeforeSend = (event: IEvent) => IEvent | null;
+type Event = PageViewEvent;
+
+export type Mode = 'auto' | 'development' | 'production';
+
+export type BeforeSend = (event: Event) => Event | null;
 export interface AnalyticsProps {
   beforeSend?: BeforeSend;
   debug?: boolean;
+  mode?: Mode;
 }
 declare global {
   interface Window {
