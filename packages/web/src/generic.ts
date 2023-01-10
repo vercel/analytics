@@ -36,11 +36,11 @@ export const inject = (
 };
 
 export const track = (
-  event: string,
+  name: string,
   properties?: Record<string, AllowedPropertyValues>,
 ): void => {
   if (!properties) {
-    window.va?.('track', { name: event });
+    window.va?.('track', { name });
     return;
   }
 
@@ -50,7 +50,7 @@ export const track = (
     });
 
     window.va?.('track', {
-      name: event,
+      name,
       data: props,
     });
   } catch (err) {
