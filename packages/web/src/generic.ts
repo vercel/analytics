@@ -1,6 +1,6 @@
 import { initQueue } from './queue';
-import type { AnalyticsProps } from './types';
-import { isBrowser, getMode } from './utils';
+import type { AllowedPropertyValues, AnalyticsProps } from './types';
+import { isBrowser, getMode, parseProperties, isDevelopment } from './utils';
 
 export const inject = (
   props: AnalyticsProps = {
@@ -33,4 +33,30 @@ export const inject = (
   }
 
   document.head.appendChild(script);
+};
+
+export const track = (
+  event: string,
+  properties?: Record<string, AllowedPropertyValues>,
+): void => {
+  if (!properties) {
+    window.va?.('track', { name: event });
+    return;
+  }
+
+  try {
+    const props = parseProperties(properties, {
+      strip: !isDevelopment(),
+    });
+
+    window.va?.('track', {
+      name: event,
+      data: props,
+    });
+  } catch (err) {
+    if (err instanceof Error && isDevelopment()) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+    }
+  }
 };

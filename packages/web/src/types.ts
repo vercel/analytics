@@ -6,6 +6,7 @@ interface PageViewEvent {
 type Event = PageViewEvent;
 
 export type Mode = 'auto' | 'development' | 'production';
+export type AllowedPropertyValues = string | number | boolean | null;
 
 export type BeforeSend = (event: Event) => Event | null;
 export interface AnalyticsProps {

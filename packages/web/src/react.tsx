@@ -15,3 +15,5 @@ export function Analytics({
 
   return null;
 }
+
+export { track } from './generic';
