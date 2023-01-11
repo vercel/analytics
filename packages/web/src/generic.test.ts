@@ -40,7 +40,7 @@ describe('inject', () => {
   });
 });
 
-describe('track  custom events', () => {
+describe('track custom events', () => {
   beforeEach(() => {
     // reset the internal queue before every test
     window.vaq = [];

@@ -40,7 +40,7 @@ export function parseProperties(
     }
   }
 
-  if (errorProperties.length > 0 && !options?.strip) {
+  if (errorProperties.length > 0 && !options.strip) {
     throw Error(
       `The following properties are not valid: ${errorProperties.join(
         ', ',

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cleanup, render } from '@testing-library/react';
-import { Analytics } from './react';
+import { Analytics, track } from './react';
 
 describe('<Analytics />', () => {
   afterEach(() => cleanup());
@@ -44,6 +44,85 @@ describe('<Analytics />', () => {
 
       expect(script.src).toEqual('http://localhost/_vercel/insights/script.js');
       expect(script).toHaveAttribute('defer');
+    });
+  });
+
+  describe('track  custom events', () => {
+    beforeEach(() => {
+      // reset the internal queue before every test
+      window.vaq = [];
+    });
+    describe('queue custom events', () => {
+      it('event name only', () => {
+        render(<Analytics mode="production" />);
+
+        track('my event');
+
+        expect(window.vaq).toBeDefined();
+
+        if (!window.vaq) throw new Error('window.vaq is not defined');
+
+        expect(window.vaq[0]).toEqual([
+          'track',
+          {
+            name: 'my event',
+          },
+        ]);
+      });
+      it('with custom data', () => {
+        render(<Analytics mode="production" />);
+
+        track('custom event', {
+          string: 'string',
+          number: 1,
+        });
+
+        expect(window.vaq).toBeDefined();
+
+        if (!window.vaq) throw new Error('window.vaq is not defined');
+
+        expect(window.vaq[0]).toEqual([
+          'track',
+          {
+            name: 'custom event',
+            data: {
+              string: 'string',
+              number: 1,
+            },
+          },
+        ]);
+      });
+
+      it('strip nested object', () => {
+        process.env = {
+          NODE_ENV: 'production',
+        };
+        render(<Analytics mode="production" />);
+
+        track('custom event', {
+          string: 'string',
+          number: 1,
+          // @ts-expect-error ignore for test
+          nested: {
+            object: '',
+          },
+        });
+
+        expect(window.vaq).toBeDefined();
+
+        if (!window.vaq) throw new Error('window.vaq is not defined');
+
+        expect(window.vaq[0]).toEqual([
+          'track',
+          {
+            name: 'custom event',
+            data: {
+              string: 'string',
+              number: 1,
+            },
+          },
+        ]);
+      });
     });
   });
 });
