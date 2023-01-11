@@ -32,7 +32,7 @@ export function parseProperties(
   const errorProperties: string[] = [];
   for (const [key, value] of Object.entries(properties)) {
     if (typeof value === 'object' && value !== null) {
-      if (options?.strip) {
+      if (options.strip) {
         props = removeKey(key, props);
       } else {
         errorProperties.push(key);

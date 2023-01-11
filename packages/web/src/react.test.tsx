@@ -102,10 +102,10 @@ describe('<Analytics />', () => {
         track('custom event', {
           string: 'string',
           number: 1,
-          // @ts-expect-error ignore for test
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           nested: {
             object: '',
-          },
+          } as any,
         });
 
         expect(window.vaq).toBeDefined();
