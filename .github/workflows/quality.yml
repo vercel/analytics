@@ -65,7 +65,10 @@ jobs:
           cache: 'pnpm'
       - name: install
         run: pnpm install
+      - name: get playwright version
+        id: pw
+        run: echo "version=$(cat apps/nextjs/package.json | jq -r '.devDependencies."@playwright/test"')" >> $GITHUB_OUTPUT
       - name: install playwright
-        run: pnpx playwright install
+        run: pnpx playwright@${{ steps.pw.outputs.version }} install
       - name: test
         run: pnpm -r ${{ matrix.test }}
