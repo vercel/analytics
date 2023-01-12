@@ -47,13 +47,14 @@ describe('<Analytics />', () => {
     });
   });
 
-  describe('track  custom events', () => {
+  describe('track custom events', () => {
     beforeEach(() => {
       // reset the internal queue before every test
       window.vaq = [];
     });
+
     describe('queue custom events', () => {
-      it('event name only', () => {
+      it('should track event with name only', () => {
         render(<Analytics mode="production" />);
 
         track('my event');
@@ -69,7 +70,8 @@ describe('<Analytics />', () => {
           },
         ]);
       });
-      it('with custom data', () => {
+
+      it('should allow custom data to be tracked', () => {
         render(<Analytics mode="production" />);
 
         track('custom event', {
@@ -93,10 +95,7 @@ describe('<Analytics />', () => {
         ]);
       });
 
-      it('strip nested object', () => {
-        process.env = {
-          NODE_ENV: 'production',
-        };
+      it('should strip data for nested objects', () => {
         render(<Analytics mode="production" />);
 
         track('custom event', {

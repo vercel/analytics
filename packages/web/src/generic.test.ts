@@ -45,8 +45,9 @@ describe('track custom events', () => {
     // reset the internal queue before every test
     window.vaq = [];
   });
+
   describe('queue custom events', () => {
-    it('event name only', () => {
+    it('should track event with name only', () => {
       inject();
 
       track('my event');
@@ -62,7 +63,8 @@ describe('track custom events', () => {
         },
       ]);
     });
-    it('with custom data', () => {
+
+    it('should allow custom data to be tracked', () => {
       inject();
 
       track('custom event', {
@@ -86,7 +88,7 @@ describe('track custom events', () => {
       ]);
     });
 
-    it('strip nested object', () => {
+    it('should strip data for nested objects', () => {
       process.env = {
         NODE_ENV: 'production',
       };

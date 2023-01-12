@@ -39,6 +39,7 @@ describe('utils', () => {
           boolean: true,
           nullable: null,
         };
+
         const parsed = parseProperties(properties, {
           strip: false,
         });
