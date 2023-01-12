@@ -2,7 +2,6 @@ import { initQueue } from './queue';
 import type { AllowedPropertyValues, AnalyticsProps } from './types';
 import {
   isBrowser,
-  detectMode,
   parseProperties,
   setMode,
   isDevelopment,
@@ -16,8 +15,7 @@ export const inject = (
 ): void => {
   if (!isBrowser()) return;
 
-  const mode = detectMode(props.mode);
-  setMode(mode);
+  setMode(props.mode);
 
   initQueue();
 

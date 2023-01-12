@@ -4,22 +4,20 @@ export function isBrowser(): boolean {
   return typeof window !== 'undefined';
 }
 
-export function detectDevelopment(): boolean {
-  if (typeof process === 'undefined') return false;
-  return (
-    process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
-  );
+function detectEnvironment(): 'development' | 'production' {
+  if (typeof process === 'undefined') return 'production';
+
+  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test')
+    return 'development';
+
+  return 'production';
 }
 
-export function detectMode(mode: Mode = 'auto'): Mode {
+export function setMode(mode: Mode = 'auto'): void {
   if (mode === 'auto') {
-    return detectDevelopment() ? 'development' : 'production';
+    window.vam = detectEnvironment();
   }
 
-  return mode;
-}
-
-export function setMode(mode: Mode): void {
   window.vam = mode;
 }
 
