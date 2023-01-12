@@ -4,19 +4,35 @@ export function isBrowser(): boolean {
   return typeof window !== 'undefined';
 }
 
-export function isDevelopment(): boolean {
+export function detectDevelopment(): boolean {
   if (typeof process === 'undefined') return false;
   return (
     process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
   );
 }
 
-export function getMode(mode: Mode = 'auto'): Mode {
+export function detectMode(mode: Mode = 'auto'): Mode {
   if (mode === 'auto') {
-    return isDevelopment() ? 'development' : 'production';
+    return detectDevelopment() ? 'development' : 'production';
   }
 
   return mode;
+}
+
+export function setMode(mode: Mode): void {
+  window.vam = mode;
+}
+
+export function getMode(): Mode {
+  return window.vam || 'production';
+}
+
+export function isProduction(): boolean {
+  return getMode() === 'production';
+}
+
+export function isDevelopment(): boolean {
+  return getMode() === 'development';
 }
 
 const removeKey = (key: string, { [key]: _, ...rest }): Record<string, any> =>

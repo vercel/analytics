@@ -1,6 +1,13 @@
 import { initQueue } from './queue';
 import type { AllowedPropertyValues, AnalyticsProps } from './types';
-import { isBrowser, getMode, parseProperties } from './utils';
+import {
+  isBrowser,
+  detectMode,
+  parseProperties,
+  setMode,
+  isDevelopment,
+  isProduction,
+} from './utils';
 
 export const inject = (
   props: AnalyticsProps = {
@@ -9,9 +16,8 @@ export const inject = (
 ): void => {
   if (!isBrowser()) return;
 
-  const mode = getMode(props.mode);
-
-  window.vam = mode;
+  const mode = detectMode(props.mode);
+  setMode(mode);
 
   initQueue();
 
@@ -19,10 +25,9 @@ export const inject = (
     window.va?.('beforeSend', props.beforeSend);
   }
 
-  const src =
-    mode === 'development'
-      ? 'https://cdn.vercel-insights.com/v1/script.debug.js'
-      : '/_vercel/insights/script.js';
+  const src = isDevelopment()
+    ? 'https://cdn.vercel-insights.com/v1/script.debug.js'
+    : '/_vercel/insights/script.js';
 
   if (document.head.querySelector(`script[src*="${src}"]`)) return;
 
@@ -30,7 +35,7 @@ export const inject = (
   script.src = src;
   script.defer = true;
 
-  if (mode === 'development' && props.debug === false) {
+  if (isDevelopment() && props.debug === false) {
     script.setAttribute('data-debug', 'false');
   }
 
@@ -46,11 +51,9 @@ export const track = (
     return;
   }
 
-  const isProd = window.vam === 'production';
-
   try {
     const props = parseProperties(properties, {
-      strip: isProd,
+      strip: isProduction(),
     });
 
     window.va?.('track', {
@@ -58,7 +61,7 @@ export const track = (
       data: props,
     });
   } catch (err) {
-    if (err instanceof Error && !isProd) {
+    if (err instanceof Error && isDevelopment()) {
       // eslint-disable-next-line no-console
       console.error(err);
     }
