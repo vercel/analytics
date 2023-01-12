@@ -16,6 +16,7 @@ function detectEnvironment(): 'development' | 'production' {
 export function setMode(mode: Mode = 'auto'): void {
   if (mode === 'auto') {
     window.vam = detectEnvironment();
+    return;
   }
 
   window.vam = mode;

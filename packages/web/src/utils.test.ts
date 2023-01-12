@@ -1,4 +1,4 @@
-import { parseProperties } from './utils';
+import { getMode, parseProperties, setMode } from './utils';
 
 describe('utils', () => {
   describe('parse properties', () => {
@@ -57,6 +57,45 @@ describe('utils', () => {
         expect(() => {
           parseProperties(properties, { strip: false });
         }).toThrow(/arrayProp, objectProp/);
+      });
+    });
+  });
+
+  describe('setMode', () => {
+    describe('in production mode', () => {
+      beforeAll(() => {
+        process.env.NODE_ENV = 'production';
+      });
+
+      it('should set mode automatically if undefined', () => {
+        setMode();
+        expect(getMode()).toBe('production');
+      });
+
+      it('should overwrite when set manually', () => {
+        setMode('development');
+        expect(getMode()).toBe('development');
+      });
+
+      it('should set correctly when set to auto', () => {
+        setMode('auto');
+        expect(getMode()).toBe('production');
+      });
+    });
+
+    describe('in development mode', () => {
+      beforeAll(() => {
+        process.env.NODE_ENV = 'development';
+      });
+
+      it('should set mode automatically if undefined', () => {
+        setMode();
+        expect(getMode()).toBe('development');
+      });
+
+      it('should overwrite when set manually', () => {
+        setMode('production');
+        expect(getMode()).toBe('production');
       });
     });
   });
