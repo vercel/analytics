@@ -46,76 +46,139 @@ describe('track custom events', () => {
     window.vaq = [];
   });
 
-  describe('queue custom events', () => {
-    it('should track event with name only', () => {
-      inject();
-
-      track('my event');
-
-      expect(window.vaq).toBeDefined();
-
-      if (!window.vaq) throw new Error('window.vaq is not defined');
-
-      expect(window.vaq[0]).toEqual([
-        'track',
-        {
-          name: 'my event',
-        },
-      ]);
-    });
-
-    it('should allow custom data to be tracked', () => {
-      inject();
-
-      track('custom event', {
-        string: 'string',
-        number: 1,
-      });
-
-      expect(window.vaq).toBeDefined();
-
-      if (!window.vaq) throw new Error('window.vaq is not defined');
-
-      expect(window.vaq[0]).toEqual([
-        'track',
-        {
-          name: 'custom event',
-          data: {
-            string: 'string',
-            number: 1,
-          },
-        },
-      ]);
-    });
-
-    it('should strip data for nested objects', () => {
+  describe('in production mode', () => {
+    beforeEach(() => {
       inject({
         mode: 'production',
       });
+    });
 
-      track('custom event', {
-        string: 'string',
-        number: 1,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        nested: {
-          object: '',
-        } as any,
+    describe('queue custom events', () => {
+      it('should track event with name only', () => {
+        track('my event');
+
+        expect(window.vaq).toBeDefined();
+
+        if (!window.vaq) throw new Error('window.vaq is not defined');
+
+        expect(window.vaq[0]).toEqual([
+          'track',
+          {
+            name: 'my event',
+          },
+        ]);
       });
 
-      expect(window.vaq).toBeDefined();
+      it('should allow custom data to be tracked', () => {
+        track('custom event', {
+          string: 'string',
+          number: 1,
+        });
 
-      if (!window.vaq) throw new Error('window.vaq is not defined');
+        expect(window.vaq).toBeDefined();
 
-      expect(window.vaq[0]).toEqual([
-        'track',
-        {
-          name: 'custom event',
-          data: {
-            string: 'string',
-            number: 1,
+        if (!window.vaq) throw new Error('window.vaq is not defined');
+
+        expect(window.vaq[0]).toEqual([
+          'track',
+          {
+            name: 'custom event',
+            data: {
+              string: 'string',
+              number: 1,
+            },
           },
-        },
-      ]);
+        ]);
+      });
+
+      it('should strip data for nested objects', () => {
+        track('custom event', {
+          string: 'string',
+          number: 1,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          nested: {
+            object: '',
+          } as any,
+        });
+
+        expect(window.vaq).toBeDefined();
+
+        if (!window.vaq) throw new Error('window.vaq is not defined');
+
+        expect(window.vaq[0]).toEqual([
+          'track',
+          {
+            name: 'custom event',
+            data: {
+              string: 'string',
+              number: 1,
+            },
+          },
+        ]);
+      });
+    });
+  });
+
+  describe('in development mode', () => {
+    beforeEach(() => {
+      inject({
+        mode: 'development',
+      });
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      jest.spyOn(global.console, 'error').mockImplementation(() => {});
+    });
+
+    describe('queue custom events', () => {
+      it('should track event with name only', () => {
+        track('my event');
+
+        expect(window.vaq).toBeDefined();
+
+        if (!window.vaq) throw new Error('window.vaq is not defined');
+
+        expect(window.vaq[0]).toEqual([
+          'track',
+          {
+            name: 'my event',
+          },
+        ]);
+      });
+
+      it('should allow custom data to be tracked', () => {
+        track('custom event', {
+          string: 'string',
+          number: 1,
+        });
+
+        expect(window.vaq).toBeDefined();
+
+        if (!window.vaq) throw new Error('window.vaq is not defined');
+
+        expect(window.vaq[0]).toEqual([
+          'track',
+          {
+            name: 'custom event',
+            data: {
+              string: 'string',
+              number: 1,
+            },
+          },
+        ]);
+      });
+
+      it('should log an error when nested properties are sent', () => {
+        track('custom event', {
+          string: 'string',
+          number: 1,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          nested: {
+            object: '',
+          } as any,
+        });
+
+        // eslint-disable-next-line no-console
+        expect(console.error).toHaveBeenCalledTimes(1);
+      });
     });
   });
 });
