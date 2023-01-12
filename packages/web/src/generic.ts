@@ -1,6 +1,6 @@
 import { initQueue } from './queue';
 import type { AllowedPropertyValues, AnalyticsProps } from './types';
-import { isBrowser, getMode, parseProperties, isDevelopment } from './utils';
+import { isBrowser, getMode, parseProperties } from './utils';
 
 export const inject = (
   props: AnalyticsProps = {
@@ -10,6 +10,8 @@ export const inject = (
   if (!isBrowser()) return;
 
   const mode = getMode(props.mode);
+
+  window.vam = mode;
 
   initQueue();
 
@@ -44,9 +46,11 @@ export const track = (
     return;
   }
 
+  const isProd = window.vam === 'production';
+
   try {
     const props = parseProperties(properties, {
-      strip: !isDevelopment(),
+      strip: isProd,
     });
 
     window.va?.('track', {
@@ -54,7 +58,7 @@ export const track = (
       data: props,
     });
   } catch (err) {
-    if (err instanceof Error && isDevelopment()) {
+    if (err instanceof Error && !isProd) {
       // eslint-disable-next-line no-console
       console.error(err);
     }

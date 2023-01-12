@@ -21,5 +21,6 @@ declare global {
     // Queue for actions, before the library is loaded
     vaq?: [string, unknown?][];
     vai?: boolean;
+    vam?: Mode;
   }
 }

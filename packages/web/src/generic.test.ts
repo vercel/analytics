@@ -89,10 +89,9 @@ describe('track custom events', () => {
     });
 
     it('should strip data for nested objects', () => {
-      process.env = {
-        NODE_ENV: 'production',
-      };
-      inject();
+      inject({
+        mode: 'production',
+      });
 
       track('custom event', {
         string: 'string',
