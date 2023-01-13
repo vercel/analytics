@@ -26,8 +26,6 @@ jobs:
         run: pnpm -r type-check
       - name: prettier
         run: pnpm prettier -c .
-      - name: set-version
-        run: npm version ${{ github.event.release.tag_name }} --no-git-tag-version
       - name: build
         run: pnpm -r build
       - run: pnpm --filter @vercel/analytics publish --tag beta --no-git-checks
