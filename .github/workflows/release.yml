@@ -30,6 +30,11 @@ jobs:
         run: npm version ${{ github.event.release.tag_name }} --no-git-tag-version
       - name: build
         run: pnpm -r build
-      - run: pnpm --filter @vercel/analytics publish ${{ if eq(github.event.release.prerelease, true) }}--tag beta{{ else }} {{ end }} --no-git-checks
+      - run: pnpm --filter @vercel/analytics publish --tag beta --no-git-checks
+        if: github.event.release.prerelease == true
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_ELEVATED }}
+      - run: pnpm --filter @vercel/analytics publish --no-git-checks
+        if: github.event.release.prerelease == false
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_ELEVATED }}
