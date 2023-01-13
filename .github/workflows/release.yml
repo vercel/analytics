@@ -1,7 +1,7 @@
 name: Publish
 on:
   release:
-    types: [created]
+    types: [published]
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -26,8 +26,10 @@ jobs:
         run: pnpm -r type-check
       - name: prettier
         run: pnpm prettier -c .
+      - name: set-version
+        run: npm version ${{ github.event.release.tag_name }} --no-git-tag-version
       - name: build
         run: pnpm -r build
-      - run: pnpm --filter @vercel/analytics publish --no-git-checks
+      - run: pnpm --filter @vercel/analytics publish ${{ if eq(github.event.release.prerelease, true) }}--tag beta{{ else }} {{ end }} --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_ELEVATED }}
