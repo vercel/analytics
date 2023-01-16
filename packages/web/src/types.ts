@@ -17,7 +17,7 @@ export interface AnalyticsProps {
 declare global {
   interface Window {
     // Base interface
-    va?: (event: string, properties?: unknown) => void;
+    va?: (event: 'beforeSend' | 'event', properties?: unknown) => void;
     // Queue for actions, before the library is loaded
     vaq?: [string, unknown?][];
     vai?: boolean;

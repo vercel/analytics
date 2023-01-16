@@ -62,7 +62,7 @@ describe('track custom events', () => {
         if (!window.vaq) throw new Error('window.vaq is not defined');
 
         expect(window.vaq[0]).toEqual([
-          'track',
+          'event',
           {
             name: 'my event',
           },
@@ -80,7 +80,7 @@ describe('track custom events', () => {
         if (!window.vaq) throw new Error('window.vaq is not defined');
 
         expect(window.vaq[0]).toEqual([
-          'track',
+          'event',
           {
             name: 'custom event',
             data: {
@@ -106,7 +106,7 @@ describe('track custom events', () => {
         if (!window.vaq) throw new Error('window.vaq is not defined');
 
         expect(window.vaq[0]).toEqual([
-          'track',
+          'event',
           {
             name: 'custom event',
             data: {
@@ -137,7 +137,7 @@ describe('track custom events', () => {
         if (!window.vaq) throw new Error('window.vaq is not defined');
 
         expect(window.vaq[0]).toEqual([
-          'track',
+          'event',
           {
             name: 'my event',
           },
@@ -155,7 +155,7 @@ describe('track custom events', () => {
         if (!window.vaq) throw new Error('window.vaq is not defined');
 
         expect(window.vaq[0]).toEqual([
-          'track',
+          'event',
           {
             name: 'custom event',
             data: {
