@@ -1,2 +1,9 @@
-export { Analytics } from './react';
-export { inject, track } from './generic';
+import { inject, track } from './generic';
+
+export { inject, track };
+
+// eslint-disable-next-line import/no-default-export
+export default {
+  inject,
+  track,
+};
