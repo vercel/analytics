@@ -1,7 +1,7 @@
 name: Publish
 on:
   release:
-    types: [created]
+    types: [published]
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -28,6 +28,11 @@ jobs:
         run: pnpm prettier -c .
       - name: build
         run: pnpm -r build
+      - run: pnpm --filter @vercel/analytics publish --tag beta --no-git-checks
+        if: github.event.release.prerelease == true
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_ELEVATED }}
       - run: pnpm --filter @vercel/analytics publish --no-git-checks
+        if: github.event.release.prerelease == false
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_ELEVATED }}
