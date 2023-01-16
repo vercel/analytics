@@ -45,7 +45,7 @@ export const track = (
   properties?: Record<string, AllowedPropertyValues>,
 ): void => {
   if (!properties) {
-    window.va?.('track', { name });
+    window.va?.('event', { name });
     return;
   }
 
@@ -54,7 +54,7 @@ export const track = (
       strip: isProduction(),
     });
 
-    window.va?.('track', {
+    window.va?.('event', {
       name,
       data: props,
     });
