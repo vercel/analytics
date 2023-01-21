@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from 'react';
 import { inject } from './generic';
 import type { AnalyticsProps } from './types';
