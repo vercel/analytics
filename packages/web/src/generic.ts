@@ -44,6 +44,8 @@ export const track = (
   name: string,
   properties?: Record<string, AllowedPropertyValues>,
 ): void => {
+  if (!isBrowser()) return;
+
   if (!properties) {
     window.va?.('event', { name });
     return;
