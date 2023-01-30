@@ -23,5 +23,11 @@ export default defineConfig([
       index: 'src/react.tsx',
     },
     outDir: 'dist/react',
+    esbuildOptions: (options) => {
+      // Append "use client" to the top of the react entry point
+      options.banner = {
+        js: '"use client";',
+      };
+    },
   },
 ]);
