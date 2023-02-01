@@ -44,7 +44,13 @@ export const track = (
   name: string,
   properties?: Record<string, AllowedPropertyValues>,
 ): void => {
-  if (!isBrowser()) return;
+  if (!isBrowser()) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      '[Vercel Analytics] Server-side execution of `track()` is currently not supported.',
+    );
+    return;
+  }
 
   if (!properties) {
     window.va?.('event', { name });
