@@ -10,14 +10,14 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "browser": "./dist/index.js",
       "require": "./dist/index.cjs",
-      "import": "./dist/index.js",
-      "browser": "./dist/index.js"
+      "import": "./dist/index.js"
     },
     "./react": {
+      "browser": "./dist/react/index.js",
       "require": "./dist/react/index.cjs",
-      "import": "./dist/react/index.js",
-      "browser": "./dist/react/index.js"
+      "import": "./dist/react/index.js"
     }
   },
   "main": "dist/index.js",
