@@ -11,13 +11,13 @@
     "./package.json": "./package.json",
     ".": {
       "browser": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
     "./react": {
       "browser": "./dist/react/index.js",
-      "require": "./dist/react/index.cjs",
-      "import": "./dist/react/index.js"
+      "import": "./dist/react/index.js",
+      "require": "./dist/react/index.cjs"
     }
   },
   "main": "dist/index.js",
