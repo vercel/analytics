@@ -24,13 +24,16 @@ test.describe('pageview', () => {
 
     await page.waitForLoadState('networkidle');
 
-    expect(payloads).toMatchObject([
+    expect(payloads).toEqual([
       {
         page: 'http://localhost:3000/navigation/first',
         payload: {
           o: 'http://localhost:3000/navigation/first',
           ts: expect.any(Number),
           r: '',
+          sv: 'v1',
+          sdkn: '@vercel/analytics',
+          sdkv: expect.any(String),
         },
       },
       {
@@ -38,6 +41,9 @@ test.describe('pageview', () => {
         payload: {
           o: 'http://localhost:3000/navigation/second',
           ts: expect.any(Number),
+          sv: 'v1',
+          sdkn: '@vercel/analytics',
+          sdkv: expect.any(String),
         },
       },
     ]);
