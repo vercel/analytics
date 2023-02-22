@@ -4,15 +4,12 @@ export async function useMockForProductionScript(props: {
   page: Page;
   onPageView: (page: string, payload: Object) => void;
 }) {
-  await props.page.route(
-    '**/_vercel/insights/script.js',
-    async (route, request) => {
-      return route.fulfill({
-        status: 301,
-        headers: { location: 'https://cdn.vercel-insights.com/v1/script.js' },
-      });
-    },
-  );
+  await props.page.route('**/_vercel/insights/script.js', async (route, _) => {
+    return route.fulfill({
+      status: 301,
+      headers: { location: 'https://cdn.vercel-insights.com/v1/script.js' },
+    });
+  });
 
   await props.page.route('**/_vercel/insights/view', async (route, request) => {
     const headers = request.headers();

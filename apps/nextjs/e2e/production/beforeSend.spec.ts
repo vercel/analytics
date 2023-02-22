@@ -29,6 +29,9 @@ test.describe('beforeSend', () => {
         page: 'http://localhost:3000/before-send/first',
         payload: {
           o: 'http://localhost:3000/before-send/first',
+          sv: 'v1',
+          sdkn: '@vercel/analytics',
+          sdkv: expect.any(String),
           ts: expect.any(Number),
           r: '',
         },
@@ -38,6 +41,9 @@ test.describe('beforeSend', () => {
         payload: {
           o: 'http://localhost:3000/before-send/second?secret=REDACTED',
           ts: expect.any(Number),
+          sv: 'v1',
+          sdkn: '@vercel/analytics',
+          sdkv: expect.any(String),
         },
       },
     ]);
