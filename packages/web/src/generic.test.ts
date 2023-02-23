@@ -98,6 +98,7 @@ describe('track custom events', () => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           nested: {
             object: '',
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any,
         });
 
@@ -173,6 +174,7 @@ describe('track custom events', () => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           nested: {
             object: '',
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any,
         });
 
