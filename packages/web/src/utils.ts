@@ -5,10 +5,13 @@ export function isBrowser(): boolean {
 }
 
 export function isDevelopment(): boolean {
-  if (typeof process === 'undefined') return false;
-  return (
-    process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
-  );
+  try {
+    return (
+      process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+    );
+  } catch (e) {
+    return false;
+  }
 }
 
 export function getMode(mode: Mode = 'auto'): Mode {
