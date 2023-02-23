@@ -6,9 +6,8 @@ export function isBrowser(): boolean {
 
 export function isDevelopment(): boolean {
   try {
-    return (
-      process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
-    );
+    const env = process.env.NODE_ENV;
+    return env === 'development' || env === 'test';
   } catch (e) {
     return false;
   }
