@@ -5,11 +5,14 @@ export function isBrowser(): boolean {
 }
 
 function detectEnvironment(): 'development' | 'production' {
-  if (typeof process === 'undefined') return 'production';
-
-  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test')
-    return 'development';
-
+  try {
+    const env = process.env.NODE_ENV;
+    if (env === 'development' || env === 'test') {
+      return 'development';
+    }
+  } catch (e) {
+    // do nothing, this is okay
+  }
   return 'production';
 }
 
