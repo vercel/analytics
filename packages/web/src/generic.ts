@@ -1,3 +1,4 @@
+import { name, version } from '../package.json';
 import { initQueue } from './queue';
 import type { AllowedPropertyValues, AnalyticsProps } from './types';
 import {
@@ -32,6 +33,8 @@ export const inject = (
   const script = document.createElement('script');
   script.src = src;
   script.defer = true;
+  script.setAttribute('data-sdkn', name);
+  script.setAttribute('data-sdkv', version);
 
   if (isDevelopment() && props.debug === false) {
     script.setAttribute('data-debug', 'false');
