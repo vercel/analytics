@@ -1,4 +1,4 @@
-import { name, version } from '../package.json';
+import { name as packageName, version } from '../package.json';
 import { initQueue } from './queue';
 import type { AllowedPropertyValues, AnalyticsProps } from './types';
 import {
@@ -9,11 +9,11 @@ import {
   isProduction,
 } from './utils';
 
-export const inject = (
+export function inject(
   props: AnalyticsProps = {
     debug: true,
   },
-): void => {
+): void {
   if (!isBrowser()) return;
 
   setMode(props.mode);
@@ -33,7 +33,7 @@ export const inject = (
   const script = document.createElement('script');
   script.src = src;
   script.defer = true;
-  script.setAttribute('data-sdkn', name);
+  script.setAttribute('data-sdkn', packageName);
   script.setAttribute('data-sdkv', version);
 
   if (isDevelopment() && props.debug === false) {
@@ -41,12 +41,12 @@ export const inject = (
   }
 
   document.head.appendChild(script);
-};
+}
 
-export const track = (
+export function track(
   name: string,
   properties?: Record<string, AllowedPropertyValues>,
-): void => {
+): void {
   if (!isBrowser()) {
     // eslint-disable-next-line no-console
     console.warn(
@@ -75,7 +75,7 @@ export const track = (
       console.error(err);
     }
   }
-};
+}
 
 // eslint-disable-next-line import/no-default-export
 export default {

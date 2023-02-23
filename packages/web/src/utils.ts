@@ -34,8 +34,12 @@ export function isDevelopment(): boolean {
   return getMode() === 'development';
 }
 
-const removeKey = (key: string, { [key]: _, ...rest }): Record<string, any> =>
-  rest;
+function removeKey(
+  key: string,
+  { [key]: _, ...rest },
+): Record<string, unknown> {
+  return rest;
+}
 
 export function parseProperties(
   properties: Record<string, unknown>,

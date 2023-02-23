@@ -104,6 +104,7 @@ describe('<Analytics />', () => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           nested: {
             object: '',
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any,
         });
 
