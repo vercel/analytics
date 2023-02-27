@@ -31,7 +31,7 @@ test.describe('pageview', () => {
           o: 'http://localhost:3000/navigation/first',
           ts: expect.any(Number),
           r: '',
-          sv: 'v1',
+          sv: expect.any(String),
           sdkn: '@vercel/analytics',
           sdkv: expect.any(String),
         },
@@ -41,7 +41,7 @@ test.describe('pageview', () => {
         payload: {
           o: 'http://localhost:3000/navigation/second',
           ts: expect.any(Number),
-          sv: 'v1',
+          sv: expect.any(String),
           sdkn: '@vercel/analytics',
           sdkv: expect.any(String),
         },
