@@ -19,15 +19,12 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: setup-pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
       - name: setup-node
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'pnpm'
+      - name: enable corepack
+        run: corepack enable
       - name: install
         run: pnpm install
       - name: lint
@@ -54,15 +51,12 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: setup-pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
       - name: setup-node
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'pnpm'
+      - name: enable corepack
+        run: corepack enable
       - name: install
         run: pnpm install
       - name: get playwright version
