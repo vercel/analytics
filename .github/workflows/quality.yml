@@ -19,14 +19,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: setup-node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: enable corepack
-        run: corepack enable
-      - name: install
-        run: pnpm install
+      - name: Install
+        uses: ./.github/composite-actions/install
       - name: lint
         run: pnpm -r lint
       - name: type-check
@@ -51,14 +45,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: setup-node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: enable corepack
-        run: corepack enable
-      - name: install
-        run: pnpm install
+      - name: Install
+        uses: ./.github/composite-actions/install
       - name: get playwright version
         id: pw
         run: echo "version=$(cat apps/nextjs/package.json | jq -r '.devDependencies."@playwright/test"')" >> $GITHUB_OUTPUT
