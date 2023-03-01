@@ -8,15 +8,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: setup-node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          registry-url: 'https://registry.npmjs.org'
-      - name: enable corepack
-        run: corepack enable
-      - name: install
-        run: pnpm install
+      - name: Install
+        uses: ./.github/composite-actions/install
       - name: lint
         run: pnpm -r lint
       - name: type-check
