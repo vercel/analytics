@@ -45,8 +45,11 @@ export function inject(
 
 export function track(
   name: string,
-  properties?: Record<string, AllowedPropertyValues>,
+  // properties?: Record<string, AllowedPropertyValues>,
 ): void {
+  // TODO - remove hard coded undefined when we want to allow custom event properties
+  const properties: Record<string, AllowedPropertyValues> | undefined =
+    undefined;
   if (!isBrowser()) {
     // eslint-disable-next-line no-console
     console.warn(
@@ -55,6 +58,7 @@ export function track(
     return;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TODO - readd properties when we want to support custom event properties
   if (!properties) {
     window.va?.('event', { name });
     return;
