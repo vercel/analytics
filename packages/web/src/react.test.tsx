@@ -21,7 +21,7 @@ describe('<Analytics />', () => {
       }
 
       expect(script.src).toEqual(
-        'https://cdn.vercel-insights.com/v1/script.debug.js',
+        'https://va.vercel-scripts.com/v1/script.debug.js',
       );
       expect(script).toHaveAttribute('defer');
     });
