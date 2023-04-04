@@ -20,7 +20,7 @@ export const inject = (
 
   const src =
     mode === 'development'
-      ? 'https://cdn.vercel-insights.com/v1/script.debug.js'
+      ? 'https://va.vercel-scripts.com/v1/script.debug.js'
       : '/_vercel/insights/script.js';
 
   if (document.head.querySelector(`script[src*="${src}"]`)) return;
