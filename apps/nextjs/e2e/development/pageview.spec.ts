@@ -9,7 +9,10 @@ test.describe('pageview', () => {
     page.on('console', (msg) => {
       const message = msg.text();
 
-      if (message.includes('[Vercel Web Analytics]')) {
+      if (
+        message.includes('[Vercel Web Analytics]') ||
+        message.includes('[Vercel Analytics]')
+      ) {
         messages.push(message);
       }
     });

@@ -50,7 +50,7 @@ export function track(
   if (!isBrowser()) {
     // eslint-disable-next-line no-console
     console.warn(
-      '[Vercel Analytics] Server-side execution of `track()` is currently not supported.',
+      '[Vercel Web Analytics] Server-side execution of `track()` is currently not supported.',
     );
     return;
   }
