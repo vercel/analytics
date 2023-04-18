@@ -25,7 +25,7 @@ export function inject(
   }
 
   const src = isDevelopment()
-    ? 'https://cdn.vercel-insights.com/v1/script.debug.js'
+    ? 'https://va.vercel-scripts.com/v1/script.debug.js'
     : '/_vercel/insights/script.js';
 
   if (document.head.querySelector(`script[src*="${src}"]`)) return;

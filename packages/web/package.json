@@ -1,6 +1,6 @@
 {
   "name": "@vercel/analytics",
-  "version": "0.1.9-beta.6",
+  "version": "1.0.0",
   "keywords": [
     "analytics",
     "vercel"
