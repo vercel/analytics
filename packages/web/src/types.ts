@@ -6,6 +6,7 @@ interface PageViewEvent {
 type Event = PageViewEvent;
 
 export type Mode = 'auto' | 'development' | 'production';
+export type AllowedPropertyValues = string | number | boolean | null;
 
 export type BeforeSend = (event: Event) => Event | null;
 export interface AnalyticsProps {
@@ -16,9 +17,10 @@ export interface AnalyticsProps {
 declare global {
   interface Window {
     // Base interface
-    va?: (event: string, properties?: unknown) => void;
+    va?: (event: 'beforeSend' | 'event', properties?: unknown) => void;
     // Queue for actions, before the library is loaded
     vaq?: [string, unknown?][];
     vai?: boolean;
+    vam?: Mode;
   }
 }

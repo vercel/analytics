@@ -1,6 +1,6 @@
 {
   "name": "@vercel/analytics",
-  "version": "0.1.11",
+  "version": "1.0.0",
   "keywords": [
     "analytics",
     "vercel"
@@ -62,7 +62,7 @@
     "jest-environment-jsdom": "^29.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tsup": "^6.3.0"
+    "tsup": "6.5.0"
   },
   "peerDependencies": {
     "react": "^16.8||^17||^18"
