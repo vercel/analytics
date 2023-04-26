@@ -82,3 +82,5 @@ export default {
   inject,
   track,
 };
+
+export type { BeforeSendEvent } from './types';
