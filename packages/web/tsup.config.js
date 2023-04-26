@@ -22,6 +22,7 @@ export default defineConfig([
     entry: {
       index: 'src/react.tsx',
     },
+    external: ['react'],
     outDir: 'dist/react',
     esbuildOptions: (options) => {
       // Append "use client" to the top of the react entry point
