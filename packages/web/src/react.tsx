@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
-import { inject } from './generic';
+import { inject, track } from './generic';
 import type { AnalyticsProps } from './types';
 
-export type { AnalyticsProps } from './types';
-
-export function Analytics({
+function Analytics({
   beforeSend,
   debug = true,
   mode = 'auto',
@@ -15,3 +13,11 @@ export function Analytics({
 
   return null;
 }
+export { track, Analytics };
+export type { AnalyticsProps };
+
+// eslint-disable-next-line import/no-default-export
+export default {
+  Analytics,
+  track,
+};

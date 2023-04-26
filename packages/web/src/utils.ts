@@ -1,22 +1,73 @@
-import type { Mode } from './types';
+import type { AllowedPropertyValues, Mode } from './types';
 
 export function isBrowser(): boolean {
   return typeof window !== 'undefined';
 }
 
-export function isDevelopment(): boolean {
+function detectEnvironment(): 'development' | 'production' {
   try {
     const env = process.env.NODE_ENV;
-    return env === 'development' || env === 'test';
+    if (env === 'development' || env === 'test') {
+      return 'development';
+    }
   } catch (e) {
-    return false;
+    // do nothing, this is okay
   }
+  return 'production';
 }
 
-export function getMode(mode: Mode = 'auto'): Mode {
+export function setMode(mode: Mode = 'auto'): void {
   if (mode === 'auto') {
-    return isDevelopment() ? 'development' : 'production';
+    window.vam = detectEnvironment();
+    return;
   }
 
-  return mode;
+  window.vam = mode;
+}
+
+export function getMode(): Mode {
+  return window.vam || 'production';
+}
+
+export function isProduction(): boolean {
+  return getMode() === 'production';
+}
+
+export function isDevelopment(): boolean {
+  return getMode() === 'development';
+}
+
+function removeKey(
+  key: string,
+  { [key]: _, ...rest },
+): Record<string, unknown> {
+  return rest;
+}
+
+export function parseProperties(
+  properties: Record<string, unknown>,
+  options: {
+    strip?: boolean;
+  },
+): Error | Record<string, AllowedPropertyValues> | undefined {
+  let props = properties;
+  const errorProperties: string[] = [];
+  for (const [key, value] of Object.entries(properties)) {
+    if (typeof value === 'object' && value !== null) {
+      if (options.strip) {
+        props = removeKey(key, props);
+      } else {
+        errorProperties.push(key);
+      }
+    }
+  }
+
+  if (errorProperties.length > 0 && !options.strip) {
+    throw Error(
+      `The following properties are not valid: ${errorProperties.join(
+        ', ',
+      )}. Only strings, numbers, booleans, and null are allowed.`,
+    );
+  }
+  return props as Record<string, AllowedPropertyValues>;
 }
