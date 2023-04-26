@@ -6,6 +6,10 @@
     "vercel"
   ],
   "license": "MPL-2.0",
+  "repository": {
+    "url": "github:vercel/analytics",
+    "directory": "packages/web"
+  },
   "type": "module",
   "exports": {
     "./package.json": "./package.json",
