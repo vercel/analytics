@@ -6,14 +6,14 @@
 <div align="center">
 <a href="https://vercel.com/analytics">Website</a>
 <span> · </span>
-<a href="https://vercel.com/docs/concepts/analytics/audiences/package">Documentation</a>
+<a href="https://vercel.com/docs/concepts/analytics/package">Documentation</a>
 <span> · </span>
 <a href="https://twitter.com/vercel">Twitter</a>
 </div>
 
 ## Overview
 
-`@vercel/analytics` allows you to track page views in your Next.js app or any other website that is deployed to Vercel.
+`@vercel/analytics` allows you to track page views and custom events in your Next.js app or any other website that is deployed to Vercel.
 
 All page views are automatically tracked in your app.
 
@@ -27,10 +27,10 @@ This package does **not** track data in development mode.
 
    - If you are using **Next.js** or **React**, you can use the `<Analytics />` component to inject the script into your app.
    - For other frameworks, you can use the `inject` function add the tracking script to your app.
-   - If you want to use Vercel Web Analytics on a static site without npm, follow the instructions in the [documentation](https://vercel.com/docs/concepts/analytics/audiences/quickstart).
+   - If you want to use Vercel Web Analytics on a static site without npm, follow the instructions in the [documentation](https://vercel.com/docs/concepts/analytics/quickstart).
 
 4. Deploy your app to Vercel and see data flowing in.
 
 ## Documentation
 
-Find more details about this package in our [documentation](https://vercel.com/docs/concepts/analytics/audiences/quickstart).
+Find more details about this package in our [documentation](https://vercel.com/docs/concepts/analytics/quickstart).
