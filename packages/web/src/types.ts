@@ -13,7 +13,6 @@ export type Mode = 'auto' | 'development' | 'production';
 export type AllowedPropertyValues = string | number | boolean | null;
 
 export type BeforeSend = (event: BeforeSendEvent) => BeforeSendEvent | null;
-
 export interface AnalyticsProps {
   beforeSend?: BeforeSend;
   debug?: boolean;
