@@ -13,7 +13,7 @@ import type { AnalyticsProps } from './types';
  * @param [props.beforeSend] - A middleware function to modify events before they are sent. Should return the event object or `null` to cancel the event.
  * @example
  * ```js
- * import { Analytics } from '@vercel/analytics';
+ * import { Analytics } from '@vercel/analytics/react';
  *
  * export default function App() {
  *  return (
