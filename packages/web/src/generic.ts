@@ -57,7 +57,7 @@ export function inject(
  * Tracks a custom event. Please refer to the [documentation](https://vercel.com/docs/concepts/analytics/custom-events) for more information on custom events.
  * @param name - The name of the event.
  * * Examples: `Purchase`, `Click Button`, or `Play Video`.
- * @param [properties] - Additional properties of the event. Nested objects are not supported. Allowed values are `string`, `number`, `boolean`, and `null`.
+ * @param [properties] - Additional properties of the event. Allowed values are `string`, `number`, `boolean`, and `null`. Nested objects are not supported.
  */
 export function track(
   name: string,
