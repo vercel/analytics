@@ -1,6 +1,7 @@
 {
   "name": "@vercel/analytics",
   "version": "1.0.0",
+  "description": "Gain real-time traffic insights with Vercel Web Analytics.",
   "keywords": [
     "analytics",
     "vercel"
