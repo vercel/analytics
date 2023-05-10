@@ -46,6 +46,17 @@ export function inject(
   script.setAttribute('data-sdkn', packageName);
   script.setAttribute('data-sdkv', version);
 
+  script.onerror = (): void => {
+    const errorMessage = isDevelopment()
+      ? 'Please check if any ad blockers are enabled and try again.'
+      : 'Be sure to enable Web Analytics for your project and deploy again. See https://vercel.com/docs/concepts/analytics/quickstart for more information.';
+
+    // eslint-disable-next-line no-console
+    console.log(
+      `[Vercel Web Analytics] Failed to load script from ${src}. ${errorMessage}`,
+    );
+  };
+
   if (isDevelopment() && props.debug === false) {
     script.setAttribute('data-debug', 'false');
   }
