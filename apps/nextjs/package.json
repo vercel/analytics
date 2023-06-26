@@ -10,11 +10,11 @@
   },
   "dependencies": {
     "@vercel/analytics": "workspace:*",
-    "next": "latest",
+    "next": "^13.4.7",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@playwright/test": "1.29.2"
+    "@playwright/test": "1.35.1"
   }
 }
