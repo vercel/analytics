@@ -5,20 +5,26 @@ import type { StorageData } from './request-context';
 
 export { withRequestContext } from './request-context';
 
-const ENDPOINT = process.env.VERCEL_URL;
+const ENDPOINT = process.env.VERCEL_URL || process.env.VERCEL_ANALYTICS_URL;
 const ENV = process.env.NODE_ENV;
 const IS_DEV = ENV === 'development';
 
 type HeadersObject = Record<string, string | string[] | undefined>;
+type AllowedHeaders = Headers | HeadersObject;
 
-function isHeaders(headers?: Headers | HeadersObject): headers is Headers {
+function isHeaders(headers?: AllowedHeaders): headers is Headers {
   if (!headers) return false;
   return typeof (headers as HeadersObject).entries === 'function';
 }
 
-interface Context {
-  request?: Request;
+interface ContextWithRequest {
+  request: { headers: AllowedHeaders };
 }
+interface ContextWithHeaders {
+  headers: AllowedHeaders;
+}
+
+type Context = ContextWithRequest | ContextWithHeaders;
 
 export async function track(
   eventName: string,
@@ -35,9 +41,16 @@ export async function track(
     const store: StorageData | undefined =
       globalThis.__unsafeRequestStorage?.getStore();
 
-    const request = context?.request || store?.request;
+    let headers: AllowedHeaders | undefined;
 
-    const headers = request?.headers as Headers | HeadersObject | undefined;
+    if (context && 'headers' in context) {
+      headers = context.headers;
+    } else if (context?.request) {
+      headers = context.request.headers;
+    } else if (store?.request.headers) {
+      // not explicitly passed in context, so take it from async storage
+      headers = store.request.headers;
+    }
 
     if (!ENDPOINT && IS_DEV) {
       console.log(
