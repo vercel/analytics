@@ -82,7 +82,7 @@ export async function track(
 
     if (!hasHeaders) {
       throw new Error(
-        'No headers or request found. Please use `withSessionContext` to wrap your request handler or pass in `request` order `headers` to `track`.',
+        'No session context found. Wrap your API route handler with `withSessionContext` or pass `request` or `headers` to the `track` function.',
       );
     }
 
