@@ -80,10 +80,22 @@ export async function track(
 
     const hasHeaders = Boolean(headers);
 
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    if (!hasHeaders) {
+      throw new Error(
+        'No headers or request found. Please use `withSessionContext` to wrap your request handler or pass in `request` order `headers` to `track`.',
+      );
+    }
+
+    if (!ENDPOINT) {
+      throw new Error(
+        'VERCEL_URL is not defined in the environment variables.',
+      );
+    }
+
     const promise = fetch(`https://${ENDPOINT}/_vercel/insights/event`, {
       headers: {
         'content-type': 'application/json',
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- The throwing is temporary until we add support for non Vercel hosted environments
         ...(hasHeaders
           ? {
               'user-agent': tmp['user-agent'] as string,
