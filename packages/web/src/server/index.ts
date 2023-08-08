@@ -88,7 +88,7 @@ export async function track(
 
     if (!ENDPOINT) {
       throw new Error(
-        'VERCEL_URL is not defined in the environment variables.',
+        '`process.env.VERCEL_URL` is not defined in your environment variables.',
       );
     }
 
