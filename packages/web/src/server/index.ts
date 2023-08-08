@@ -3,7 +3,7 @@
 import type { AllowedPropertyValues } from '../types';
 import type { StorageData } from './request-context';
 
-export { withRequestContext } from './request-context';
+export { withSessionContext } from './request-context';
 
 const ENDPOINT = process.env.VERCEL_URL || process.env.VERCEL_ANALYTICS_URL;
 const ENV = process.env.NODE_ENV;
