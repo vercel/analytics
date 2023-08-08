@@ -97,9 +97,10 @@ export async function track(
       body: JSON.stringify(body),
       method: 'POST',
     }).catch((err: unknown) => {
-      if (!(err instanceof Error)) return;
-      if ('response' in err) {
+      if (err instanceof Error && 'response' in err) {
         console.error(err.response);
+      } else {
+        console.error(err);
       }
     });
 
