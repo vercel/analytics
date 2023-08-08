@@ -1,5 +1,4 @@
-import { withRequestContext, track } from '@vercel/analytics/server';
-import { NextRequest } from 'next/server';
+import { withSessionContext, track } from '@vercel/analytics/server';
 
 async function handler() {
   await track('Serverless Event', {
@@ -9,4 +8,4 @@ async function handler() {
   return new Response('OK');
 }
 
-export const GET = withRequestContext(handler);
+export const GET = withSessionContext(handler);

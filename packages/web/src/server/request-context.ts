@@ -4,7 +4,7 @@ export interface StorageData {
   request: Request;
 }
 
-export const withRequestContext =
+export const withSessionContext =
   <T extends Request>(next: (req: any, res: any) => Promise<Response | void>) =>
   async (request: T, secondParam: Response): Promise<Response | void> => {
     const asyncLocalStorage = new AsyncLocalStorage<StorageData>();

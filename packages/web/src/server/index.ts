@@ -3,7 +3,7 @@
 import type { AllowedPropertyValues } from '../types';
 import type { StorageData } from './request-context';
 
-export { withRequestContext } from './request-context';
+export { withSessionContext } from './request-context';
 
 const ENDPOINT = process.env.VERCEL_URL || process.env.VERCEL_ANALYTICS_URL;
 const ENV = process.env.NODE_ENV;
@@ -80,10 +80,22 @@ export async function track(
 
     const hasHeaders = Boolean(headers);
 
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    if (!hasHeaders) {
+      throw new Error(
+        'No session context found. Wrap your API route handler with `withSessionContext` or pass `request` or `headers` to the `track` function.',
+      );
+    }
+
+    if (!ENDPOINT) {
+      throw new Error(
+        '`process.env.VERCEL_URL` is not defined in your environment variables.',
+      );
+    }
+
     const promise = fetch(`https://${ENDPOINT}/_vercel/insights/event`, {
       headers: {
         'content-type': 'application/json',
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- The throwing is temporary until we add support for non Vercel hosted environments
         ...(hasHeaders
           ? {
               'user-agent': tmp['user-agent'] as string,
@@ -97,9 +109,10 @@ export async function track(
       body: JSON.stringify(body),
       method: 'POST',
     }).catch((err: unknown) => {
-      if (!(err instanceof Error)) return;
-      if ('response' in err) {
+      if (err instanceof Error && 'response' in err) {
         console.error(err.response);
+      } else {
+        console.error(err);
       }
     });
 
