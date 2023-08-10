@@ -36,6 +36,7 @@ function Analytics({
 
   return null;
 }
+
 export { track, Analytics };
 export type { AnalyticsProps };
 
