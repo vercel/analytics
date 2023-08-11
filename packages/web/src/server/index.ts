@@ -95,6 +95,7 @@ export async function track(
     console.log(
       `POST https://${ENDPOINT}/_vercel/insights/event`,
       JSON.stringify(body),
+      JSON.stringify(tmp),
     );
 
     const promise = fetch(`https://${ENDPOINT}/_vercel/insights/event`, {
