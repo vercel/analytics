@@ -19,7 +19,7 @@ import {
  * @param [props.debug] - Whether to enable debug logging in development. Defaults to `true`.
  * @param [props.beforeSend] - A middleware function to modify events before they are sent. Should return the event object or `null` to cancel the event.
  */
-export function inject(
+function inject(
   props: AnalyticsProps = {
     debug: true,
   },
@@ -70,7 +70,7 @@ export function inject(
  * * Examples: `Purchase`, `Click Button`, or `Play Video`.
  * @param [properties] - Additional properties of the event. Nested objects are not supported. Allowed values are `string`, `number`, `boolean`, and `null`.
  */
-export function track(
+function track(
   name: string,
   properties?: Record<string, AllowedPropertyValues>,
 ): void {
@@ -103,6 +103,9 @@ export function track(
     }
   }
 }
+
+export { inject, track };
+export type { AnalyticsProps };
 
 // eslint-disable-next-line import/no-default-export
 export default {
