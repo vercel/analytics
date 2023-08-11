@@ -1,6 +1,8 @@
 import { withSessionContext, track } from '@vercel/analytics/server';
+import { cookies } from 'next/headers';
 
 async function handler() {
+  cookies();
   await track('Serverless Event', {
     data: 'serverless',
     router: 'app',
@@ -9,3 +11,4 @@ async function handler() {
 }
 
 export const GET = withSessionContext(handler);
+export const dynamic = 'force-dynamic';
