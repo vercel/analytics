@@ -70,8 +70,16 @@ export async function track(
       tmp = headers;
     }
 
+    if (!ENDPOINT) {
+      throw new Error(
+        'VERCEL_URL is not defined in the environment variables.',
+      );
+    }
+
+    const origin = tmp.referer || store?.request.url || `https://${ENDPOINT}`;
+
     const body = {
-      o: tmp.referer,
+      o: origin,
       ts: new Date().getTime(),
       r: '',
       en: eventName,
@@ -83,12 +91,6 @@ export async function track(
     if (!hasHeaders) {
       throw new Error(
         'No session context found. Wrap your API route handler with `withSessionContext` or pass `request` or `headers` to the `track` function.',
-      );
-    }
-
-    if (!ENDPOINT) {
-      throw new Error(
-        '`process.env.VERCEL_URL` is not defined in your environment variables.',
       );
     }
 

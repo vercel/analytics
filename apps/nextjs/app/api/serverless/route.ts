@@ -9,3 +9,4 @@ async function handler() {
 }
 
 export const GET = withSessionContext(handler);
+export const dynamic = 'force-dynamic';
