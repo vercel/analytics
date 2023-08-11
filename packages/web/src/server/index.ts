@@ -70,8 +70,16 @@ export async function track(
       tmp = headers;
     }
 
+    if (!ENDPOINT) {
+      throw new Error(
+        'VERCEL_URL is not defined in the environment variables.',
+      );
+    }
+
+    const origin = tmp.referer || store?.request.url || `https://${ENDPOINT}`;
+
     const body = {
-      o: tmp.referer,
+      o: origin,
       ts: new Date().getTime(),
       r: '',
       en: eventName,
@@ -85,18 +93,6 @@ export async function track(
         'No headers or request found. Please use `withSessionContext` to wrap your request handler or pass in `request` order `headers` to `track`.',
       );
     }
-
-    if (!ENDPOINT) {
-      throw new Error(
-        'VERCEL_URL is not defined in the environment variables.',
-      );
-    }
-
-    console.log(
-      `POST https://${ENDPOINT}/_vercel/insights/event`,
-      JSON.stringify(body),
-      JSON.stringify(tmp),
-    );
 
     const promise = fetch(`https://${ENDPOINT}/_vercel/insights/event`, {
       headers: {
