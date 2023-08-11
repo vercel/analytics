@@ -16,16 +16,6 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
       },
     ),
   );
-  await track(
-    'Redirect',
-    {
-      path: request.nextUrl.pathname,
-      type: 'await',
-    },
-    {
-      request,
-    },
-  );
   return NextResponse.redirect(new URL('/server-actions', request.url));
 }
 
