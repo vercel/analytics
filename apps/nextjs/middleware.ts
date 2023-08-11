@@ -3,12 +3,17 @@ import type { NextFetchEvent, NextRequest } from 'next/server';
 import { track } from '@vercel/analytics/server';
 
 // This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest, event: NextFetchEvent) {
+export async function middleware(request: NextRequest, event: NextFetchEvent) {
   event.waitUntil(
     track('Redirect', {
       path: request.nextUrl.pathname,
+      type: 'waitUntil',
     }),
   );
+  await track('Redirect', {
+    path: request.nextUrl.pathname,
+    type: 'await',
+  });
   return NextResponse.redirect(new URL('/server-actions', request.url));
 }
 
