@@ -49,7 +49,7 @@ function inject(
   script.onerror = (): void => {
     const errorMessage = isDevelopment()
       ? 'Please check if any ad blockers are enabled and try again.'
-      : 'Be sure to enable Web Analytics for your project and deploy again. See https://vercel.com/docs/concepts/analytics/quickstart for more information.';
+      : 'Be sure to enable Web Analytics for your project and deploy again. See https://vercel.com/docs/analytics/quickstart for more information.';
 
     // eslint-disable-next-line no-console
     console.log(
