@@ -97,7 +97,7 @@ export async function track(
 
     if (!hasHeaders) {
       throw new Error(
-        'No session context found. Wrap your API route handler with `withSessionContext` or pass `request` or `headers` to the `track` function.',
+        'No session context found. Pass `request` or `headers` to the `track` function.',
       );
     }
 
