@@ -1,9 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-console */
 import type { AllowedPropertyValues } from '../types';
-import type { StorageData } from './request-context';
-
-export { withSessionContext } from './request-context';
 
 const ENDPOINT = process.env.VERCEL_URL || process.env.VERCEL_ANALYTICS_URL;
 const ENV = process.env.NODE_ENV;
@@ -26,6 +23,15 @@ interface ContextWithHeaders {
 
 type Context = ContextWithRequest | ContextWithHeaders;
 
+interface RequestContext {
+  get: () => {
+    headers: Record<string, string | undefined>;
+    url: string;
+  };
+}
+
+const symbol = Symbol.for('@vercel/request-context');
+
 export async function track(
   eventName: string,
   properties?: Record<string, AllowedPropertyValues>,
@@ -38,8 +44,9 @@ export async function track(
     return;
   }
   try {
-    const store: StorageData | undefined =
-      globalThis.__unsafeRequestStorage?.getStore();
+    const requestContext = (
+      (globalThis as never)[symbol] as RequestContext | undefined
+    )?.get();
 
     let headers: AllowedHeaders | undefined;
 
@@ -47,9 +54,9 @@ export async function track(
       headers = context.headers;
     } else if (context?.request) {
       headers = context.request.headers;
-    } else if (store?.request.headers) {
+    } else if (requestContext?.headers) {
       // not explicitly passed in context, so take it from async storage
-      headers = store.request.headers;
+      headers = requestContext.headers;
     }
 
     if (!ENDPOINT && IS_DEV) {
@@ -76,7 +83,7 @@ export async function track(
       );
     }
 
-    const origin = tmp.referer || store?.request.url || `https://${ENDPOINT}`;
+    const origin = requestContext?.url || tmp.referer || `https://${ENDPOINT}`;
 
     const body = {
       o: origin,
@@ -90,7 +97,7 @@ export async function track(
 
     if (!hasHeaders) {
       throw new Error(
-        'No session context found. Wrap your API route handler with `withSessionContext` or pass `request` or `headers` to the `track` function.',
+        'No session context found. Pass `request` or `headers` to the `track` function.',
       );
     }
 
