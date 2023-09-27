@@ -62,7 +62,7 @@ export async function track(
     if (!ENDPOINT && IS_DEV) {
       console.log(
         `[Vercel Web Analytics] Track "${eventName}" ${
-          properties ? ` with data ${JSON.stringify(properties)}` : ''
+          properties ? `with data ${JSON.stringify(properties)}` : ''
         }`,
       );
       return;
