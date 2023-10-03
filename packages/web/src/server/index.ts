@@ -5,6 +5,7 @@ import type { AllowedPropertyValues } from '../types';
 const ENDPOINT = process.env.VERCEL_URL || process.env.VERCEL_ANALYTICS_URL;
 const ENV = process.env.NODE_ENV;
 const IS_DEV = ENV === 'development';
+const DISABLE_LOGS = Boolean(process.env.VERCEL_WEB_ANALYTICS_DISABLE_LOGS);
 
 type HeadersObject = Record<string, string | string[] | undefined>;
 type AllowedHeaders = Headers | HeadersObject;
@@ -60,6 +61,8 @@ export async function track(
     }
 
     if (!ENDPOINT && IS_DEV) {
+      if (!DISABLE_LOGS) return;
+
       console.log(
         `[Vercel Web Analytics] Track "${eventName}" ${
           properties ? `with data ${JSON.stringify(properties)}` : ''
