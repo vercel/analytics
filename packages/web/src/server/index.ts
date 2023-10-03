@@ -39,10 +39,22 @@ export async function track(
   properties?: Record<string, AllowedPropertyValues>,
   context?: Context,
 ): Promise<void> {
-  if (!ENDPOINT && isProduction()) {
-    console.log(
-      `[Vercel Web Analytics] Can't find VERCEL_URL in environment variables.`,
-    );
+  const props = parseProperties(properties, {
+    strip: isProduction(),
+  });
+
+  if (!ENDPOINT) {
+    if (isProduction()) {
+      console.log(
+        `[Vercel Web Analytics] Can't find VERCEL_URL in environment variables.`,
+      );
+    } else if (!DISABLE_LOGS) {
+      console.log(
+        `[Vercel Web Analytics] Track "${eventName}" ${
+          props ? `with data ${JSON.stringify(props)}` : ''
+        }`,
+      );
+    }
     return;
   }
   try {
@@ -59,21 +71,6 @@ export async function track(
     } else if (requestContext?.headers) {
       // not explicitly passed in context, so take it from async storage
       headers = requestContext.headers;
-    }
-
-    const props = parseProperties(properties, {
-      strip: isProduction(),
-    });
-
-    if (!ENDPOINT && isDevelopment()) {
-      if (!DISABLE_LOGS) return;
-
-      console.log(
-        `[Vercel Web Analytics] Track "${eventName}" ${
-          props ? `with data ${JSON.stringify(props)}` : ''
-        }`,
-      );
-      return;
     }
 
     let tmp: HeadersObject = {};
