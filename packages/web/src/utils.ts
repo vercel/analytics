@@ -26,7 +26,8 @@ export function setMode(mode: Mode = 'auto'): void {
 }
 
 export function getMode(): Mode {
-  return window.vam || 'production';
+  const mode = isBrowser() ? window.vam : detectEnvironment();
+  return mode || 'production';
 }
 
 export function isProduction(): boolean {
@@ -45,11 +46,12 @@ function removeKey(
 }
 
 export function parseProperties(
-  properties: Record<string, unknown>,
+  properties: Record<string, unknown> | undefined,
   options: {
     strip?: boolean;
   },
 ): Error | Record<string, AllowedPropertyValues> | undefined {
+  if (!properties) return undefined;
   let props = properties;
   const errorProperties: string[] = [];
   for (const [key, value] of Object.entries(properties)) {

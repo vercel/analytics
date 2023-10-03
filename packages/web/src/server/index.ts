@@ -1,10 +1,12 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-console */
+import 'server-only';
 import type { AllowedPropertyValues } from '../types';
+import { isDevelopment, isProduction, parseProperties } from '../utils';
 
 const ENDPOINT = process.env.VERCEL_URL || process.env.VERCEL_ANALYTICS_URL;
-const ENV = process.env.NODE_ENV;
-const IS_DEV = ENV === 'development';
+
+const DISABLE_LOGS = Boolean(process.env.VERCEL_WEB_ANALYTICS_DISABLE_LOGS);
 
 type HeadersObject = Record<string, string | string[] | undefined>;
 type AllowedHeaders = Headers | HeadersObject;
@@ -37,10 +39,22 @@ export async function track(
   properties?: Record<string, AllowedPropertyValues>,
   context?: Context,
 ): Promise<void> {
-  if (!ENDPOINT && !IS_DEV) {
-    console.log(
-      `[Vercel Web Analytics] Can't find VERCEL_URL in environment variables.`,
-    );
+  const props = parseProperties(properties, {
+    strip: isProduction(),
+  });
+
+  if (!ENDPOINT) {
+    if (isProduction()) {
+      console.log(
+        `[Vercel Web Analytics] Can't find VERCEL_URL in environment variables.`,
+      );
+    } else if (!DISABLE_LOGS) {
+      console.log(
+        `[Vercel Web Analytics] Track "${eventName}" ${
+          props ? `with data ${JSON.stringify(props)}` : ''
+        }`,
+      );
+    }
     return;
   }
   try {
@@ -57,15 +71,6 @@ export async function track(
     } else if (requestContext?.headers) {
       // not explicitly passed in context, so take it from async storage
       headers = requestContext.headers;
-    }
-
-    if (!ENDPOINT && IS_DEV) {
-      console.log(
-        `[Vercel Web Analytics] Track "${eventName}" ${
-          properties ? `with data ${JSON.stringify(properties)}` : ''
-        }`,
-      );
-      return;
     }
 
     let tmp: HeadersObject = {};
@@ -90,7 +95,7 @@ export async function track(
       ts: new Date().getTime(),
       r: '',
       en: eventName,
-      ed: properties,
+      ed: props,
     };
 
     const hasHeaders = Boolean(headers);
