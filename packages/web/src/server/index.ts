@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import 'server-only';
 import type { AllowedPropertyValues } from '../types';
-import { isDevelopment, isProduction, parseProperties } from '../utils';
+import { isProduction, parseProperties } from '../utils';
 
 const ENDPOINT = process.env.VERCEL_URL || process.env.VERCEL_ANALYTICS_URL;
 
@@ -29,6 +29,7 @@ interface RequestContext {
   get: () => {
     headers: Record<string, string | undefined>;
     url: string;
+    waitUntil?: (promise: Promise<unknown>) => void;
   };
 }
 
@@ -130,7 +131,11 @@ export async function track(
       }
     });
 
-    await promise;
+    if (requestContext?.waitUntil) {
+      requestContext.waitUntil(promise);
+    } else {
+      await promise;
+    }
 
     return void 0;
   } catch (err) {
