@@ -26,11 +26,11 @@ This package does **not** track data in development mode.
 3. Inject the Analytics script to your app
 
    - If you are using **Next.js** or **React**, you can use the `<Analytics />` component to inject the script into your app.
-   - For other frameworks, you can use the `inject` function add the tracking script to your app.
-   - If you want to use Vercel Web Analytics on a static site without npm, follow the instructions in the [documentation](https://vercel.com/docs/concepts/analytics/quickstart).
+   - To add the tracking script for other frameworks, use the `inject` function.
+   - If you want to use Vercel Web Analytics on a static site without npm, follow the instructions in the [documentation](https://vercel.com/docs/analytics/quickstart).
 
 4. Deploy your app to Vercel and see data flowing in.
 
 ## Documentation
 
-Find more details about this package in our [documentation](https://vercel.com/docs/concepts/analytics/quickstart).
+Find more details about this package in our [documentation](https://vercel.com/docs/analytics/quickstart).
