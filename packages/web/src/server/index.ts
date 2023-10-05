@@ -5,7 +5,6 @@ import type { AllowedPropertyValues } from '../types';
 import { isProduction, parseProperties } from '../utils';
 
 const ENDPOINT = process.env.VERCEL_URL || process.env.VERCEL_ANALYTICS_URL;
-
 const DISABLE_LOGS = Boolean(process.env.VERCEL_WEB_ANALYTICS_DISABLE_LOGS);
 
 type HeadersObject = Record<string, string | string[] | undefined>;
@@ -83,7 +82,10 @@ export async function track(
       tmp = headers;
     }
 
-    const origin = requestContext?.url || tmp.referer || `https://${ENDPOINT}`;
+    const origin =
+      requestContext?.url || (tmp.referer as string) || `https://${ENDPOINT}`;
+
+    const url = new URL(origin);
 
     const body = {
       o: origin,
@@ -101,7 +103,7 @@ export async function track(
       );
     }
 
-    const promise = fetch(`https://${ENDPOINT}/_vercel/insights/event`, {
+    const promise = fetch(`${url.origin}/_vercel/insights/event`, {
       headers: {
         'content-type': 'application/json',
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- The throwing is temporary until we add support for non Vercel hosted environments
@@ -110,6 +112,7 @@ export async function track(
               'user-agent': tmp['user-agent'] as string,
               'x-vercel-ip': tmp['x-forwarded-for'] as string,
               'x-va-server': '1',
+              cookie: tmp.cookie as string,
             }
           : {
               'x-va-server': '2',
