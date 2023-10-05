@@ -116,6 +116,7 @@ export async function track(
               'user-agent': tmp['user-agent'] as string,
               'x-vercel-ip': tmp['x-forwarded-for'] as string,
               'x-va-server': '1',
+              cookie: tmp.cookie as string,
             }
           : {
               'x-va-server': '2',
