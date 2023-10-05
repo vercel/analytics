@@ -83,12 +83,6 @@ export async function track(
       tmp = headers;
     }
 
-    if (!ENDPOINT) {
-      throw new Error(
-        'VERCEL_URL is not defined in the environment variables.',
-      );
-    }
-
     const origin = requestContext?.url || tmp.referer || `https://${ENDPOINT}`;
 
     const body = {
@@ -116,7 +110,6 @@ export async function track(
               'user-agent': tmp['user-agent'] as string,
               'x-vercel-ip': tmp['x-forwarded-for'] as string,
               'x-va-server': '1',
-              cookie: tmp.cookie as string,
             }
           : {
               'x-va-server': '2',
