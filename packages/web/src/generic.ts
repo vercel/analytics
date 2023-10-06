@@ -75,10 +75,16 @@ function track(
   properties?: Record<string, AllowedPropertyValues>,
 ): void {
   if (!isBrowser()) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      '[Vercel Web Analytics] Server-side execution of `track()` is currently not supported.',
-    );
+    const msg =
+      '[Vercel Web Analytics] Please import `track` from `@vercel/analytics/server` when using this function in a server environment';
+
+    if (isProduction()) {
+      // eslint-disable-next-line no-console
+      console.warn(msg);
+    } else {
+      throw new Error(msg);
+    }
+
     return;
   }
 

@@ -39,9 +39,3 @@ function Analytics({
 
 export { track, Analytics };
 export type { AnalyticsProps };
-
-// eslint-disable-next-line import/no-default-export
-export default {
-  Analytics,
-  track,
-};

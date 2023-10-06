@@ -31,4 +31,11 @@ export default defineConfig([
       };
     },
   },
+  {
+    ...cfg,
+    entry: {
+      index: 'src/server/index.ts',
+    },
+    outDir: 'dist/server',
+  },
 ]);
