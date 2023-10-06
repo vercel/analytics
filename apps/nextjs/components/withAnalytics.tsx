@@ -3,7 +3,7 @@ import React from 'react';
 
 export function withAnalytics<P extends Omit<AnalyticsProps, 'mode'>>(
   Component: React.ComponentType,
-  props?: P,
+  props?: P
 ) {
   function WithAnalytics(props?: P) {
     return (

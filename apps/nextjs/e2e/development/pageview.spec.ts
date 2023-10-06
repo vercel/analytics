@@ -9,6 +9,8 @@ test.describe('pageview', () => {
     page.on('console', (msg) => {
       const message = msg.text();
 
+      console.log(message);
+
       if (
         message.includes('[Vercel Web Analytics]') ||
         message.includes('[Vercel Analytics]')
