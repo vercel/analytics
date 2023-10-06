@@ -22,7 +22,7 @@ import {
 function inject(
   props: AnalyticsProps = {
     debug: true,
-  },
+  }
 ): void {
   if (!isBrowser()) return;
 
@@ -51,9 +51,9 @@ function inject(
       ? 'Please check if any ad blockers are enabled and try again.'
       : 'Be sure to enable Web Analytics for your project and deploy again. See https://vercel.com/docs/analytics/quickstart for more information.';
 
-    // eslint-disable-next-line no-console
+    // eslint-disable-next-line no-console -- Logging to console is intentional
     console.log(
-      `[Vercel Web Analytics] Failed to load script from ${src}. ${errorMessage}`,
+      `[Vercel Web Analytics] Failed to load script from ${src}. ${errorMessage}`
     );
   };
 
@@ -72,14 +72,14 @@ function inject(
  */
 function track(
   name: string,
-  properties?: Record<string, AllowedPropertyValues>,
+  properties?: Record<string, AllowedPropertyValues>
 ): void {
   if (!isBrowser()) {
     const msg =
       '[Vercel Web Analytics] Please import `track` from `@vercel/analytics/server` when using this function in a server environment';
 
     if (isProduction()) {
-      // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console -- Show warning in production
       console.warn(msg);
     } else {
       throw new Error(msg);
@@ -104,7 +104,7 @@ function track(
     });
   } catch (err) {
     if (err instanceof Error && isDevelopment()) {
-      // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console -- Logging to console is intentional
       console.error(err);
     }
   }
@@ -113,7 +113,7 @@ function track(
 export { inject, track };
 export type { AnalyticsProps };
 
-// eslint-disable-next-line import/no-default-export
+// eslint-disable-next-line import/no-default-export -- Default export is intentional
 export default {
   inject,
   track,

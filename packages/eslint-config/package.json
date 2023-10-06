@@ -4,10 +4,10 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
-    "@next/eslint-plugin-next": "13.4.7",
-    "@vercel/style-guide": "4.0.2"
+    "@next/eslint-plugin-next": "13.4.7"
   },
   "devDependencies": {
+    "@vercel/style-guide": "5.0.1",
     "eslint": "8.43.0",
     "prettier": "2.8.8",
     "typescript": "5.1.3"

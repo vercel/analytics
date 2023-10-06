@@ -3,17 +3,17 @@ import { cleanup, render } from '@testing-library/react';
 import { Analytics, track } from './react';
 
 describe('<Analytics />', () => {
-  afterEach(() => cleanup());
+  afterEach(() => {
+    cleanup();
+  });
 
   describe('in development mode', () => {
     it('should add the script tag correctly', () => {
       render(<Analytics mode="development" />);
 
-      // eslint-disable-next-line testing-library/no-node-access
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);
 
-      // eslint-disable-next-line testing-library/no-node-access
       const script = document.head.querySelector('script');
 
       if (!script) {
@@ -21,7 +21,7 @@ describe('<Analytics />', () => {
       }
 
       expect(script.src).toEqual(
-        'https://va.vercel-scripts.com/v1/script.debug.js',
+        'https://va.vercel-scripts.com/v1/script.debug.js'
       );
       expect(script).toHaveAttribute('defer');
     });
@@ -31,11 +31,9 @@ describe('<Analytics />', () => {
     it('should add the script tag correctly', () => {
       render(<Analytics mode="production" />);
 
-      // eslint-disable-next-line testing-library/no-node-access
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);
 
-      // eslint-disable-next-line testing-library/no-node-access
       const script = document.head.querySelector('script');
 
       if (!script) {
@@ -101,10 +99,10 @@ describe('<Analytics />', () => {
         track('custom event', {
           string: 'string',
           number: 1,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Intentional to trigger error
           nested: {
             object: '',
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Allow
           } as any,
         });
 
