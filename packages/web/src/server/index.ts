@@ -1,5 +1,4 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable no-console */
+/* eslint-disable no-console -- Allow loggin on the server */
 import 'server-only';
 import type { AllowedPropertyValues } from '../types';
 import { isProduction, parseProperties } from '../utils';
@@ -37,7 +36,7 @@ const symbol = Symbol.for('@vercel/request-context');
 export async function track(
   eventName: string,
   properties?: Record<string, AllowedPropertyValues>,
-  context?: Context,
+  context?: Context
 ): Promise<void> {
   const props = parseProperties(properties, {
     strip: isProduction(),
@@ -46,13 +45,13 @@ export async function track(
   if (!ENDPOINT) {
     if (isProduction()) {
       console.log(
-        `[Vercel Web Analytics] Can't find VERCEL_URL in environment variables.`,
+        `[Vercel Web Analytics] Can't find VERCEL_URL in environment variables.`
       );
     } else if (!DISABLE_LOGS) {
       console.log(
         `[Vercel Web Analytics] Track "${eventName}" ${
           props ? `with data ${JSON.stringify(props)}` : ''
-        }`,
+        }`
       );
     }
     return;
@@ -99,7 +98,7 @@ export async function track(
 
     if (!hasHeaders) {
       throw new Error(
-        'No session context found. Pass `request` or `headers` to the `track` function.',
+        'No session context found. Pass `request` or `headers` to the `track` function.'
       );
     }
 

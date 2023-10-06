@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
     track('Redirect', {
       path: request.nextUrl.pathname,
       type: 'waitUntil',
-    }),
+    })
   );
   return NextResponse.redirect(new URL('/server-actions', request.url));
 }

@@ -9,7 +9,7 @@ async function handler(request: NextRequest, event: NextFetchEvent) {
     track('Pages Api Route', {
       runtime: 'edge',
       router: 'pages',
-    }),
+    })
   );
 
   return new Response('OK');

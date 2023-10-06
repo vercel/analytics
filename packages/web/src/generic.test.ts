@@ -15,7 +15,7 @@ describe('inject', () => {
       }
 
       expect(script.src).toEqual(
-        'https://va.vercel-scripts.com/v1/script.debug.js',
+        'https://va.vercel-scripts.com/v1/script.debug.js'
       );
       expect(script).toHaveAttribute('defer');
     });
@@ -95,10 +95,10 @@ describe('track custom events', () => {
         track('custom event', {
           string: 'string',
           number: 1,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- This is intentional
           nested: {
             object: '',
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This is intentional
           } as any,
         });
 
@@ -125,7 +125,7 @@ describe('track custom events', () => {
       inject({
         mode: 'development',
       });
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      // eslint-disable-next-line @typescript-eslint/no-empty-function -- This is intentional
       jest.spyOn(global.console, 'error').mockImplementation(() => {});
     });
 
@@ -171,14 +171,14 @@ describe('track custom events', () => {
         track('custom event', {
           string: 'string',
           number: 1,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- This is intentional
           nested: {
             object: '',
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This is intentional
           } as any,
         });
 
-        // eslint-disable-next-line no-console
+        // eslint-disable-next-line no-console -- Logging to console is intentional
         expect(console.error).toHaveBeenCalledTimes(1);
       });
     });

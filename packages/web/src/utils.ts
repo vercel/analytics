@@ -40,7 +40,7 @@ export function isDevelopment(): boolean {
 
 function removeKey(
   key: string,
-  { [key]: _, ...rest },
+  { [key]: _, ...rest }
 ): Record<string, unknown> {
   return rest;
 }
@@ -49,7 +49,7 @@ export function parseProperties(
   properties: Record<string, unknown> | undefined,
   options: {
     strip?: boolean;
-  },
+  }
 ): Error | Record<string, AllowedPropertyValues> | undefined {
   if (!properties) return undefined;
   let props = properties;
@@ -67,8 +67,8 @@ export function parseProperties(
   if (errorProperties.length > 0 && !options.strip) {
     throw Error(
       `The following properties are not valid: ${errorProperties.join(
-        ', ',
-      )}. Only strings, numbers, booleans, and null are allowed.`,
+        ', '
+      )}. Only strings, numbers, booleans, and null are allowed.`
     );
   }
   return props as Record<string, AllowedPropertyValues>;

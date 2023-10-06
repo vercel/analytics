@@ -12,7 +12,7 @@ async function handler(request: Request) {
     },
     {
       request,
-    },
+    }
   );
 
   return new Response('OK');
