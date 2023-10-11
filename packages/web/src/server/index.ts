@@ -41,7 +41,7 @@ export async function track(
   if (typeof window !== 'undefined') {
     if (!isProduction()) {
       throw new Error(
-        `${logPrefix} It seems like you imported the \`track\` function from \`@vercel/web-analytics/server\` in a browser environment. This function is only meant to be used in a serverless environment.`
+        `${logPrefix} It seems like you imported the \`track\` function from \`@vercel/web-analytics/server\` in a browser environment. This function is only meant to be used in a server environment.`
       );
     }
 
