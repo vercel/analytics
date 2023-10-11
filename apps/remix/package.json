@@ -1,0 +1,40 @@
+{
+  "name": "remix-vercel-analytics",
+  "private": true,
+  "scripts": {
+    "build": "remix build",
+    "dev": "remix dev",
+    "format": "prettier -w .",
+    "start": "remix-serve build"
+  },
+  "prettier": {},
+  "dependencies": {
+    "@remix-run/node": "^2.0.1",
+    "@remix-run/react": "^2.0.1",
+    "@remix-run/serve": "^2.0.1",
+    "@remix-run/server-runtime": "^2.0.1",
+    "@vercel/analytics": "workspace:*",
+    "@vercel/remix": "2.0.1",
+    "isbot": "^3.6.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^2.0.1",
+    "@remix-run/eslint-config": "^2.0.1",
+    "@types/eslint": "^8.4.10",
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.8",
+    "autoprefixer": "^10.4.13",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.4.18",
+    "prettier": "2.7.1",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.0",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
