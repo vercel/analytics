@@ -1,5 +1,4 @@
-/* eslint-disable no-console -- Allow loggin on the server */
-import 'server-only';
+/* eslint-disable no-console -- Allow logging on the server */
 import type { AllowedPropertyValues } from '../types';
 import { isProduction, parseProperties } from '../utils';
 
@@ -32,12 +31,23 @@ interface RequestContext {
 }
 
 const symbol = Symbol.for('@vercel/request-context');
+const logPrefix = '[Vercel Web Analytics]';
 
 export async function track(
   eventName: string,
   properties?: Record<string, AllowedPropertyValues>,
   context?: Context
 ): Promise<void> {
+  if (typeof window !== 'undefined') {
+    if (!isProduction()) {
+      throw new Error(
+        `${logPrefix} It seems like you imported the \`track\` function from \`@vercel/web-analytics/server\` in a browser environment. This function is only meant to be used in a server environment.`
+      );
+    }
+
+    return;
+  }
+
   const props = parseProperties(properties, {
     strip: isProduction(),
   });
@@ -45,11 +55,11 @@ export async function track(
   if (!ENDPOINT) {
     if (isProduction()) {
       console.log(
-        `[Vercel Web Analytics] Can't find VERCEL_URL in environment variables.`
+        `${logPrefix} Can't find VERCEL_URL in environment variables.`
       );
     } else if (!DISABLE_LOGS) {
       console.log(
-        `[Vercel Web Analytics] Track "${eventName}" ${
+        `${logPrefix} Track "${eventName}" ${
           props ? `with data ${JSON.stringify(props)}` : ''
         }`
       );
