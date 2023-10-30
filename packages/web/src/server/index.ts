@@ -91,13 +91,19 @@ export async function track(
       tmp = headers;
     }
 
-    const origin =
-      requestContext?.url || (tmp.referer as string) || `https://${ENDPOINT}`;
+    const referer = tmp.referer as string | undefined;
+
+    const origin = requestContext?.url || referer || `https://${ENDPOINT}`;
 
     const url = new URL(origin);
 
+    // Ensure that the protocol is HTTPS
+    if (url.protocol !== 'https:') {
+      url.protocol = 'https:';
+    }
+
     const body = {
-      o: origin,
+      o: referer || url.toString(),
       ts: new Date().getTime(),
       r: '',
       en: eventName,
