@@ -1,6 +1,6 @@
 {
   "name": "@vercel/analytics",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Gain real-time traffic insights with Vercel Web Analytics",
   "keywords": [
     "analytics",
@@ -17,19 +17,22 @@
     ".": {
       "browser": "./dist/index.js",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
     },
     "./react": {
       "browser": "./dist/react/index.js",
       "import": "./dist/react/index.js",
-      "require": "./dist/react/index.cjs"
+      "require": "./dist/react/index.cjs",
+      "types": "./dist/react/index.d.ts"
     },
     "./server": {
       "node": "./dist/server/index.js",
       "edge-light": "./dist/server/index.js",
       "import": "./dist/server/index.js",
       "require": "./dist/server/index.cjs",
-      "default": "./dist/server/index.cjs"
+      "default": "./dist/server/index.cjs",
+      "types": "./dist/server/index.d.ts"
     }
   },
   "main": "dist/index.js",
