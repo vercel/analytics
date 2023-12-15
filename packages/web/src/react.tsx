@@ -11,6 +11,7 @@ import type { AnalyticsProps } from './types';
  *  - `development` - Always use the development script. (Logs events to the console)
  * @param [props.debug] - Whether to enable debug logging in development. Defaults to `true`.
  * @param [props.beforeSend] - A middleware function to modify events before they are sent. Should return the event object or `null` to cancel the event.
+ * @param [props.scriptSrc] -  Manually specify the script source URL.
  * @example
  * ```js
  * import { Analytics } from '@vercel/analytics/react';
@@ -29,10 +30,11 @@ function Analytics({
   beforeSend,
   debug = true,
   mode = 'auto',
+  scriptSrc,
 }: AnalyticsProps): null {
   useEffect(() => {
-    inject({ beforeSend, debug, mode });
-  }, [beforeSend, debug, mode]);
+    inject({ beforeSend, debug, mode, scriptSrc });
+  }, [beforeSend, debug, mode, scriptSrc]);
 
   return null;
 }

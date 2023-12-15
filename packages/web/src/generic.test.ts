@@ -38,6 +38,25 @@ describe('inject', () => {
       expect(script).toHaveAttribute('defer');
     });
   });
+
+  describe('with a scriptSrc', () => {
+    it('should add the script tag correctly', () => {
+      const customSrc = 'http://localhost/custom-path/_vercel/insights/script.js';
+      inject({ scriptSrc: customSrc });
+
+      const scripts = document.getElementsByTagName('script');
+      expect(scripts).toHaveLength(1);
+
+      const script = document.head.querySelector('script');
+
+      if (!script) {
+        throw new Error('Could not find script tag');
+      }
+
+      expect(script.src).toEqual(customSrc);
+      expect(script).toHaveAttribute('defer');
+    });
+  });
 });
 
 describe('track custom events', () => {

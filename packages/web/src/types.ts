@@ -17,6 +17,7 @@ export interface AnalyticsProps {
   beforeSend?: BeforeSend;
   debug?: boolean;
   mode?: Mode;
+  scriptSrc?: string;
 }
 declare global {
   interface Window {

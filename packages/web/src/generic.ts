@@ -18,6 +18,7 @@ import {
  *  - `development` - Always use the development script. (Logs events to the console)
  * @param [props.debug] - Whether to enable debug logging in development. Defaults to `true`.
  * @param [props.beforeSend] - A middleware function to modify events before they are sent. Should return the event object or `null` to cancel the event.
+ * @param [props.scriptSrc] - Manually specify the script source URL.
  */
 function inject(
   props: AnalyticsProps = {
@@ -34,7 +35,7 @@ function inject(
     window.va?.('beforeSend', props.beforeSend);
   }
 
-  const src = isDevelopment()
+  const src = props.scriptSrc || isDevelopment()
     ? 'https://va.vercel-scripts.com/v1/script.debug.js'
     : '/_vercel/insights/script.js';
 
