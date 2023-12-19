@@ -41,7 +41,8 @@ describe('inject', () => {
 
   describe('with a scriptSrc', () => {
     it('should add the script tag correctly', () => {
-      const customSrc = 'http://localhost/custom-path/_vercel/insights/script.js';
+      const customSrc =
+        'http://localhost/custom-path/_vercel/insights/script.js';
       inject({ scriptSrc: customSrc });
 
       const scripts = document.getElementsByTagName('script');
@@ -54,6 +55,25 @@ describe('inject', () => {
       }
 
       expect(script.src).toEqual(customSrc);
+      expect(script).toHaveAttribute('defer');
+    });
+  });
+
+  describe('with a custom endpoint', () => {
+    it('should add the script tag correctly', () => {
+      const customEndpoint = 'http://localhost/custom-path/_vercel/insights';
+      inject({ scriptSrc: customEndpoint });
+
+      const scripts = document.getElementsByTagName('script');
+      expect(scripts).toHaveLength(1);
+
+      const script = document.head.querySelector('script');
+
+      if (!script) {
+        throw new Error('Could not find script tag');
+      }
+
+      expect(script.dataset.endpoint).toEqual(customEndpoint);
       expect(script).toHaveAttribute('defer');
     });
   });
