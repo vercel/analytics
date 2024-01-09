@@ -15,29 +15,42 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": "./dist/index.js",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index/es/index.d.ts",
+        "default": "./dist/index/es/index.js"
+      },
+      "require": {
+        "types": "./dist/index/cjs/index.d.cts",
+        "default": "./dist/index/cjs/index.cjs"
+      }
     },
     "./react": {
-      "browser": "./dist/react/index.js",
-      "import": "./dist/react/index.js",
-      "require": "./dist/react/index.cjs"
+      "import": {
+        "types": "./dist/react/index.d.ts",
+        "default": "./dist/react/index.js"
+      },
+      "require": {
+        "types": "./dist/react/index.d.cts",
+        "default": "./dist/react/index.cjs"
+      }
     },
     "./server": {
-      "node": "./dist/server/index.js",
-      "edge-light": "./dist/server/index.js",
-      "import": "./dist/server/index.js",
-      "require": "./dist/server/index.cjs",
-      "default": "./dist/server/index.cjs"
+      "import": {
+        "types": "./dist/server/index.d.ts",
+        "default": "./dist/server/index.js"
+      },
+      "require": {
+        "types": "./dist/server/index.d.cts",
+        "default": "./dist/server/index.cjs"
+      }
     }
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index/es/index.js",
+  "types": "./dist/index/es/index.d.ts",
   "typesVersions": {
     "*": {
       "*": [
-        "dist/index.d.ts"
+        "dist/index/es/index.d.ts"
       ],
       "react": [
         "dist/react/index.d.ts"
