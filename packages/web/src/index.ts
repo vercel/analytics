@@ -1,2 +1,4 @@
+import analytics from './generic';
+
 export * from './generic';
-export { default } from './generic';
+export default analytics;
