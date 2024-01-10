@@ -13,7 +13,6 @@
     "lint-staged": "^13.2.2"
   },
   "devDependencies": {
-    "@types/node": "^20.10.8",
     "@vercel/style-guide": "^5.0.1",
     "bunchee": "^4.3.1",
     "husky": "^8.0.3",
