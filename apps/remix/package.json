@@ -9,12 +9,12 @@
   },
   "prettier": {},
   "dependencies": {
-    "@remix-run/node": "^2.0.1",
-    "@remix-run/react": "^2.0.1",
-    "@remix-run/serve": "^2.0.1",
-    "@remix-run/server-runtime": "^2.0.1",
+    "@remix-run/node": "^2.5.0",
+    "@remix-run/react": "^2.5.0",
+    "@remix-run/serve": "^2.5.0",
+    "@remix-run/server-runtime": "^2.5.0",
     "@vercel/analytics": "workspace:*",
-    "@vercel/remix": "2.0.1",
+    "@vercel/remix": "2.5.0",
     "isbot": "^3.6.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

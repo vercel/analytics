@@ -2,9 +2,6 @@
 import type { AllowedPropertyValues } from '../types';
 import { isProduction, parseProperties } from '../utils';
 
-const ENDPOINT = process.env.VERCEL_URL || process.env.VERCEL_ANALYTICS_URL;
-const DISABLE_LOGS = Boolean(process.env.VERCEL_WEB_ANALYTICS_DISABLE_LOGS);
-
 type HeadersObject = Record<string, string | string[] | undefined>;
 type AllowedHeaders = Headers | HeadersObject;
 
@@ -38,6 +35,8 @@ export async function track(
   properties?: Record<string, AllowedPropertyValues>,
   context?: Context
 ): Promise<void> {
+  const ENDPOINT = process.env.VERCEL_URL || process.env.VERCEL_ANALYTICS_URL;
+  const DISABLE_LOGS = Boolean(process.env.VERCEL_WEB_ANALYTICS_DISABLE_LOGS);
   if (typeof window !== 'undefined') {
     if (!isProduction()) {
       throw new Error(
