@@ -88,7 +88,9 @@
   "peerDependencies": {
     "react": "^18"
   },
-  "optionalDependencies": {
-    "react": "^18"
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   }
 }
