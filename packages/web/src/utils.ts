@@ -73,3 +73,35 @@ export function parseProperties(
   }
   return props as Record<string, AllowedPropertyValues>;
 }
+
+export function computeRoute(
+  pathname: string | null,
+  pathParams: Record<string, string | string[]> | null
+): string | null {
+  if (!pathname || !pathParams) {
+    return pathname;
+  }
+
+  let result = pathname;
+
+  try {
+    for (const [key, valueOrArray] of Object.entries(pathParams)) {
+      const isValueArray = Array.isArray(valueOrArray);
+      const value = isValueArray ? valueOrArray.join('/') : valueOrArray;
+      const expr = isValueArray ? `...${key}` : key;
+
+      const matcher = new RegExp(`/${escapeRegExp(value)}(?=[/?#]|$)`);
+      if (matcher.test(result)) {
+        result = result.replace(matcher, `/[${expr}]`);
+      }
+    }
+
+    return result;
+  } catch (e) {
+    return pathname;
+  }
+}
+
+function escapeRegExp(string: string): string {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}

@@ -17,11 +17,20 @@ export interface AnalyticsProps {
   beforeSend?: BeforeSend;
   debug?: boolean;
   mode?: Mode;
+  route?: string | null;
+
+  disableAutoTrack?: boolean;
+
+  scriptSrc?: string;
+  endpoint?: string;
 }
 declare global {
   interface Window {
     // Base interface
-    va?: (event: 'beforeSend' | 'event', properties?: unknown) => void;
+    va?: (
+      event: 'beforeSend' | 'event' | 'pageview',
+      properties?: unknown
+    ) => void;
     // Queue for actions, before the library is loaded
     vaq?: [string, unknown?][];
     vai?: boolean;

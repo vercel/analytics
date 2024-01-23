@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { inject, track } from './generic';
+import { useEffect, useRef, StrictMode } from 'react';
+import { inject, track, pageview } from './generic';
 import type { AnalyticsProps } from './types';
 
 /**
@@ -25,14 +25,28 @@ import type { AnalyticsProps } from './types';
  * }
  * ```
  */
-function Analytics({
-  beforeSend,
-  debug = true,
-  mode = 'auto',
-}: AnalyticsProps): null {
+function Analytics(
+  props: AnalyticsProps & {
+    framework?: string;
+  }
+): null {
   useEffect(() => {
-    inject({ beforeSend, debug, mode });
-  }, [beforeSend, debug, mode]);
+    inject({
+      framework: props.framework || 'react',
+      ...(props.route && { disableAutoTrack: true }),
+      ...props,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (props.route) {
+      console.log(`Tracking custom pageview ${props.route}`);
+      pageview({
+        route: props.route,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only update on route change
+  }, [props.route]);
 
   return null;
 }

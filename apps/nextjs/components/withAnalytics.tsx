@@ -1,4 +1,4 @@
-import { Analytics, AnalyticsProps } from '@vercel/analytics/react';
+import { Analytics, AnalyticsProps } from '@vercel/analytics/next';
 import React from 'react';
 
 export function withAnalytics<P extends Omit<AnalyticsProps, 'mode'>>(

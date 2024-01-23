@@ -8,4 +8,4 @@ function Page() {
   );
 }
 
-export default withAnalytics(Page);
+export default Page;
