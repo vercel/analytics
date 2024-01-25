@@ -28,6 +28,7 @@ import type { AnalyticsProps } from './types';
 function Analytics(
   props: AnalyticsProps & {
     framework?: string;
+    path?: string;
   }
 ): null {
   useEffect(() => {
@@ -44,7 +45,7 @@ function Analytics(
         route: props.route,
       });
     }
-  }, [props.route]);
+  }, [props.route, props.path]);
 
   return null;
 }

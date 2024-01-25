@@ -128,4 +128,50 @@ test.describe('pageview', () => {
       },
     ]);
   });
+
+  test('should send pageviews when route doesnt change but path does', async ({
+    page,
+  }) => {
+    const payloads: { page: string; payload: Object }[] = [];
+
+    await useMockForProductionScript({
+      page,
+      onPageView: (page, payload) => {
+        payloads.push({ page, payload });
+      },
+    });
+
+    await page.goto('/blog/my-first-blogpost');
+    await page.waitForLoadState('networkidle');
+
+    await page.click('text=Feature just got released');
+
+    await expect(page.locator('h2')).toContainText('new-feature-release');
+
+    expect(payloads).toEqual([
+      {
+        page: 'http://localhost:3000/blog/my-first-blogpost',
+        payload: {
+          dp: '/blog/[slug]',
+          o: 'http://localhost:3000/blog/my-first-blogpost',
+          sdkn: '@vercel/analytics/next',
+          sdkv: expect.any(String),
+          sv: expect.any(String),
+          ts: expect.any(Number),
+          r: '',
+        },
+      },
+      {
+        page: 'http://localhost:3000/blog/new-feature-release',
+        payload: {
+          dp: '/blog/[slug]',
+          o: 'http://localhost:3000/blog/new-feature-release',
+          sdkn: '@vercel/analytics/next',
+          sdkv: expect.any(String),
+          sv: expect.any(String),
+          ts: expect.any(Number),
+        },
+      },
+    ]);
+  });
 });

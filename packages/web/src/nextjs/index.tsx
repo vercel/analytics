@@ -6,9 +6,11 @@ import { useRoute } from './utils';
 type Props = Omit<AnalyticsProps, 'route'>;
 
 function AnalyticsComponent(props: Props): React.ReactElement {
-  const route = useRoute();
+  const { route, path } = useRoute();
 
-  return <AnalyticsScript route={route} {...props} framework="next" />;
+  return (
+    <AnalyticsScript path={path} route={route} {...props} framework="next" />
+  );
 }
 
 export function Analytics(props: Props): React.ReactElement {
