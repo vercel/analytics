@@ -23,6 +23,8 @@ export interface AnalyticsProps {
 
   scriptSrc?: string;
   endpoint?: string;
+
+  dsn?: string;
 }
 declare global {
   interface Window {

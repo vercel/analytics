@@ -1,15 +1,19 @@
 import { test, expect } from '@playwright/test';
+import { useMockForProductionScript } from '../utils';
 
 test.describe('pageview', () => {
   test('should track page views when navigating between pages', async ({
     page,
   }) => {
     const messages: string[] = [];
+    await useMockForProductionScript({
+      page,
+      onPageView: () => {},
+      debug: true,
+    });
 
     page.on('console', (msg) => {
       const message = msg.text();
-
-      console.log(message);
 
       if (
         message.includes('[Vercel Web Analytics]') ||
@@ -20,7 +24,7 @@ test.describe('pageview', () => {
     });
 
     await page.goto('/navigation/first');
-    await page.waitForTimeout(200);
+    await page.waitForTimeout(800);
 
     await page.click('text=Next');
 
@@ -29,6 +33,6 @@ test.describe('pageview', () => {
 
     await page.waitForTimeout(200);
 
-    expect(messages).toHaveLength(3);
+    expect(messages).toHaveLength(6);
   });
 });

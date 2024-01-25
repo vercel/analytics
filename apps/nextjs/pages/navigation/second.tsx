@@ -1,5 +1,3 @@
-import { withAnalytics } from '../../components/withAnalytics';
-
 function Page() {
   return (
     <div>

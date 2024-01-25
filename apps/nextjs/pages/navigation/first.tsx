@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { withAnalytics } from '../../components/withAnalytics';
 
 function Page() {
   return (

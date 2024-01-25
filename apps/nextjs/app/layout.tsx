@@ -13,7 +13,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Analytics scriptSrc="https://analytics-script-git-tobiaslins-aly-1178-add-route-suppo-86a2b7.vercel.sh/v1/script.debug.js" />
+        <Analytics />
         {children}
       </body>
     </html>

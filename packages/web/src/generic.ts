@@ -22,6 +22,7 @@ export const PROD_SCRIPT_URL = '/_vercel/insights/script.js';
  *  - `development` - Always use the development script. (Logs events to the console)
  * @param [props.debug] - Whether to enable debug logging in development. Defaults to `true`.
  * @param [props.beforeSend] - A middleware function to modify events before they are sent. Should return the event object or `null` to cancel the event.
+ * @param [props.dsn] - The DSN of the project to send events to. Only required when self-hosting.
  */
 function inject(
   props: AnalyticsProps & {
@@ -50,10 +51,16 @@ function inject(
   script.defer = true;
   script.dataset.sdkn =
     packageName + (props.framework ? `/${props.framework}` : '');
-  script.setAttribute('data-sdkv', version);
+  script.dataset.sdkv = version;
 
   if (props.disableAutoTrack) {
-    script.setAttribute('data-disable-auto-track', '1');
+    script.dataset.disableAutoTrack = '1';
+  }
+  if (props.endpoint) {
+    script.dataset.endpoint = props.endpoint;
+  }
+  if (props.dsn) {
+    script.dataset.dsn = props.dsn;
   }
 
   script.onerror = (): void => {
@@ -68,7 +75,7 @@ function inject(
   };
 
   if (isDevelopment() && props.debug === false) {
-    script.setAttribute('data-debug', 'false');
+    script.dataset.debug = 'false';
   }
 
   document.head.appendChild(script);
