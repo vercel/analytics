@@ -8,11 +8,7 @@ type Props = Omit<AnalyticsProps, 'route'>;
 function AnalyticsComponent(props: Props): React.ReactElement {
   const route = useRoute();
 
-  return (
-    <React.StrictMode>
-      <AnalyticsScript route={route} {...props} framework="next" />
-    </React.StrictMode>
-  );
+  return <AnalyticsScript route={route} {...props} framework="next" />;
 }
 
 export function Analytics(props: Props): React.ReactElement {
