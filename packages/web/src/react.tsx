@@ -28,13 +28,13 @@ import type { AnalyticsProps } from './types';
 function Analytics(
   props: AnalyticsProps & {
     framework?: string;
-    path?: string;
+    path?: string | null;
   }
 ): null {
   useEffect(() => {
     inject({
       framework: props.framework || 'react',
-      ...(props.route && { disableAutoTrack: true }),
+      ...(props.route !== undefined && { disableAutoTrack: true }),
       ...props,
     });
   }, [props]);

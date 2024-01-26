@@ -16,5 +16,9 @@ export const useRoute = (): {
     ...(params || {}),
   };
 
-  return { route: computeRoute(path, finalParams), path };
+  return {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- can be empty in pages router
+    route: params ? computeRoute(path, finalParams) : null,
+    path,
+  };
 };
