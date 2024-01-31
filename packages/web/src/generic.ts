@@ -127,9 +127,10 @@ function track(
   }
 }
 
-function pageview({ route }: { route?: string }): void {
+function pageview({ route, path }: { route?: string; path?: string }): void {
   window.va?.('pageview', {
     route,
+    path,
   });
 }
 

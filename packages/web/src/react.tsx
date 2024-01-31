@@ -40,9 +40,10 @@ function Analytics(
   }, [props]);
 
   useEffect(() => {
-    if (props.route) {
+    if (props.route && props.path) {
       pageview({
         route: props.route,
+        path: props.path,
       });
     }
   }, [props.route, props.path]);
