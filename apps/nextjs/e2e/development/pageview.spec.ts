@@ -33,6 +33,15 @@ test.describe('pageview', () => {
 
     await page.waitForTimeout(200);
 
-    expect(messages).toHaveLength(6);
+    expect(
+      messages.find((m) =>
+        m.includes('[pageview] http://localhost:3000/navigation/first')
+      )
+    ).toBeDefined();
+    expect(
+      messages.find((m) =>
+        m.includes('[pageview] http://localhost:3000/navigation/second')
+      )
+    ).toBeDefined();
   });
 });

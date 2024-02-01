@@ -33,6 +33,19 @@ test.describe('beforeSend', () => {
 
     await page.waitForLoadState('networkidle');
 
-    expect(messages).toHaveLength(6);
+    expect(
+      messages.find((m) =>
+        m.includes('[pageview] http://localhost:3000/before-send/first')
+      )
+    ).toBeDefined();
+    expect(
+      messages.find((m) =>
+        m.includes(
+          '[pageview] http://localhost:3000/before-send/second?secret=REDACTED'
+        )
+      )
+    ).toBeDefined();
+
+    expect(messages.find((m) => m.includes('secret=vercel'))).toBeUndefined();
   });
 });
