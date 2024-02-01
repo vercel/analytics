@@ -37,7 +37,8 @@ function Analytics(
       ...(props.route !== undefined && { disableAutoTrack: true }),
       ...props,
     });
-  }, [props]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only run once
+  }, []);
 
   useEffect(() => {
     if (props.route && props.path) {
