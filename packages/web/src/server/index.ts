@@ -134,13 +134,17 @@ export async function track(
       },
       body: JSON.stringify(body),
       method: 'POST',
-    }).catch((err: unknown) => {
-      if (err instanceof Error && 'response' in err) {
-        console.error(err.response);
-      } else {
-        console.error(err);
-      }
-    });
+    })
+      // We want to always consume to body; some cloud providers track fetch concurrency
+      // and may not release the connection until the body is consumed.
+      .then((response) => response.text())
+      .catch((err: unknown) => {
+        if (err instanceof Error && 'response' in err) {
+          console.error(err.response);
+        } else {
+          console.error(err);
+        }
+      });
 
     if (requestContext?.waitUntil) {
       requestContext.waitUntil(promise);
