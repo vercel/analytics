@@ -35,8 +35,11 @@ export async function track(
   properties?: Record<string, AllowedPropertyValues>,
   context?: Context
 ): Promise<void> {
-  const ENDPOINT = process.env.VERCEL_URL || process.env.VERCEL_ANALYTICS_URL;
+  const ENDPOINT =
+    process.env.VERCEL_WEB_ANALYTICS_ENDPOINT || process.env.VERCEL_URL;
   const DISABLE_LOGS = Boolean(process.env.VERCEL_WEB_ANALYTICS_DISABLE_LOGS);
+  const BYPASS_SECRET = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+
   if (typeof window !== 'undefined') {
     if (!isProduction()) {
       throw new Error(
@@ -125,16 +128,23 @@ export async function track(
           : {
               'x-va-server': '2',
             }),
+        ...(BYPASS_SECRET
+          ? { 'x-vercel-protection-bypass': BYPASS_SECRET }
+          : {}),
       },
       body: JSON.stringify(body),
       method: 'POST',
-    }).catch((err: unknown) => {
-      if (err instanceof Error && 'response' in err) {
-        console.error(err.response);
-      } else {
-        console.error(err);
-      }
-    });
+    })
+      // We want to always consume to body; some cloud providers track fetch concurrency
+      // and may not release the connection until the body is consumed.
+      .then((response) => response.text())
+      .catch((err: unknown) => {
+        if (err instanceof Error && 'response' in err) {
+          console.error(err.response);
+        } else {
+          console.error(err);
+        }
+      });
 
     if (requestContext?.waitUntil) {
       requestContext.waitUntil(promise);
