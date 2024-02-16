@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { withAnalytics } from '../../components/withAnalytics';
 
 function Page() {
   return (
@@ -10,4 +9,4 @@ function Page() {
   );
 }
 
-export default withAnalytics(Page);
+export default Page;

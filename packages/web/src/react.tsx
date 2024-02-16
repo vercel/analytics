@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { inject, track } from './generic';
+import { inject, track, pageview } from './generic';
 import type { AnalyticsProps } from './types';
 
 /**
@@ -25,14 +25,29 @@ import type { AnalyticsProps } from './types';
  * }
  * ```
  */
-function Analytics({
-  beforeSend,
-  debug = true,
-  mode = 'auto',
-}: AnalyticsProps): null {
+function Analytics(
+  props: AnalyticsProps & {
+    framework?: string;
+    path?: string | null;
+  }
+): null {
   useEffect(() => {
-    inject({ beforeSend, debug, mode });
-  }, [beforeSend, debug, mode]);
+    inject({
+      framework: props.framework || 'react',
+      ...(props.route !== undefined && { disableAutoTrack: true }),
+      ...props,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only run once
+  }, []);
+
+  useEffect(() => {
+    if (props.route && props.path) {
+      pageview({
+        route: props.route,
+        path: props.path,
+      });
+    }
+  }, [props.route, props.path]);
 
   return null;
 }

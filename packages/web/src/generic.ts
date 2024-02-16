@@ -9,6 +9,10 @@ import {
   isProduction,
 } from './utils';
 
+export const DEV_SCRIPT_URL =
+  'https://va.vercel-scripts.com/v1/script.debug.js';
+export const PROD_SCRIPT_URL = '/_vercel/insights/script.js';
+
 /**
  * Injects the Vercel Web Analytics script into the page head and starts tracking page views. Read more in our [documentation](https://vercel.com/docs/concepts/analytics/package).
  * @param [props] - Analytics options.
@@ -18,9 +22,12 @@ import {
  *  - `development` - Always use the development script. (Logs events to the console)
  * @param [props.debug] - Whether to enable debug logging in development. Defaults to `true`.
  * @param [props.beforeSend] - A middleware function to modify events before they are sent. Should return the event object or `null` to cancel the event.
+ * @param [props.dsn] - The DSN of the project to send events to. Only required when self-hosting.
  */
 function inject(
-  props: AnalyticsProps = {
+  props: AnalyticsProps & {
+    framework?: string;
+  } = {
     debug: true,
   }
 ): void {
@@ -34,17 +41,27 @@ function inject(
     window.va?.('beforeSend', props.beforeSend);
   }
 
-  const src = isDevelopment()
-    ? 'https://va.vercel-scripts.com/v1/script.debug.js'
-    : '/_vercel/insights/script.js';
+  const src =
+    props.scriptSrc || (isDevelopment() ? DEV_SCRIPT_URL : PROD_SCRIPT_URL);
 
   if (document.head.querySelector(`script[src*="${src}"]`)) return;
 
   const script = document.createElement('script');
   script.src = src;
   script.defer = true;
-  script.setAttribute('data-sdkn', packageName);
-  script.setAttribute('data-sdkv', version);
+  script.dataset.sdkn =
+    packageName + (props.framework ? `/${props.framework}` : '');
+  script.dataset.sdkv = version;
+
+  if (props.disableAutoTrack) {
+    script.dataset.disableAutoTrack = '1';
+  }
+  if (props.endpoint) {
+    script.dataset.endpoint = props.endpoint;
+  }
+  if (props.dsn) {
+    script.dataset.dsn = props.dsn;
+  }
 
   script.onerror = (): void => {
     const errorMessage = isDevelopment()
@@ -58,7 +75,7 @@ function inject(
   };
 
   if (isDevelopment() && props.debug === false) {
-    script.setAttribute('data-debug', 'false');
+    script.dataset.debug = 'false';
   }
 
   document.head.appendChild(script);
@@ -110,7 +127,14 @@ function track(
   }
 }
 
-export { inject, track };
+function pageview({ route, path }: { route?: string; path?: string }): void {
+  window.va?.('pageview', {
+    route,
+    path,
+  });
+}
+
+export { inject, track, pageview };
 export type { AnalyticsProps };
 
 // eslint-disable-next-line import/no-default-export -- Default export is intentional

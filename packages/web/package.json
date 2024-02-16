@@ -1,6 +1,6 @@
 {
   "name": "@vercel/analytics",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "Gain real-time traffic insights with Vercel Web Analytics",
   "keywords": [
     "analytics",
@@ -11,7 +11,6 @@
     "directory": "packages/web"
   },
   "license": "MPL-2.0",
-  "type": "module",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -24,6 +23,11 @@
       "import": "./dist/react/index.js",
       "require": "./dist/react/index.cjs"
     },
+    "./next": {
+      "browser": "./dist/next/index.mjs",
+      "import": "./dist/next/index.mjs",
+      "require": "./dist/next/index.js"
+    },
     "./server": {
       "node": "./dist/server/index.js",
       "edge-light": "./dist/server/index.js",
@@ -32,8 +36,8 @@
       "default": "./dist/server/index.cjs"
     }
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
       "*": [
@@ -44,6 +48,9 @@
       ],
       "server": [
         "dist/server/index.d.ts"
+      ],
+      "next": [
+        "dist/next/index.d.ts"
       ]
     }
   },
@@ -84,5 +91,17 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tsup": "7.1.0"
+  },
+  "peerDependencies": {
+    "next": ">= 13",
+    "react": "^18 || ^19"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
   }
 }
