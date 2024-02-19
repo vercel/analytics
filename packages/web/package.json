@@ -1,6 +1,6 @@
 {
   "name": "@vercel/analytics",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Gain real-time traffic insights with Vercel Web Analytics",
   "keywords": [
     "analytics",
@@ -14,14 +14,14 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": "./dist/index.js",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "browser": "./dist/index.mjs",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     },
     "./react": {
-      "browser": "./dist/react/index.js",
-      "import": "./dist/react/index.js",
-      "require": "./dist/react/index.cjs"
+      "browser": "./dist/react/index.mjs",
+      "import": "./dist/react/index.mjs",
+      "require": "./dist/react/index.js"
     },
     "./next": {
       "browser": "./dist/next/index.mjs",
@@ -29,14 +29,14 @@
       "require": "./dist/next/index.js"
     },
     "./server": {
-      "node": "./dist/server/index.js",
-      "edge-light": "./dist/server/index.js",
-      "import": "./dist/server/index.js",
-      "require": "./dist/server/index.cjs",
-      "default": "./dist/server/index.cjs"
+      "node": "./dist/server/index.mjs",
+      "edge-light": "./dist/server/index.mjs",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
     }
   },
-  "main": "./dist/index.js",
+  "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
