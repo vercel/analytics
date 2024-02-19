@@ -5,16 +5,23 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
+    "test": "jest",
     "test:e2e:development": "NEXT_PUBLIC_ANALYTICS_MODE=development pnpm --filter nextjs... build && playwright test development",
     "test:e2e:production": "NEXT_PUBLIC_ANALYTICS_MODE=production pnpm --filter nextjs... build && playwright test production"
   },
   "dependencies": {
-    "@vercel/analytics": "workspace:*",
+    "@vercel/analytics": "1.2.1",
     "next": "14.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@playwright/test": "1.35.1"
+    "@playwright/test": "1.35.1",
+    "@swc/jest": "^0.2.26",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@types/jest": "^29.5.2",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }
