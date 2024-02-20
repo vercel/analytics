@@ -1,6 +1,6 @@
 {
   "name": "@vercel/analytics",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Gain real-time traffic insights with Vercel Web Analytics",
   "keywords": [
     "analytics",
@@ -29,7 +29,7 @@
       "require": "./dist/next/index.js"
     },
     "./server": {
-      "node": "./dist/server/index.mjs",
+      "node": "./dist/server/index.js",
       "edge-light": "./dist/server/index.mjs",
       "import": "./dist/server/index.mjs",
       "require": "./dist/server/index.js",
