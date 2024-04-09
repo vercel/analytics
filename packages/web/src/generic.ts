@@ -89,7 +89,8 @@ function inject(
  */
 function track(
   name: string,
-  properties?: Record<string, AllowedPropertyValues>
+  properties?: Record<string, AllowedPropertyValues>,
+  options?: { flags?: string[] }
 ): void {
   if (!isBrowser()) {
     const msg =
@@ -106,7 +107,7 @@ function track(
   }
 
   if (!properties) {
-    window.va?.('event', { name });
+    window.va?.('event', { name, options });
     return;
   }
 
@@ -118,6 +119,7 @@ function track(
     window.va?.('event', {
       name,
       data: props,
+      options,
     });
   } catch (err) {
     if (err instanceof Error && isDevelopment()) {

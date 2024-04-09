@@ -19,11 +19,19 @@ interface ContextWithHeaders {
 
 type Context = ContextWithRequest | ContextWithHeaders;
 
+interface Options {
+  flags?: string[];
+}
+
 interface RequestContext {
   get: () => {
     headers: Record<string, string | undefined>;
     url: string;
     waitUntil?: (promise: Promise<unknown>) => void;
+    flags?: {
+      getValues: () => Record<string, unknown>;
+      reportValue: (key: string, value: unknown) => void;
+    };
   };
 }
 
@@ -33,7 +41,8 @@ const logPrefix = '[Vercel Web Analytics]';
 export async function track(
   eventName: string,
   properties?: Record<string, AllowedPropertyValues>,
-  context?: Context
+  context?: Context,
+  options?: Options
 ): Promise<void> {
   const ENDPOINT =
     process.env.VERCEL_WEB_ANALYTICS_ENDPOINT || process.env.VERCEL_URL;
@@ -98,12 +107,26 @@ export async function track(
 
     const url = new URL(origin);
 
+    let flagsToReport: Record<string, unknown> = {};
+    const allFlags = requestContext?.flags?.getValues();
+    if (options?.flags && allFlags) {
+      options.flags.forEach((key) => {
+        flagsToReport[key] = allFlags[key];
+      });
+    } else if (allFlags) {
+      // Default to all flags. The ingest endpoint will truncate them.
+      flagsToReport = allFlags;
+    }
+
     const body = {
       o: origin,
       ts: new Date().getTime(),
       r: '',
       en: eventName,
       ed: props,
+      flags: {
+        plain: flagsToReport,
+      },
     };
 
     const hasHeaders = Boolean(headers);
@@ -135,7 +158,7 @@ export async function track(
       body: JSON.stringify(body),
       method: 'POST',
     })
-      // We want to always consume to body; some cloud providers track fetch concurrency
+      // We want to always consume the body; some cloud providers track fetch concurrency
       // and may not release the connection until the body is consumed.
       .then((response) => response.text())
       .catch((err: unknown) => {
