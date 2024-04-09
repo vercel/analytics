@@ -125,7 +125,7 @@ export async function track(
       en: eventName,
       ed: props,
       flags: {
-        plain: flagsToReport,
+        plainValues: flagsToReport,
       },
     };
 
