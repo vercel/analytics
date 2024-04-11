@@ -124,8 +124,8 @@ export async function track(
       r: '',
       en: eventName,
       ed: props,
-      flags: {
-        plainValues: flagsToReport,
+      f: {
+        p: flagsToReport,
       },
     };
 
