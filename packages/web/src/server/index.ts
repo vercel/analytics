@@ -106,12 +106,12 @@ export async function track(
 
     const url = new URL(origin);
 
-    const flagsToReport: Record<string, unknown> = {};
-    const allFlags = requestContext?.flags?.getValues();
+    const flagValuesToReport: Record<string, unknown> = {};
+    const allFlagValues = requestContext?.flags?.getValues();
 
-    if (options?.flags && allFlags) {
+    if (options?.flags && allFlagValues) {
       options.flags.forEach((key) => {
-        flagsToReport[key] = allFlags[key];
+        flagValuesToReport[key] = allFlagValues[key];
       });
     }
 
@@ -122,7 +122,7 @@ export async function track(
       en: eventName,
       ed: props,
       f: {
-        p: flagsToReport,
+        p: flagValuesToReport,
       },
     };
 
