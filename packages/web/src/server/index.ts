@@ -17,11 +17,11 @@ interface ContextWithHeaders {
   headers: AllowedHeaders;
 }
 
-type Context = ContextWithRequest | ContextWithHeaders;
-
 interface Options {
   flags?: string[];
 }
+
+type OptionsAndContext = Options & (ContextWithRequest | ContextWithHeaders);
 
 interface RequestContext {
   get: () => {
@@ -41,8 +41,7 @@ const logPrefix = '[Vercel Web Analytics]';
 export async function track(
   eventName: string,
   properties?: Record<string, AllowedPropertyValues>,
-  context?: Context,
-  options?: Options
+  options?: OptionsAndContext
 ): Promise<void> {
   const ENDPOINT =
     process.env.VERCEL_WEB_ANALYTICS_ENDPOINT || process.env.VERCEL_URL;
@@ -84,10 +83,10 @@ export async function track(
 
     let headers: AllowedHeaders | undefined;
 
-    if (context && 'headers' in context) {
-      headers = context.headers;
-    } else if (context?.request) {
-      headers = context.request.headers;
+    if (options && 'headers' in options) {
+      headers = options.headers;
+    } else if (options?.request) {
+      headers = options.request.headers;
     } else if (requestContext?.headers) {
       // not explicitly passed in context, so take it from async storage
       headers = requestContext.headers;
@@ -107,15 +106,13 @@ export async function track(
 
     const url = new URL(origin);
 
-    let flagsToReport: Record<string, unknown> = {};
+    const flagsToReport: Record<string, unknown> = {};
     const allFlags = requestContext?.flags?.getValues();
+
     if (options?.flags && allFlags) {
       options.flags.forEach((key) => {
         flagsToReport[key] = allFlags[key];
       });
-    } else if (allFlags) {
-      // Default to all flags. The ingest endpoint will truncate them.
-      flagsToReport = allFlags;
     }
 
     const body = {
