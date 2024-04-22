@@ -90,7 +90,7 @@ function inject(
 function track(
   name: string,
   properties?: Record<string, AllowedPropertyValues>,
-  options?: { flags?: string[] }
+  options?: { flagKeys?: string[] }
 ): void {
   if (!isBrowser()) {
     const msg =
