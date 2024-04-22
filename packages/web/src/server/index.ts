@@ -10,18 +10,11 @@ function isHeaders(headers?: AllowedHeaders): headers is Headers {
   return typeof (headers as HeadersObject).entries === 'function';
 }
 
-interface ContextWithRequest {
-  request: { headers: AllowedHeaders };
-}
-interface ContextWithHeaders {
-  headers: AllowedHeaders;
-}
-
 interface Options {
   flagKeys?: string[];
+  headers?: AllowedHeaders;
+  request?: { headers: AllowedHeaders };
 }
-
-type OptionsAndContext = Options & (ContextWithRequest | ContextWithHeaders);
 
 interface RequestContext {
   get: () => {
@@ -41,7 +34,7 @@ const logPrefix = '[Vercel Web Analytics]';
 export async function track(
   eventName: string,
   properties?: Record<string, AllowedPropertyValues>,
-  options?: OptionsAndContext
+  options?: Options
 ): Promise<void> {
   const ENDPOINT =
     process.env.VERCEL_WEB_ANALYTICS_ENDPOINT || process.env.VERCEL_URL;
