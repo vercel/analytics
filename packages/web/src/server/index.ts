@@ -18,7 +18,7 @@ interface ContextWithHeaders {
 }
 
 interface Options {
-  flags?: string[];
+  flagKeys?: string[];
 }
 
 type OptionsAndContext = Options & (ContextWithRequest | ContextWithHeaders);
@@ -109,8 +109,8 @@ export async function track(
     const flagValuesToReport: Record<string, unknown> = {};
     const allFlagValues = requestContext?.flags?.getValues();
 
-    if (options?.flags && allFlagValues) {
-      options.flags.forEach((key) => {
+    if (options?.flagKeys && allFlagValues) {
+      options.flagKeys.forEach((key) => {
         flagValuesToReport[key] = allFlagValues[key];
       });
     }
