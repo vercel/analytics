@@ -6,6 +6,21 @@ interface CustomEvent {
   type: 'event';
   url: string;
 }
+interface FlagsData {
+  /** Relevant keys that should get tracked. */
+  k?: string[];
+  /** All plain text flags. */
+  p?: Record<string, unknown>;
+  /** All encrypted flags that were found, which will get decrypted later. */
+  e?: string[];
+}
+interface DefaultProps {
+  $flags?: (input: {
+    type: string;
+    data?: unknown;
+    options?: { flagKeys?: string[] };
+  }) => FlagsData | undefined;
+}
 
 export type BeforeSendEvent = PageViewEvent | CustomEvent;
 
@@ -25,12 +40,14 @@ export interface AnalyticsProps {
   endpoint?: string;
 
   dsn?: string;
+
+  setDefaultProps?: () => DefaultProps;
 }
 declare global {
   interface Window {
     // Base interface
     va?: (
-      event: 'beforeSend' | 'event' | 'pageview',
+      event: 'beforeSend' | 'setProps' | 'event' | 'pageview',
       properties?: unknown
     ) => void;
     // Queue for actions, before the library is loaded

@@ -41,6 +41,10 @@ function inject(
     window.va?.('beforeSend', props.beforeSend);
   }
 
+  if (props.setDefaultProps) {
+    window.va?.('setProps', props.setDefaultProps());
+  }
+
   const src =
     props.scriptSrc || (isDevelopment() ? DEV_SCRIPT_URL : PROD_SCRIPT_URL);
 
