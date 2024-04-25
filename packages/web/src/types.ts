@@ -15,7 +15,7 @@ interface FlagsData {
   e?: string[];
 }
 interface DefaultProps {
-  $flags?: (input: {
+  $getFlags?: (input: {
     type: string;
     data?: unknown;
     options?: { flagKeys?: string[] };
