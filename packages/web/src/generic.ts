@@ -41,8 +41,8 @@ function inject(
     window.va?.('beforeSend', props.beforeSend);
   }
 
-  if (props.setDefaultProps) {
-    window.va?.('setProps', props.setDefaultProps());
+  if (props.setInitialProps) {
+    window.va?.('setProps', props.setInitialProps());
   }
 
   const src =

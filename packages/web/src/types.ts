@@ -14,7 +14,7 @@ interface FlagsData {
   /** All encrypted flags that were found, which will get decrypted later. */
   e?: string[];
 }
-interface DefaultProps {
+interface InitialProps {
   $getFlags?: (input: {
     type: string;
     data?: unknown;
@@ -41,7 +41,11 @@ export interface AnalyticsProps {
 
   dsn?: string;
 
-  setDefaultProps?: () => DefaultProps;
+  /**
+   * A function that will be called before the Analytics script starts
+   * processing events to set initial values for specific properties for them.
+   */
+  setInitialProps?: () => InitialProps;
 }
 declare global {
   interface Window {
