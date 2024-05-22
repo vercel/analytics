@@ -30,7 +30,7 @@ declare global {
   interface Window {
     // Base interface
     va?: (
-      event: 'beforeSend' | 'setProps' | 'event' | 'pageview',
+      event: 'beforeSend' | 'event' | 'pageview',
       properties?: unknown
     ) => void;
     // Queue for actions, before the library is loaded
