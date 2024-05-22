@@ -28,8 +28,6 @@ interface RequestContext {
   };
 }
 
-const MAX_FLAG_KEYS = 5;
-
 const symbol = Symbol.for('@vercel/request-context');
 const logPrefix = '[Vercel Web Analytics]';
 
@@ -115,6 +113,14 @@ export async function track(
       });
 
       // Only report the first MAX_FLAG_KEYS flags
+      keys.forEach((key) => {
+        flagValuesToReport[key] = allFlagValues[key];
+      });
+    } else {
+      // If no `options.flags` was provided, we'll take the first 5 flags
+      // from the `allFlagValues` list and report them.
+      const MAX_FLAG_KEYS = 5;
+      const keys = Object.keys(allFlagValues);
       keys.slice(0, MAX_FLAG_KEYS).forEach((key) => {
         flagValuesToReport[key] = allFlagValues[key];
       });
