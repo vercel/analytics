@@ -116,14 +116,6 @@ export async function track(
       keys.forEach((key) => {
         flagValuesToReport[key] = allFlagValues[key];
       });
-    } else {
-      // If no `options.flags` was provided, we'll take the first 5 flags
-      // from the `allFlagValues` list and report them.
-      const MAX_FLAG_KEYS = 5;
-      const keys = Object.keys(allFlagValues);
-      keys.slice(0, MAX_FLAG_KEYS).forEach((key) => {
-        flagValuesToReport[key] = allFlagValues[key];
-      });
     }
 
     const body = {
