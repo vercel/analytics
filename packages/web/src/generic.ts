@@ -92,7 +92,6 @@ function track(
   properties?: Record<string, AllowedPropertyValues>,
   options?: {
     flagKeys?: string[];
-    flags?: Record<string, boolean | number | string>;
   }
 ): void {
   if (!isBrowser()) {
