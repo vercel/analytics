@@ -11,7 +11,7 @@ function isHeaders(headers?: AllowedHeaders): headers is Headers {
 }
 
 interface Options {
-  flagKeys?: string[];
+  flags?: (string | Record<string, unknown>)[] | Record<string, unknown>;
   headers?: AllowedHeaders;
   request?: { headers: AllowedHeaders };
 }
@@ -27,6 +27,8 @@ interface RequestContext {
     };
   };
 }
+
+const MAX_FLAG_KEYS = 5;
 
 const symbol = Symbol.for('@vercel/request-context');
 const logPrefix = '[Vercel Web Analytics]';
@@ -99,11 +101,21 @@ export async function track(
 
     const url = new URL(origin);
 
+    const flags = options?.flags;
     const flagValuesToReport: Record<string, unknown> = {};
-    const allFlagValues = requestContext?.flags?.getValues();
+    const allFlagValues = requestContext?.flags?.getValues() ?? {};
 
-    if (options?.flagKeys && allFlagValues) {
-      options.flagKeys.forEach((key) => {
+    if (flags) {
+      const list = Array.isArray(flags) ? flags : [flags];
+
+      const keys = list.flatMap((keyOrObject) => {
+        if (typeof keyOrObject === 'string') return keyOrObject;
+        Object.assign(allFlagValues, keyOrObject); // Add values to global list
+        return Object.keys(keyOrObject); // Retrieve the keys
+      });
+
+      // Only report the first MAX_FLAG_KEYS flags
+      keys.slice(0, MAX_FLAG_KEYS).forEach((key) => {
         flagValuesToReport[key] = allFlagValues[key];
       });
     }
