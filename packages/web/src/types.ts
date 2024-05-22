@@ -6,21 +6,6 @@ interface CustomEvent {
   type: 'event';
   url: string;
 }
-interface FlagsData {
-  /** Relevant keys that should get tracked. */
-  k?: string[];
-  /** All plain text flags. */
-  p?: Record<string, unknown>;
-  /** All encrypted flags that were found, which will get decrypted later. */
-  e?: string[];
-}
-interface InitialProps {
-  $getFlags?: (input: {
-    type: string;
-    data?: unknown;
-    options?: { flagKeys?: string[] };
-  }) => FlagsData | undefined;
-}
 
 export type BeforeSendEvent = PageViewEvent | CustomEvent;
 
@@ -40,12 +25,6 @@ export interface AnalyticsProps {
   endpoint?: string;
 
   dsn?: string;
-
-  /**
-   * A function that will be called before the Analytics script starts
-   * processing events to set initial values for specific properties for them.
-   */
-  setInitialProps?: () => InitialProps;
 }
 declare global {
   interface Window {

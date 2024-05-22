@@ -41,10 +41,6 @@ function inject(
     window.va?.('beforeSend', props.beforeSend);
   }
 
-  if (props.setInitialProps) {
-    window.va?.('setProps', props.setInitialProps());
-  }
-
   const src =
     props.scriptSrc || (isDevelopment() ? DEV_SCRIPT_URL : PROD_SCRIPT_URL);
 
@@ -94,7 +90,10 @@ function inject(
 function track(
   name: string,
   properties?: Record<string, AllowedPropertyValues>,
-  options?: { flagKeys?: string[] }
+  options?: {
+    flagKeys?: string[];
+    flags?: Record<string, boolean | number | string>;
+  }
 ): void {
   if (!isBrowser()) {
     const msg =
