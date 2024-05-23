@@ -1,5 +1,9 @@
 /* eslint-disable no-console -- Allow logging on the server */
-import type { AllowedPropertyValues } from '../types';
+import type {
+  AllowedPropertyValues,
+  FlagsDataInput,
+  PlainFlags,
+} from '../types';
 import { isProduction, parseProperties } from '../utils';
 
 type HeadersObject = Record<string, string | string[] | undefined>;
@@ -10,20 +14,21 @@ function isHeaders(headers?: AllowedHeaders): headers is Headers {
   return typeof (headers as HeadersObject).entries === 'function';
 }
 
-interface ContextWithRequest {
-  request: { headers: AllowedHeaders };
+interface Options {
+  flags?: FlagsDataInput;
+  headers?: AllowedHeaders;
+  request?: { headers: AllowedHeaders };
 }
-interface ContextWithHeaders {
-  headers: AllowedHeaders;
-}
-
-type Context = ContextWithRequest | ContextWithHeaders;
 
 interface RequestContext {
   get: () => {
     headers: Record<string, string | undefined>;
     url: string;
     waitUntil?: (promise: Promise<unknown>) => void;
+    flags?: {
+      getValues: () => PlainFlags;
+      reportValue: (key: string, value: unknown) => void;
+    };
   };
 }
 
@@ -33,7 +38,7 @@ const logPrefix = '[Vercel Web Analytics]';
 export async function track(
   eventName: string,
   properties?: Record<string, AllowedPropertyValues>,
-  context?: Context
+  options?: Options
 ): Promise<void> {
   const ENDPOINT =
     process.env.VERCEL_WEB_ANALYTICS_ENDPOINT || process.env.VERCEL_URL;
@@ -75,10 +80,10 @@ export async function track(
 
     let headers: AllowedHeaders | undefined;
 
-    if (context && 'headers' in context) {
-      headers = context.headers;
-    } else if (context?.request) {
-      headers = context.request.headers;
+    if (options && 'headers' in options) {
+      headers = options.headers;
+    } else if (options?.request) {
+      headers = options.request.headers;
     } else if (requestContext?.headers) {
       // not explicitly passed in context, so take it from async storage
       headers = requestContext.headers;
@@ -104,6 +109,7 @@ export async function track(
       r: '',
       en: eventName,
       ed: props,
+      f: safeGetFlags(options?.flags, requestContext),
     };
 
     const hasHeaders = Boolean(headers);
@@ -135,7 +141,7 @@ export async function track(
       body: JSON.stringify(body),
       method: 'POST',
     })
-      // We want to always consume to body; some cloud providers track fetch concurrency
+      // We want to always consume the body; some cloud providers track fetch concurrency
       // and may not release the connection until the body is consumed.
       .then((response) => response.text())
       .catch((err: unknown) => {
@@ -155,5 +161,40 @@ export async function track(
     return void 0;
   } catch (err) {
     console.error(err);
+  }
+}
+
+function safeGetFlags(
+  flags: Options['flags'],
+  requestContext?: ReturnType<RequestContext['get']>
+):
+  | {
+      p: PlainFlags;
+    }
+  | undefined {
+  try {
+    if (!requestContext || !flags) return;
+    // In the case plain flags are passed, just return them
+    if (!Array.isArray(flags)) {
+      return { p: flags };
+    }
+
+    const plainFlags: Record<string, unknown> = {};
+    // returns all available plain flags
+    const resolvedPlainFlags = requestContext.flags?.getValues() ?? {};
+
+    for (const flag of flags) {
+      if (typeof flag === 'string') {
+        // only picks the desired flags
+        plainFlags[flag] = resolvedPlainFlags[flag];
+      } else {
+        // merge user-provided values with resolved values
+        Object.assign(plainFlags, flag);
+      }
+    }
+
+    return { p: plainFlags };
+  } catch {
+    /* empty */
   }
 }

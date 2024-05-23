@@ -39,3 +39,6 @@ declare global {
     vam?: Mode;
   }
 }
+
+export type PlainFlags = Record<string, unknown>;
+export type FlagsDataInput = (string | PlainFlags)[] | PlainFlags;
