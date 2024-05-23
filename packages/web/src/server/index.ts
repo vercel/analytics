@@ -112,7 +112,6 @@ export async function track(
         return Object.keys(keyOrObject); // Retrieve the keys
       });
 
-      // Only report the first MAX_FLAG_KEYS flags
       keys.forEach((key) => {
         flagValuesToReport[key] = allFlagValues[key];
       });
