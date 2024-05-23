@@ -83,16 +83,31 @@ export function computeRoute(
   }
 
   let result = pathname;
-
   try {
-    for (const [key, valueOrArray] of Object.entries(pathParams)) {
-      const isValueArray = Array.isArray(valueOrArray);
-      const value = isValueArray ? valueOrArray.join('/') : valueOrArray;
-      const expr = isValueArray ? `...${key}` : key;
-
-      const matcher = new RegExp(`/${escapeRegExp(value)}(?=[/?#]|$)`);
+    const keys = Object.entries(pathParams).reduce<{
+      simple: string[];
+      multiple: string[];
+    }>(
+      ({ simple, multiple }, [key, value]) => ({
+        simple: Array.isArray(value) ? simple : [...simple, key],
+        multiple: Array.isArray(value) ? [...multiple, key] : multiple,
+      }),
+      { simple: [], multiple: [] }
+    );
+    // simple keys must be handled first
+    for (const key of keys.simple) {
+      const matcher = turnValueToRegExp(pathParams[key] as string);
       if (matcher.test(result)) {
-        result = result.replace(matcher, `/[${expr}]`);
+        result = result.replace(matcher, `/[${key}]`);
+      }
+    }
+    // array values next
+    for (const key of keys.multiple) {
+      const matcher = turnValueToRegExp(
+        (pathParams[key] as string[]).join('/')
+      );
+      if (matcher.test(result)) {
+        result = result.replace(matcher, `/[...${key}]`);
       }
     }
 
@@ -100,6 +115,10 @@ export function computeRoute(
   } catch (e) {
     return pathname;
   }
+}
+
+function turnValueToRegExp(value: string): RegExp {
+  return new RegExp(`/${escapeRegExp(value)}(?=[/?#]|$)`);
 }
 
 function escapeRegExp(string: string): string {
