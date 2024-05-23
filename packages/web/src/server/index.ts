@@ -1,5 +1,9 @@
 /* eslint-disable no-console -- Allow logging on the server */
-import type { AllowedPropertyValues } from '../types';
+import type {
+  AllowedPropertyValues,
+  FlagsDataInput,
+  PlainFlags,
+} from '../types';
 import { isProduction, parseProperties } from '../utils';
 
 type HeadersObject = Record<string, string | string[] | undefined>;
@@ -11,7 +15,7 @@ function isHeaders(headers?: AllowedHeaders): headers is Headers {
 }
 
 interface Options {
-  flags?: (string | Record<string, unknown>)[] | Record<string, unknown>;
+  flags?: FlagsDataInput;
   headers?: AllowedHeaders;
   request?: { headers: AllowedHeaders };
 }
@@ -22,7 +26,7 @@ interface RequestContext {
     url: string;
     waitUntil?: (promise: Promise<unknown>) => void;
     flags?: {
-      getValues: () => Record<string, unknown>;
+      getValues: () => PlainFlags;
       reportValue: (key: string, value: unknown) => void;
     };
   };
@@ -99,33 +103,13 @@ export async function track(
 
     const url = new URL(origin);
 
-    const flags = options?.flags;
-    const flagValuesToReport: Record<string, unknown> = {};
-    const allFlagValues = requestContext?.flags?.getValues() ?? {};
-
-    if (flags) {
-      const list = Array.isArray(flags) ? flags : [flags];
-
-      const keys = list.flatMap((keyOrObject) => {
-        if (typeof keyOrObject === 'string') return keyOrObject;
-        Object.assign(allFlagValues, keyOrObject); // Add values to global list
-        return Object.keys(keyOrObject); // Retrieve the keys
-      });
-
-      keys.forEach((key) => {
-        flagValuesToReport[key] = allFlagValues[key];
-      });
-    }
-
     const body = {
       o: origin,
       ts: new Date().getTime(),
       r: '',
       en: eventName,
       ed: props,
-      f: {
-        p: flagValuesToReport,
-      },
+      f: safeGetFlags(options?.flags, requestContext),
     };
 
     const hasHeaders = Boolean(headers);
@@ -177,5 +161,40 @@ export async function track(
     return void 0;
   } catch (err) {
     console.error(err);
+  }
+}
+
+function safeGetFlags(
+  flags: Options['flags'],
+  requestContext?: ReturnType<RequestContext['get']>
+):
+  | {
+      p: PlainFlags;
+    }
+  | undefined {
+  try {
+    if (!requestContext || !flags) return;
+    // In the case plain flags are passed, just return them
+    if (!Array.isArray(flags)) {
+      return { p: flags };
+    }
+
+    const plainFlags: Record<string, unknown> = {};
+    // returns all available plain flags
+    const resolvedPlainFlags = requestContext.flags?.getValues() ?? {};
+
+    for (const flag of flags) {
+      if (typeof flag === 'string') {
+        // only picks the desired flags
+        plainFlags[flag] = resolvedPlainFlags[flag];
+      } else {
+        // merge user-provided values with resolved values
+        Object.assign(plainFlags, flag);
+      }
+    }
+
+    return { p: plainFlags };
+  } catch {
+    /* empty */
   }
 }

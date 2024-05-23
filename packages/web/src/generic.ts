@@ -1,6 +1,10 @@
 import { name as packageName, version } from '../package.json';
 import { initQueue } from './queue';
-import type { AllowedPropertyValues, AnalyticsProps } from './types';
+import type {
+  AllowedPropertyValues,
+  AnalyticsProps,
+  FlagsDataInput,
+} from './types';
 import {
   isBrowser,
   parseProperties,
@@ -91,7 +95,7 @@ function track(
   name: string,
   properties?: Record<string, AllowedPropertyValues>,
   options?: {
-    flags?: (string | Record<string, unknown>)[] | Record<string, unknown>;
+    flags?: FlagsDataInput;
   }
 ): void {
   if (!isBrowser()) {
