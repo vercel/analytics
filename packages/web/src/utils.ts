@@ -84,33 +84,25 @@ export function computeRoute(
 
   let result = pathname;
   try {
-    const keys = Object.entries(pathParams).reduce<{
-      simple: string[];
-      multiple: string[];
-    }>(
-      ({ simple, multiple }, [key, value]) => ({
-        simple: Array.isArray(value) ? simple : [...simple, key],
-        multiple: Array.isArray(value) ? [...multiple, key] : multiple,
-      }),
-      { simple: [], multiple: [] }
-    );
+    const entries = Object.entries(pathParams);
     // simple keys must be handled first
-    for (const key of keys.simple) {
-      const matcher = turnValueToRegExp(pathParams[key] as string);
-      if (matcher.test(result)) {
-        result = result.replace(matcher, `/[${key}]`);
+    for (const [key, value] of entries) {
+      if (!Array.isArray(value)) {
+        const matcher = turnValueToRegExp(value);
+        if (matcher.test(result)) {
+          result = result.replace(matcher, `/[${key}]`);
+        }
       }
     }
     // array values next
-    for (const key of keys.multiple) {
-      const matcher = turnValueToRegExp(
-        (pathParams[key] as string[]).join('/')
-      );
-      if (matcher.test(result)) {
-        result = result.replace(matcher, `/[...${key}]`);
+    for (const [key, value] of entries) {
+      if (Array.isArray(value)) {
+        const matcher = turnValueToRegExp(value.join('/'));
+        if (matcher.test(result)) {
+          result = result.replace(matcher, `/[...${key}]`);
+        }
       }
     }
-
     return result;
   } catch (e) {
     return pathname;
