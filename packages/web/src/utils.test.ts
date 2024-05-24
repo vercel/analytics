@@ -145,9 +145,18 @@ describe('utils', () => {
       const input = '/en/us/next-site';
       const params = {
         langs: ['en', 'us'],
-        teamSlug: 'vercel',
       };
       const expected = '/[...langs]/next-site';
+      expect(computeRoute(input, params)).toBe(expected);
+    });
+
+    it('handles array segments and individual segments', () => {
+      const input = '/en/us/next-site';
+      const params = {
+        langs: ['en', 'us'],
+        team: 'next-site',
+      };
+      const expected = '/[...langs]/[team]';
       expect(computeRoute(input, params)).toBe(expected);
     });
 
@@ -170,6 +179,17 @@ describe('utils', () => {
 
       const expected = '/[teamSlug]/tes\\t(test/3.*';
       expect(computeRoute(input, params)).toBe(expected);
+    });
+
+    it('parallel routes where params matched both individually and within arrays', () => {
+      const params = {
+        catchAll: ['m', 'john', 'p', 'shirt'],
+        merchantId: 'john',
+        productSlug: 'shirt',
+      };
+      expect(computeRoute('/m/john/p/shirt', params)).toBe(
+        '/m/[merchantId]/p/[productSlug]'
+      );
     });
 
     describe('edge case handling (same values for multiple params)', () => {
