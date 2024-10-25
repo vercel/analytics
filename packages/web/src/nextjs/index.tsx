@@ -5,7 +5,7 @@ import { useRoute } from './utils';
 
 type Props = Omit<AnalyticsProps, 'route'>;
 
-function AnalyticsComponent(props: Props): React.ReactElement {
+function AnalyticsComponent(props: Props): React.ReactNode {
   const { route, path } = useRoute();
 
   return (
@@ -13,12 +13,13 @@ function AnalyticsComponent(props: Props): React.ReactElement {
   );
 }
 
-export function Analytics(props: Props): React.ReactElement {
+export function Analytics(props: Props): null {
+  // Because of incompatible types between ReactNode in React 19 and React 18 we return null (which is also what we render)
   return (
     <Suspense fallback={null}>
       <AnalyticsComponent {...props} />
     </Suspense>
-  );
+  ) as never;
 }
 
 export type { AnalyticsProps };
