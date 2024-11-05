@@ -34,8 +34,8 @@ function inject(
   } = {
     debug: true,
   }
-): void {
-  if (!isBrowser()) return;
+): { setRoute: (route: string) => void } | null {
+  if (!isBrowser()) return null;
 
   setMode(props.mode);
 
@@ -48,7 +48,12 @@ function inject(
   const src =
     props.scriptSrc || (isDevelopment() ? DEV_SCRIPT_URL : PROD_SCRIPT_URL);
 
-  if (document.head.querySelector(`script[src*="${src}"]`)) return;
+  if (document.head.querySelector(`script[src*="${src}"]`)) return null;
+
+  function setRoute(route?: string | null): void {
+    console.log('>>setRoute', route);
+    script.dataset.route = route ?? undefined;
+  }
 
   const script = document.createElement('script');
   script.src = src;
@@ -66,6 +71,7 @@ function inject(
   if (props.dsn) {
     script.dataset.dsn = props.dsn;
   }
+  setRoute(props.route);
 
   script.onerror = (): void => {
     const errorMessage = isDevelopment()
@@ -83,6 +89,8 @@ function inject(
   }
 
   document.head.appendChild(script);
+
+  return { setRoute };
 }
 
 /**

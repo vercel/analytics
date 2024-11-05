@@ -52,4 +52,12 @@ export default defineConfig([
     },
     outDir: 'dist/server',
   },
+  {
+    ...cfg,
+    entry: {
+      index: 'src/sveltekit/index.ts',
+    },
+    external: ['svelte', '@sveltejs/kit', '$app'],
+    outDir: 'dist/sveltekit',
+  },
 ]);
