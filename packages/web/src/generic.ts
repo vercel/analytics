@@ -34,7 +34,7 @@ function inject(
   } = {
     debug: true,
   }
-): { setRoute: (route: string) => void } | null {
+): { setRoute: (route?: string | null) => void } | null {
   if (!isBrowser()) return null;
 
   setMode(props.mode);

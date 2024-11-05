@@ -1,0 +1,19 @@
+{
+  "name": "vue",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vercel/analytics": "workspace:*",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "latest",
+    "vite": "latest"
+  }
+}

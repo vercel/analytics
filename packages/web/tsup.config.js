@@ -34,6 +34,14 @@ export default defineConfig([
   {
     ...cfg,
     entry: {
+      index: 'src/nuxt/index.ts',
+    },
+    external: ['vue', 'vue-router'],
+    outDir: 'dist/nuxt',
+  },
+  {
+    ...cfg,
+    entry: {
       index: 'src/react.tsx',
     },
     external: ['react'],
@@ -59,5 +67,13 @@ export default defineConfig([
     },
     external: ['svelte', '@sveltejs/kit', '$app'],
     outDir: 'dist/sveltekit',
+  },
+  {
+    ...cfg,
+    entry: {
+      index: 'src/vue/index.ts',
+    },
+    external: ['vue', 'vue-router'],
+    outDir: 'dist/vue',
   },
 ]);

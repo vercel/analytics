@@ -14,4 +14,4 @@ This application was created with the following commands:
 
 ## Usage
 
-Start it with `cd apps/sveltekit` + `pnpm dev` and browse to [http://localhost:5173](http://localhost:5173)
+Start it with `pnpm -F sveltekit dev` and browse to [http://localhost:5173](http://localhost:5173)
