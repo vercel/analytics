@@ -11,6 +11,7 @@ import {
   setMode,
   isDevelopment,
   isProduction,
+  computeRoute,
 } from './utils';
 
 export const DEV_SCRIPT_URL =
@@ -27,15 +28,17 @@ export const PROD_SCRIPT_URL = '/_vercel/insights/script.js';
  * @param [props.debug] - Whether to enable debug logging in development. Defaults to `true`.
  * @param [props.beforeSend] - A middleware function to modify events before they are sent. Should return the event object or `null` to cancel the event.
  * @param [props.dsn] - The DSN of the project to send events to. Only required when self-hosting.
+ * @param [props.disableAutoTrack] - Whether the injected script should track page views from pushState events. Disable if route is updated after pushState, a manually call page pageview().
  */
 function inject(
   props: AnalyticsProps & {
     framework?: string;
+    disableAutoTrack?: boolean;
   } = {
     debug: true,
   }
-): { setRoute: (route?: string | null) => void } | null {
-  if (!isBrowser()) return null;
+): void {
+  if (!isBrowser()) return;
 
   setMode(props.mode);
 
@@ -48,12 +51,7 @@ function inject(
   const src =
     props.scriptSrc || (isDevelopment() ? DEV_SCRIPT_URL : PROD_SCRIPT_URL);
 
-  if (document.head.querySelector(`script[src*="${src}"]`)) return null;
-
-  function setRoute(route?: string | null): void {
-    console.log('>>setRoute', route);
-    script.dataset.route = route ?? undefined;
-  }
+  if (document.head.querySelector(`script[src*="${src}"]`)) return;
 
   const script = document.createElement('script');
   script.src = src;
@@ -71,7 +69,6 @@ function inject(
   if (props.dsn) {
     script.dataset.dsn = props.dsn;
   }
-  setRoute(props.route);
 
   script.onerror = (): void => {
     const errorMessage = isDevelopment()
@@ -89,8 +86,6 @@ function inject(
   }
 
   document.head.appendChild(script);
-
-  return { setRoute };
 }
 
 /**
@@ -143,18 +138,22 @@ function track(
   }
 }
 
-function pageview({ route, path }: { route?: string; path?: string }): void {
-  window.va?.('pageview', {
-    route,
-    path,
-  });
+function pageview({
+  route,
+  path,
+}: {
+  route?: string | null;
+  path?: string;
+}): void {
+  window.va?.('pageview', { route, path });
 }
 
-export { inject, track, pageview };
+export { inject, track, pageview, computeRoute };
 export type { AnalyticsProps };
 
 // eslint-disable-next-line import/no-default-export -- Default export is intentional
 export default {
   inject,
   track,
+  computeRoute,
 };

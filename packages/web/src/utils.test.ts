@@ -1,3 +1,4 @@
+import { beforeAll, describe, it, expect } from '@jest/globals';
 import { computeRoute, getMode, parseProperties, setMode } from './utils';
 
 describe('utils', () => {

@@ -46,12 +46,14 @@ export default defineConfig([
     },
     external: ['react'],
     outDir: 'dist/react',
-    esbuildOptions: (options) => {
-      // Append "use client" to the top of the react entry point
-      options.banner = {
-        js: '"use client";',
-      };
+  },
+  {
+    ...cfg,
+    entry: {
+      index: 'src/remix/index.tsx',
     },
+    external: ['react', '@remix-run/react', 'react-router'],
+    outDir: 'dist/remix',
   },
   {
     ...cfg,

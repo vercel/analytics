@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { WebAnalytics } from '@vercel/analytics/nuxt';
+import { Analytics } from '@vercel/analytics/nuxt';
 import { track } from '@vercel/analytics';
 
 function navigate(event) {
@@ -8,7 +8,7 @@ function navigate(event) {
 </script>
 
 <template>
-  <WebAnalytics />
+  <Analytics />
   <header>
     <img
       alt="Vue logo"

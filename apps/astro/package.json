@@ -1,0 +1,22 @@
+{
+  "name": "astro",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "astro": "astro",
+    "build": "astro build",
+    "dev": "astro dev",
+    "preview": "astro preview",
+    "start": "astro dev"
+  },
+  "dependencies": {
+    "@vercel/analytics": "workspace:*",
+    "astro": "latest"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.5.4",
+    "@vercel/analytics": "workspace:*",
+    "typescript": "^5.3.3"
+  }
+}

@@ -7,18 +7,18 @@ This application was created with the following commands:
 - `cd apps`
 - `pnpm create vue@latest vue` (answer no to all questions)
 - `cd vue`
-- manually edit package.json to add `"@vercel/speed-insights": "workspace:*"` dependency
+- manually edit package.json to add `"@vercel/analytics": "workspace:*"` dependency
 - `pnpm i`
 
-Then we imported and used `<WebAnalytics />` component in `src/App.vue` file:
+Then we imported and used `<Analytics />` component in `src/App.vue` file:
 
 ```vue
 <script setup>
-import { WebAnalytics } from '@vercel/analytics/vue';
+import { Analytics } from '@vercel/analytics/vue';
 </script>
 
 <template>
-  <WebAnalytics />
+  <Analytics />
 </template>
 ```
 

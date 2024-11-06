@@ -1,13 +1,12 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, type ReactNode } from 'react';
 import { Analytics as AnalyticsScript } from '../react';
 import type { AnalyticsProps } from '../types';
 import { useRoute } from './utils';
 
-type Props = Omit<AnalyticsProps, 'route'>;
+type Props = Omit<AnalyticsProps, 'route' | 'disableAutoTrack'>;
 
-function AnalyticsComponent(props: Props): React.ReactNode {
+function AnalyticsComponent(props: Props): ReactNode {
   const { route, path } = useRoute();
-
   return (
     <AnalyticsScript path={path} route={route} {...props} framework="next" />
   );

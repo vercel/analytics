@@ -1,10 +1,10 @@
 <script setup>
-import { WebAnalytics } from '@vercel/analytics/vue';
+import { Analytics } from '@vercel/analytics/vue';
 import HelloWorld from './components/HelloWorld.vue';
 </script>
 
 <template>
-  <WebAnalytics />
+  <Analytics />
   <header>
     <img
       alt="Vue logo"

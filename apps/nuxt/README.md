@@ -8,7 +8,7 @@ This application was created with the following commands:
 - `pnpx nuxi@latest init nuxt` (answers: npm, no git)
 - `cd nuxt`
 - `rm -rf node_modules .nuxt`
-- manually edit package.json to add `"@vercel/speed-insights": "workspace:*"` dependency
+- manually edit package.json to add `"@vercel/analytics": "workspace:*"` dependency
 - `pnpm i`
 
 Then we moved some code from vue's official template (styles, HelloWorld SFC) and added a few dynamic route to illustrate the use.
