@@ -54,6 +54,19 @@ describe('<Analytics />', () => {
       expect(window.vaq?.[0]).toEqual(['beforeSend', beforeSend2]);
       expect(window.vaq).toHaveLength(1);
     });
+
+    it('does not change beforeSend when undefined', () => {
+      const beforeSend: Required<AnalyticsProps>['beforeSend'] = (event) =>
+        event;
+      const { rerender } = render(<Analytics beforeSend={beforeSend} />);
+
+      expect(window.vaq?.[0]).toEqual(['beforeSend', beforeSend]);
+      expect(window.vaq).toHaveLength(1);
+      window.vaq?.splice(0, 1);
+
+      rerender(<Analytics />);
+      expect(window.vaq).toHaveLength(0);
+    });
   });
 
   describe('track custom events', () => {
