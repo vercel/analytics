@@ -11,6 +11,7 @@ import {
   setMode,
   isDevelopment,
   isProduction,
+  computeRoute,
 } from './utils';
 
 export const DEV_SCRIPT_URL =
@@ -27,10 +28,12 @@ export const PROD_SCRIPT_URL = '/_vercel/insights/script.js';
  * @param [props.debug] - Whether to enable debug logging in development. Defaults to `true`.
  * @param [props.beforeSend] - A middleware function to modify events before they are sent. Should return the event object or `null` to cancel the event.
  * @param [props.dsn] - The DSN of the project to send events to. Only required when self-hosting.
+ * @param [props.disableAutoTrack] - Whether the injected script should track page views from pushState events. Disable if route is updated after pushState, a manually call page pageview().
  */
 function inject(
   props: AnalyticsProps & {
     framework?: string;
+    disableAutoTrack?: boolean;
   } = {
     debug: true,
   }
@@ -135,18 +138,22 @@ function track(
   }
 }
 
-function pageview({ route, path }: { route?: string; path?: string }): void {
-  window.va?.('pageview', {
-    route,
-    path,
-  });
+function pageview({
+  route,
+  path,
+}: {
+  route?: string | null;
+  path?: string;
+}): void {
+  window.va?.('pageview', { route, path });
 }
 
-export { inject, track, pageview };
+export { inject, track, pageview, computeRoute };
 export type { AnalyticsProps };
 
 // eslint-disable-next-line import/no-default-export -- Default export is intentional
 export default {
   inject,
   track,
+  computeRoute,
 };

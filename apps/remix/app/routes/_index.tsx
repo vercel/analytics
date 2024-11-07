@@ -1,9 +1,9 @@
-import { json } from "@vercel/remix";
-import { Form, useActionData } from "@remix-run/react";
-import { track } from "@vercel/analytics/server";
+import { json } from '@vercel/remix';
+import { Form, Link, useActionData } from '@remix-run/react';
+import { track } from '@vercel/analytics/server';
 
 export const action = async () => {
-  await track("Server Action", { some: "data" });
+  await track('Server Action', { some: 'data' });
   return json({ success: true });
 };
 
@@ -19,6 +19,9 @@ export default function Home() {
           <button type="submit">Submit action</button>
         </Form>
       )}
+      <Link to="/blog/henri">About Henri</Link>
+      <br />
+      <Link to="/blog/bruno">About Bruno</Link>
     </main>
   );
 }

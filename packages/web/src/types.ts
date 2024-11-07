@@ -13,19 +13,18 @@ export type Mode = 'auto' | 'development' | 'production';
 export type AllowedPropertyValues = string | number | boolean | null;
 
 export type BeforeSend = (event: BeforeSendEvent) => BeforeSendEvent | null;
+
 export interface AnalyticsProps {
   beforeSend?: BeforeSend;
   debug?: boolean;
   mode?: Mode;
-  route?: string | null;
-
-  disableAutoTrack?: boolean;
 
   scriptSrc?: string;
   endpoint?: string;
 
   dsn?: string;
 }
+
 declare global {
   interface Window {
     // Base interface

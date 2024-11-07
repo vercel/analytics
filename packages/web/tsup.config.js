@@ -34,16 +34,26 @@ export default defineConfig([
   {
     ...cfg,
     entry: {
+      index: 'src/nuxt/index.ts',
+    },
+    external: ['vue', 'vue-router'],
+    outDir: 'dist/nuxt',
+  },
+  {
+    ...cfg,
+    entry: {
       index: 'src/react.tsx',
     },
     external: ['react'],
     outDir: 'dist/react',
-    esbuildOptions: (options) => {
-      // Append "use client" to the top of the react entry point
-      options.banner = {
-        js: '"use client";',
-      };
+  },
+  {
+    ...cfg,
+    entry: {
+      index: 'src/remix/index.tsx',
     },
+    external: ['react', '@remix-run/react', 'react-router'],
+    outDir: 'dist/remix',
   },
   {
     ...cfg,
@@ -51,5 +61,21 @@ export default defineConfig([
       index: 'src/server/index.ts',
     },
     outDir: 'dist/server',
+  },
+  {
+    ...cfg,
+    entry: {
+      index: 'src/sveltekit/index.ts',
+    },
+    external: ['svelte', '@sveltejs/kit', '$app'],
+    outDir: 'dist/sveltekit',
+  },
+  {
+    ...cfg,
+    entry: {
+      index: 'src/vue/index.ts',
+    },
+    external: ['vue', 'vue-router'],
+    outDir: 'dist/vue',
   },
 ]);

@@ -1,3 +1,4 @@
+'use client';
 import { useEffect } from 'react';
 import { inject, track, pageview } from './generic';
 import type { AnalyticsProps } from './types';
@@ -28,9 +29,11 @@ import type { AnalyticsProps } from './types';
 function Analytics(
   props: AnalyticsProps & {
     framework?: string;
+    route?: string | null;
     path?: string | null;
   }
 ): null {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: only run once
   useEffect(() => {
     inject({
       framework: props.framework || 'react',
@@ -41,11 +44,9 @@ function Analytics(
   }, []);
 
   useEffect(() => {
+    // explicitely track page view, since we disabled auto tracking
     if (props.route && props.path) {
-      pageview({
-        route: props.route,
-        path: props.path,
-      });
+      pageview({ route: props.route, path: props.path });
     }
   }, [props.route, props.path]);
 

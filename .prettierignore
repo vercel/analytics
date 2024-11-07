@@ -1,2 +1,10 @@
 .next/
 dist/
+.astro/
+.vercel/
+.nuxt/
+.output/
+.cache/
+build/
+.svelte-kit/
+pnpm-lock.yaml
