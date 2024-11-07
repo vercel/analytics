@@ -1,30 +1,17 @@
 import { beforeEach, describe, it, expect, jest } from '@jest/globals';
 import { inject, track } from './generic';
+import type { AllowedPropertyValues, Mode } from './types';
 
-describe('inject', () => {
-  describe('in development mode', () => {
-    it('should add the script tag correctly', () => {
-      inject({ mode: 'development' });
-
-      const scripts = document.getElementsByTagName('script');
-      expect(scripts).toHaveLength(1);
-
-      const script = document.head.querySelector('script');
-
-      if (!script) {
-        throw new Error('Could not find script tag');
-      }
-
-      expect(script.src).toEqual(
-        'https://va.vercel-scripts.com/v1/script.debug.js'
-      );
-      expect(script).toHaveAttribute('defer');
-    });
-  });
-
-  describe('in production mode', () => {
-    it('should add the script tag correctly', () => {
-      inject({ mode: 'production' });
+describe.each([
+  {
+    mode: 'development',
+    file: 'https://va.vercel-scripts.com/v1/script.debug.js',
+  },
+  { mode: 'production', file: 'http://localhost/_vercel/insights/script.js' },
+] as { mode: Mode; file: string }[])('in $mode mode', ({ mode, file }) => {
+  describe('inject', () => {
+    it('adds the script tag correctly', () => {
+      inject({ mode });
 
       const scripts = document.getElementsByTagName('script');
       expect(scripts).toHaveLength(1);
@@ -35,152 +22,49 @@ describe('inject', () => {
         throw new Error('Could not find script tag');
       }
 
-      expect(script.src).toEqual('http://localhost/_vercel/insights/script.js');
+      expect(script.src).toEqual(file);
       expect(script).toHaveAttribute('defer');
     });
   });
-});
 
-describe('track custom events', () => {
-  beforeEach(() => {
-    // reset the internal queue before every test
-    window.vaq = [];
-  });
-
-  describe('in production mode', () => {
+  describe('track custom events', () => {
     beforeEach(() => {
-      inject({
-        mode: 'production',
-      });
+      // reset the internal queue before every test
+      window.vaq = [];
+      inject({ mode });
     });
 
     describe('queue custom events', () => {
-      it('should track event with name only', () => {
-        track('my event');
-
-        expect(window.vaq).toBeDefined();
-
-        if (!window.vaq) throw new Error('window.vaq is not defined');
-
-        expect(window.vaq[0]).toEqual([
-          'event',
-          {
-            name: 'my event',
-          },
-        ]);
+      it('tracks event with name only', () => {
+        const name = 'my event';
+        track(name);
+        expect(window.vaq?.[0]).toEqual(['event', { name }]);
       });
 
-      it('should allow custom data to be tracked', () => {
-        track('custom event', {
-          string: 'string',
-          number: 1,
-        });
-
-        expect(window.vaq).toBeDefined();
-
-        if (!window.vaq) throw new Error('window.vaq is not defined');
-
-        expect(window.vaq[0]).toEqual([
-          'event',
-          {
-            name: 'custom event',
-            data: {
-              string: 'string',
-              number: 1,
-            },
-          },
-        ]);
+      it('allows custom data to be tracked', () => {
+        const name = 'custom event';
+        const data = { string: 'string', number: 1 };
+        track(name, data);
+        expect(window.vaq?.[0]).toEqual(['event', { name, data }]);
       });
 
       it('should strip data for nested objects', () => {
-        track('custom event', {
-          string: 'string',
-          number: 1,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- This is intentional
-          nested: {
-            object: '',
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This is intentional
-          } as any,
+        jest.spyOn(global.console, 'error').mockImplementation(() => void 0);
+
+        const name = 'custom event';
+        const data = { string: 'string', number: 1 };
+        track(name, {
+          ...data,
+          nested: { object: '' } as unknown as AllowedPropertyValues,
         });
 
-        expect(window.vaq).toBeDefined();
-
-        if (!window.vaq) throw new Error('window.vaq is not defined');
-
-        expect(window.vaq[0]).toEqual([
-          'event',
-          {
-            name: 'custom event',
-            data: {
-              string: 'string',
-              number: 1,
-            },
-          },
-        ]);
-      });
-    });
-  });
-
-  describe('in development mode', () => {
-    beforeEach(() => {
-      inject({
-        mode: 'development',
-      });
-      // eslint-disable-next-line @typescript-eslint/no-empty-function -- This is intentional
-      jest.spyOn(global.console, 'error').mockImplementation(() => {});
-    });
-
-    describe('queue custom events', () => {
-      it('should track event with name only', () => {
-        track('my event');
-
-        expect(window.vaq).toBeDefined();
-
-        if (!window.vaq) throw new Error('window.vaq is not defined');
-
-        expect(window.vaq[0]).toEqual([
-          'event',
-          {
-            name: 'my event',
-          },
-        ]);
-      });
-
-      it('should allow custom data to be tracked', () => {
-        track('custom event', {
-          string: 'string',
-          number: 1,
-        });
-
-        expect(window.vaq).toBeDefined();
-
-        if (!window.vaq) throw new Error('window.vaq is not defined');
-
-        expect(window.vaq[0]).toEqual([
-          'event',
-          {
-            name: 'custom event',
-            data: {
-              string: 'string',
-              number: 1,
-            },
-          },
-        ]);
-      });
-
-      it('should log an error when nested properties are sent', () => {
-        track('custom event', {
-          string: 'string',
-          number: 1,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- This is intentional
-          nested: {
-            object: '',
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This is intentional
-          } as any,
-        });
-
-        // eslint-disable-next-line no-console -- Logging to console is intentional
-        expect(console.error).toHaveBeenCalledTimes(1);
+        if (mode === 'development') {
+          // eslint-disable-next-line jest/no-conditional-expect, no-console -- only in development
+          expect(console.error).toHaveBeenCalledTimes(1);
+        } else {
+          // eslint-disable-next-line jest/no-conditional-expect -- only in production
+          expect(window.vaq?.[0]).toEqual(['event', { name, data }]);
+        }
       });
     });
   });

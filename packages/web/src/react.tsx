@@ -33,6 +33,12 @@ function Analytics(
     path?: string | null;
   }
 ): null {
+  useEffect(() => {
+    if (props.beforeSend) {
+      window.va?.('beforeSend', props.beforeSend);
+    }
+  }, [props.beforeSend]);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: only run once
   useEffect(() => {
     inject({
