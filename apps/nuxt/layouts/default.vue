@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { Analytics } from '@vercel/analytics/nuxt';
 import { track } from '@vercel/analytics';
 
-function navigate(event) {
+function navigate(event: { target: { href: string } }) {
   track('navigation', { to: event.target.href });
 }
 </script>
 
 <template>
-  <Analytics />
   <header>
     <img
       alt="Vue logo"

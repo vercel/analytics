@@ -26,7 +26,8 @@ const paramsStr = JSON.stringify(Astro.params);
           inject({
             ...props,
             disableAutoTrack: true,
-            framework: 'astro'
+            framework: 'astro',
+            beforeSend: window.webAnalyticsBeforeSend,
           });
           const path = this.dataset.pathname;
           pageview({ route: computeRoute(path ?? '', params), path });

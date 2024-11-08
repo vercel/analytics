@@ -1,10 +1,15 @@
-<script setup>
-import { Analytics } from '@vercel/analytics/vue';
+<script setup lang="ts">
+import { Analytics, type BeforeSendEvent } from '@vercel/analytics/vue';
 import HelloWorld from './components/HelloWorld.vue';
+
+const beforeSend = (event: BeforeSendEvent) => {
+  console.log('Sending event:', event);
+  return event;
+};
 </script>
 
 <template>
-  <Analytics />
+  <Analytics :before-send="beforeSend" />
   <header>
     <img
       alt="Vue logo"
