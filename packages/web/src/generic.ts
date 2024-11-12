@@ -4,6 +4,8 @@ import type {
   AllowedPropertyValues,
   AnalyticsProps,
   FlagsDataInput,
+  BeforeSend,
+  BeforeSendEvent,
 } from './types';
 import {
   isBrowser,
@@ -149,7 +151,7 @@ function pageview({
 }
 
 export { inject, track, pageview, computeRoute };
-export type { AnalyticsProps };
+export type { AnalyticsProps, BeforeSend, BeforeSendEvent };
 
 // eslint-disable-next-line import/no-default-export -- Default export is intentional
 export default {

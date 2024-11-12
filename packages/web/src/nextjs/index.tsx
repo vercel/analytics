@@ -1,6 +1,6 @@
 import React, { Suspense, type ReactNode } from 'react';
 import { Analytics as AnalyticsScript } from '../react';
-import type { AnalyticsProps } from '../types';
+import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
 import { useRoute } from './utils';
 
 type Props = Omit<AnalyticsProps, 'route' | 'disableAutoTrack'>;
@@ -21,4 +21,4 @@ export function Analytics(props: Props): null {
   ) as never;
 }
 
-export type { AnalyticsProps };
+export type { AnalyticsProps, BeforeSend, BeforeSendEvent };

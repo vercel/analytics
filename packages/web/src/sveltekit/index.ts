@@ -1,4 +1,5 @@
-import { inject, pageview, track, type AnalyticsProps } from '../generic';
+import { inject, pageview, track } from '../generic';
+import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
 import { page } from '$app/stores';
 import { browser } from '$app/environment';
 import type {} from '@sveltejs/kit';
@@ -21,4 +22,4 @@ function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
 }
 
 export { injectAnalytics, track };
-export type { AnalyticsProps };
+export type { AnalyticsProps, BeforeSend, BeforeSendEvent };
