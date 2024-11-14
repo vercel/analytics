@@ -69,7 +69,8 @@ function inject(
   }
   if (props.endpoint) {
     script.dataset.endpoint = props.endpoint;
-  } else if (process.env[basepathVariableName]) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- process doesn't exist in all frameworks
+  } else if (process?.env?.[basepathVariableName]) {
     script.dataset.endpoint = `/${process.env[basepathVariableName]}/_vercel/insights`;
   }
   if (props.dsn) {
