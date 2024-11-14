@@ -36,6 +36,8 @@ declare global {
     vaq?: [string, unknown?][];
     vai?: boolean;
     vam?: Mode;
+    /** used by Astro component only */
+    webAnalyticsBeforeSend?: BeforeSend;
   }
 }
 

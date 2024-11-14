@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { inject, track, pageview } from './generic';
-import type { AnalyticsProps } from './types';
+import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from './types';
 
 /**
  * Injects the Vercel Web Analytics script into the page head and starts tracking page views. Read more in our [documentation](https://vercel.com/docs/concepts/analytics/package).
@@ -60,4 +60,4 @@ function Analytics(
 }
 
 export { track, Analytics };
-export type { AnalyticsProps };
+export type { AnalyticsProps, BeforeSend, BeforeSendEvent };

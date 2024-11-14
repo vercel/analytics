@@ -11,6 +11,7 @@
     "start": "astro dev"
   },
   "dependencies": {
+    "@astrojs/ts-plugin": "^1.10.4",
     "@vercel/analytics": "workspace:*",
     "astro": "latest"
   },

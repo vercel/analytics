@@ -3,6 +3,14 @@ import Analytics from '@vercel/analytics/astro';
 
 const { title } = Astro.props;
 ---
+
+<script is:inline>
+  function webAnalyticsBeforeSend(data){
+    console.log("Web Analytics before send", data)
+    return data;
+  }
+</script>
+
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
