@@ -69,9 +69,13 @@ function inject(
   }
   if (props.endpoint) {
     script.dataset.endpoint = props.endpoint;
+  } else if (
+    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- process doesn't exist in all frameworks
+    typeof process !== 'undefined' &&
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- process doesn't exist in all frameworks
-  } else if (process?.env?.[basepathVariableName]) {
-    script.dataset.endpoint = `/${process.env[basepathVariableName]}/_vercel/insights`;
+    process.env?.[basepathVariableName]
+  ) {
+    script.dataset.endpoint = `/${process.env[basepathVariableName]}/_vercel/speed-insights/vitals`;
   }
   if (props.dsn) {
     script.dataset.dsn = props.dsn;
