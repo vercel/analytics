@@ -1,5 +1,4 @@
-import { json } from '@vercel/remix';
-import { Form, Link, useActionData } from '@remix-run/react';
+import { Form, json, Link, useActionData } from '@remix-run/react';
 import { track } from '@vercel/analytics/server';
 
 export const action = async () => {
