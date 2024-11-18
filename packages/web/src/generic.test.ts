@@ -1,4 +1,4 @@
-import { beforeEach, describe, it, expect, jest } from '@jest/globals';
+import { beforeEach, describe, it, expect, vi } from 'vitest';
 import { inject, track } from './generic';
 import type { AllowedPropertyValues, Mode } from './types';
 
@@ -7,7 +7,10 @@ describe.each([
     mode: 'development',
     file: 'https://va.vercel-scripts.com/v1/script.debug.js',
   },
-  { mode: 'production', file: 'http://localhost/_vercel/insights/script.js' },
+  {
+    mode: 'production',
+    file: 'http://localhost:3000/_vercel/insights/script.js',
+  },
 ] as { mode: Mode; file: string }[])('in $mode mode', ({ mode, file }) => {
   describe('inject', () => {
     it('adds the script tag correctly', () => {
@@ -49,7 +52,7 @@ describe.each([
       });
 
       it('should strip data for nested objects', () => {
-        jest.spyOn(global.console, 'error').mockImplementation(() => void 0);
+        vi.spyOn(global.console, 'error').mockImplementation(() => void 0);
 
         const name = 'custom event';
         const data = { string: 'string', number: 1 };
@@ -59,10 +62,9 @@ describe.each([
         });
 
         if (mode === 'development') {
-          // eslint-disable-next-line jest/no-conditional-expect, no-console -- only in development
+          // eslint-disable-next-line no-console -- only in development
           expect(console.error).toHaveBeenCalledTimes(1);
         } else {
-          // eslint-disable-next-line jest/no-conditional-expect -- only in production
           expect(window.vaq?.[0]).toEqual(['event', { name, data }]);
         }
       });

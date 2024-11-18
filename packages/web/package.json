@@ -1,6 +1,6 @@
 {
   "name": "@vercel/analytics",
-  "version": "1.5.0-canary.1",
+  "version": "1.5.0-canary.2",
   "description": "Gain real-time traffic insights with Vercel Web Analytics",
   "keywords": [
     "analytics",
@@ -42,7 +42,7 @@
       "require": "./dist/remix/index.js"
     },
     "./server": {
-      "node": "./dist/server/index.js",
+      "node": "./dist/server/index.mjs",
       "edge-light": "./dist/server/index.mjs",
       "import": "./dist/server/index.mjs",
       "require": "./dist/server/index.js",
@@ -94,7 +94,7 @@
     "dev": "pnpm copy-astro && tsup --watch",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
-    "test": "jest",
+    "test": "vitest watch",
     "type-check": "tsc --noEmit"
   },
   "eslintConfig": {
@@ -109,19 +109,16 @@
     ]
   },
   "devDependencies": {
-    "@jest/globals": "^29.7.0",
-    "@swc/core": "^1.8.0",
-    "@swc/jest": "^0.2.37",
+    "@swc/core": "^1.9.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
-    "@types/node": "^20.17.6",
+    "@types/node": "^22.9.0",
     "@types/react": "^18.3.12",
     "@vercel/eslint-config": "workspace:0.0.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
     "server-only": "^0.0.1",
     "svelte": "^5.1.10",
-    "tsup": "7.1.0",
+    "tsup": "8.3.5",
+    "vitest": "^2.1.5",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
   },
