@@ -94,7 +94,7 @@
     "dev": "pnpm copy-astro && tsup --watch",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
-    "test": "vitest watch",
+    "test": "vitest",
     "type-check": "tsc --noEmit"
   },
   "eslintConfig": {
