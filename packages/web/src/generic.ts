@@ -20,8 +20,6 @@ export const DEV_SCRIPT_URL =
   'https://va.vercel-scripts.com/v1/script.debug.js';
 export const PROD_SCRIPT_URL = '/_vercel/insights/script.js';
 
-export const basepathVariableName = 'NEXT_PUBLIC_WEB_ANALYTICS_BASEPATH';
-
 /**
  * Injects the Vercel Web Analytics script into the page head and starts tracking page views. Read more in our [documentation](https://vercel.com/docs/concepts/analytics/package).
  * @param [props] - Analytics options.
@@ -69,8 +67,6 @@ function inject(
   }
   if (props.endpoint) {
     script.dataset.endpoint = props.endpoint;
-  } else if (process.env[basepathVariableName]) {
-    script.dataset.endpoint = `/${process.env[basepathVariableName]}/_vercel/insights`;
   }
   if (props.dsn) {
     script.dataset.dsn = props.dsn;
