@@ -19,7 +19,7 @@ export function createComponent(
         framework,
       });
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- route is undefined for barebone vue project.
-      if (route && window) {
+      if (route && typeof window !== 'undefined') {
         const changeRoute = (): void => {
           pageview({
             route: computeRoute(route.path, route.params),
