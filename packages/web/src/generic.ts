@@ -73,9 +73,9 @@ function inject(
     // eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- process doesn't exist in all frameworks
     typeof process !== 'undefined' &&
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- process doesn't exist in all frameworks
-    process.env?.[basepathVariableName]
+    process.env?.NEXT_PUBLIC_WEB_ANALYTICS_BASEPATH
   ) {
-    script.dataset.endpoint = `/${process.env[basepathVariableName]}/_vercel/speed-insights/vitals`;
+    script.dataset.endpoint = `/${process.env.NEXT_PUBLIC_WEB_ANALYTICS_BASEPATH}/_vercel/speed-insights/vitals`;
   }
   if (props.dsn) {
     script.dataset.dsn = props.dsn;
