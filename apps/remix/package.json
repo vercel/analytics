@@ -1,34 +1,35 @@
 {
   "name": "remix",
   "private": true,
+  "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix build",
-    "dev": "remix dev --manual",
-    "start": "remix-serve ./build/index.js",
+    "build": "remix vite:build",
+    "dev": "remix vite:dev",
+    "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@remix-run/css-bundle": "^2.5.0",
-    "@remix-run/node": "^2.5.0",
-    "@remix-run/react": "^2.5.0",
-    "@remix-run/serve": "^2.5.0",
-    "@remix-run/server-runtime": "^2.5.0",
+    "@remix-run/node": "latest",
+    "@remix-run/react": "latest",
+    "@remix-run/serve": "latest",
     "@vercel/analytics": "workspace:*",
-    "@vercel/remix": "2.5.0",
-    "isbot": "^3.6.3",
+    "isbot": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.5.0",
-    "@remix-run/eslint-config": "^2.5.0",
-    "@types/react": "^18.0.25",
-    "@types/react-dom": "^18.0.8",
-    "eslint": "^8.56.0",
-    "typescript": "^5.3.3"
+    "@remix-run/dev": "latest",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.1.6",
+    "vite": "^5.1.0",
+    "vite-tsconfig-paths": "^4.2.1"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.0.0"
   }
 }

@@ -1,6 +1,5 @@
 import { json, type LoaderFunctionArgs } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import { track } from '@vercel/analytics';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   return json({ slug: params.slug });
@@ -11,7 +10,7 @@ export default function BlogPage() {
   return (
     <div>
       <h1>Blog</h1>
-      <p>We don't talk about {slug}</p>
+      <p>We don&apos;t talk about {slug}</p>
       <br />
       <Link to="/">Back</Link>
     </div>

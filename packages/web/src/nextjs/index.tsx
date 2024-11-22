@@ -1,3 +1,4 @@
+'use client';
 import React, { Suspense, type ReactNode } from 'react';
 import { Analytics as AnalyticsScript } from '../react';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
