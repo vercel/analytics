@@ -141,7 +141,7 @@ export function getBasePath(): null | string {
   } catch {
     // do nothing
   }
-  // eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- we can't use optionnal here, it'll break if process does not exist.
+  // eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- we can't use optional here, it'll break if process does not exist.
   if (typeof process === 'undefined' || typeof process.env === 'undefined') {
     return null;
   }
