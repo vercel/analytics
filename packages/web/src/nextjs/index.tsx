@@ -2,14 +2,20 @@
 import React, { Suspense, type ReactNode } from 'react';
 import { Analytics as AnalyticsScript } from '../react';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
-import { useRoute } from './utils';
+import { getBasePath, useRoute } from './utils';
 
 type Props = Omit<AnalyticsProps, 'route' | 'disableAutoTrack'>;
 
 function AnalyticsComponent(props: Props): ReactNode {
   const { route, path } = useRoute();
   return (
-    <AnalyticsScript path={path} route={route} {...props} framework="next" />
+    <AnalyticsScript
+      path={path}
+      route={route}
+      {...props}
+      basePath={getBasePath()}
+      framework="next"
+    />
   );
 }
 

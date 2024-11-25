@@ -36,7 +36,7 @@ export default defineConfig([
   {
     ...cfg,
     entry: {
-      index: 'src/react.tsx',
+      index: 'src/react/index.tsx',
     },
     external: ['react'],
     outDir: 'dist/react',

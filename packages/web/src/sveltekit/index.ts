@@ -1,5 +1,6 @@
 import { inject, pageview, track } from '../generic';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
+import { getBasePath } from './utils';
 import { page } from '$app/stores';
 import { browser } from '$app/environment';
 import type {} from '@sveltejs/kit';
@@ -8,6 +9,7 @@ function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
   if (browser) {
     inject({
       ...props,
+      basePath: getBasePath(),
       disableAutoTrack: true,
       framework: 'sveltekit',
     });
