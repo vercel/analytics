@@ -14,7 +14,6 @@ import {
   isDevelopment,
   isProduction,
   computeRoute,
-  getBasePath,
   getScriptSrc,
 } from './utils';
 
@@ -34,6 +33,7 @@ function inject(
   props: AnalyticsProps & {
     framework?: string;
     disableAutoTrack?: boolean;
+    basePath?: string;
   } = {
     debug: true,
   }
@@ -62,11 +62,10 @@ function inject(
   if (props.disableAutoTrack) {
     script.dataset.disableAutoTrack = '1';
   }
-  const basePath = getBasePath();
   if (props.endpoint) {
     script.dataset.endpoint = props.endpoint;
-  } else if (basePath) {
-    script.dataset.endpoint = `${basePath}/insights`;
+  } else if (props.basePath) {
+    script.dataset.endpoint = `${props.basePath}/insights`;
   }
   if (props.dsn) {
     script.dataset.dsn = props.dsn;

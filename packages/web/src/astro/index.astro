@@ -15,6 +15,19 @@ const paramsStr = JSON.stringify(Astro.params);
 <script>
   import { inject, pageview, computeRoute } from '../index.mjs';
 
+  function getBasePath(): string | undefined {
+    // !! important !!
+    // do not access env variables using import.meta.env[varname]
+    // some bundles won't replace the value at build time.
+    try {
+      return import.meta.env.PUBLIC_VERCEL_OBSERVABILITY_BASEPATH as
+        | string
+        | undefined;
+    } catch {
+      // do nothing
+    }
+  }
+
   customElements.define(
     'vercel-analytics',
     class VercelAnalytics extends HTMLElement {
@@ -27,6 +40,7 @@ const paramsStr = JSON.stringify(Astro.params);
             ...props,
             disableAutoTrack: true,
             framework: 'astro',
+            basePath: getBasePath(),
             beforeSend: window.webAnalyticsBeforeSend,
           });
           const path = this.dataset.pathname;
