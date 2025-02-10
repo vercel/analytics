@@ -1,4 +1,4 @@
-import type { AllowedPropertyValues, Mode } from './types';
+import type { AllowedPropertyValues, AnalyticsProps, Mode } from './types';
 
 export function isBrowser(): boolean {
   return typeof window !== 'undefined';
@@ -115,4 +115,19 @@ function turnValueToRegExp(value: string): RegExp {
 
 function escapeRegExp(string: string): string {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+export function getScriptSrc(
+  props: AnalyticsProps & { basePath?: string }
+): string {
+  if (props.scriptSrc) {
+    return props.scriptSrc;
+  }
+  if (isDevelopment()) {
+    return 'https://va.vercel-scripts.com/v1/script.debug.js';
+  }
+  if (props.basePath) {
+    return `${props.basePath}/insights/script.js`;
+  }
+  return '/_vercel/insights/script.js';
 }

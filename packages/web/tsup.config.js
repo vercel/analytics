@@ -24,12 +24,6 @@ export default defineConfig([
     },
     external: ['react', 'next'],
     outDir: 'dist/next',
-    esbuildOptions: (options) => {
-      // Append "use client" to the top of the react entry point
-      options.banner = {
-        js: '"use client";',
-      };
-    },
   },
   {
     ...cfg,
@@ -42,7 +36,7 @@ export default defineConfig([
   {
     ...cfg,
     entry: {
-      index: 'src/react.tsx',
+      index: 'src/react/index.tsx',
     },
     external: ['react'],
     outDir: 'dist/react',

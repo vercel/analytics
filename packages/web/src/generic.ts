@@ -14,11 +14,8 @@ import {
   isDevelopment,
   isProduction,
   computeRoute,
+  getScriptSrc,
 } from './utils';
-
-export const DEV_SCRIPT_URL =
-  'https://va.vercel-scripts.com/v1/script.debug.js';
-export const PROD_SCRIPT_URL = '/_vercel/insights/script.js';
 
 /**
  * Injects the Vercel Web Analytics script into the page head and starts tracking page views. Read more in our [documentation](https://vercel.com/docs/concepts/analytics/package).
@@ -36,6 +33,7 @@ function inject(
   props: AnalyticsProps & {
     framework?: string;
     disableAutoTrack?: boolean;
+    basePath?: string;
   } = {
     debug: true,
   }
@@ -50,8 +48,7 @@ function inject(
     window.va?.('beforeSend', props.beforeSend);
   }
 
-  const src =
-    props.scriptSrc || (isDevelopment() ? DEV_SCRIPT_URL : PROD_SCRIPT_URL);
+  const src = getScriptSrc(props);
 
   if (document.head.querySelector(`script[src*="${src}"]`)) return;
 
@@ -67,6 +64,8 @@ function inject(
   }
   if (props.endpoint) {
     script.dataset.endpoint = props.endpoint;
+  } else if (props.basePath) {
+    script.dataset.endpoint = `${props.basePath}/insights`;
   }
   if (props.dsn) {
     script.dataset.dsn = props.dsn;

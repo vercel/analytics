@@ -3,6 +3,7 @@ import { defineComponent, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { inject, pageview, type AnalyticsProps } from '../generic';
 import { computeRoute } from '../utils';
+import { getBasePath } from './utils';
 
 export function createComponent(
   framework = 'vue'
@@ -14,6 +15,7 @@ export function createComponent(
       const route = useRoute();
       inject({
         ...props,
+        basePath: getBasePath(),
         // keep auto-tracking unless we have route support (Nuxt or vue-router).
         disableAutoTrack: Boolean(route),
         framework,

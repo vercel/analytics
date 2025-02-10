@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { afterEach, beforeEach, describe, it, expect } from '@jest/globals';
+import { afterEach, beforeEach, describe, it, expect } from 'vitest';
 import { cleanup, render } from '@testing-library/react';
-import { Analytics, track } from './react';
-import type { AllowedPropertyValues, AnalyticsProps, Mode } from './types';
+import type { AllowedPropertyValues, AnalyticsProps, Mode } from '../types';
+import { Analytics, track } from './index';
 
 describe('<Analytics />', () => {
   afterEach(() => {
@@ -20,7 +20,10 @@ describe('<Analytics />', () => {
       mode: 'development',
       file: 'https://va.vercel-scripts.com/v1/script.debug.js',
     },
-    { mode: 'production', file: 'http://localhost/_vercel/insights/script.js' },
+    {
+      mode: 'production',
+      file: 'http://localhost:3000/_vercel/insights/script.js',
+    },
   ] as { mode: Mode; file: string }[])('in $mode mode', ({ mode, file }) => {
     it('adds the script tag correctly', () => {
       render(<Analytics mode={mode} />);
