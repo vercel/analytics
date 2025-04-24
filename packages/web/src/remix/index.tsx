@@ -10,6 +10,7 @@ export function Analytics(props: Omit<AnalyticsProps, 'route'>): JSX.Element {
       {...props}
       basePath={getBasePath()}
       framework="remix"
+      title={document.title}
     />
   );
 }

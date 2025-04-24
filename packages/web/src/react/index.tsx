@@ -33,6 +33,7 @@ function Analytics(
     route?: string | null;
     path?: string | null;
     basePath?: string;
+    title?: string;
   }
 ): null {
   useEffect(() => {
@@ -55,7 +56,11 @@ function Analytics(
   useEffect(() => {
     // explicitely track page view, since we disabled auto tracking
     if (props.route && props.path) {
-      pageview({ route: props.route, path: props.path });
+      pageview({
+        route: props.route,
+        path: props.path,
+        title: document.title,
+      });
     }
   }, [props.route, props.path]);
 

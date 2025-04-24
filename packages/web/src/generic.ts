@@ -142,11 +142,13 @@ function track(
 function pageview({
   route,
   path,
+  title,
 }: {
   route?: string | null;
   path?: string;
+  title?: string;
 }): void {
-  window.va?.('pageview', { route, path });
+  window.va?.('pageview', { route, path, title });
 }
 
 export { inject, track, pageview, computeRoute };

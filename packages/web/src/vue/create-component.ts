@@ -26,6 +26,7 @@ export function createComponent(
           pageview({
             route: computeRoute(route.path, route.params),
             path: route.path,
+            title: document.title,
           });
         };
         changeRoute();

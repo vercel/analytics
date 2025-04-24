@@ -44,7 +44,11 @@ const paramsStr = JSON.stringify(Astro.params);
             beforeSend: window.webAnalyticsBeforeSend,
           });
           const path = this.dataset.pathname;
-          pageview({ route: computeRoute(path ?? '', params), path });
+          pageview({
+            route: computeRoute(path ?? '', params),
+            path,
+            title: document.title,
+          });
         } catch (err) {
           throw new Error(`Failed to parse WebAnalytics properties: ${err}`);
         }

@@ -17,7 +17,11 @@ function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
     page.subscribe(({ route, url }) => {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- route could be undefined in layout.js file
       if (route?.id) {
-        pageview({ route: route.id, path: url.pathname });
+        pageview({
+          route: route.id,
+          path: url.pathname,
+          title: document.title,
+        });
       }
     });
   }
