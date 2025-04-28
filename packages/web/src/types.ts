@@ -1,6 +1,7 @@
 interface PageViewEvent {
   type: 'pageview';
   url: string;
+  title?: string;
 }
 interface CustomEvent {
   type: 'event';
