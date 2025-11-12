@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { track } from '@vercel/analytics';
+// import { track } from '@vercel/analytics';
 
-function navigate(event: { target: { href: string } }) {
-  track('navigation', { to: event.target.href });
-}
+// function navigate(event: { target: { href: string } }) {
+//   track('navigation', { to: event.target.href });
+// }
 </script>
 
 <template>
@@ -16,10 +16,15 @@ function navigate(event: { target: { href: string } }) {
       height="125"
     />
     <div class="wrapper">
-      <nav>
+      <!-- <nav>
         <NuxtLink @click="navigate" to="/">Home</NuxtLink>
         <NuxtLink @click="navigate" to="/blog/various/hi">Hi!</NuxtLink>
         <NuxtLink @click="navigate" to="/blog/various/hallo">Hallo!</NuxtLink>
+      </nav> -->
+      <nav>
+        <NuxtLink to="/">Home</NuxtLink>
+        <NuxtLink to="/blog/various/hi">Hi!</NuxtLink>
+        <NuxtLink to="/blog/various/hallo">Hallo!</NuxtLink>
       </nav>
     </div>
     <slot />
