@@ -31,6 +31,11 @@
       "import": "./dist/nuxt/index.mjs",
       "require": "./dist/nuxt/index.js"
     },
+    "./nuxt/module": {
+      "browser": "./dist/nuxt/module.mjs",
+      "import": "./dist/nuxt/module.mjs",
+      "require": "./dist/nuxt/module.js"
+    },
     "./react": {
       "browser": "./dist/react/index.mjs",
       "import": "./dist/react/index.mjs",
@@ -128,6 +133,7 @@
     "@remix-run/react": "^2",
     "@sveltejs/kit": "^1 || ^2",
     "next": ">= 13",
+    "nuxt": ">= 3",
     "react": "^18 || ^19 || ^19.0.0-rc",
     "svelte": ">= 4",
     "vue": "^3",
