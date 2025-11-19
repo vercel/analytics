@@ -12,7 +12,7 @@ export default defineNuxtModule({
     const template = addTemplate({
       filename: 'vercel-analytics.client.ts',
       getContents: () => `
-import { injectAnalytics, pageview } from '@vercel/analytics/nuxt'
+import { injectAnalytics } from '@vercel/analytics/nuxt'
 import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin(() => {

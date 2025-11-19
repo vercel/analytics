@@ -27,14 +27,18 @@ function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
         basePath: getBasePath(),
       });
       pageview({
-        route: route.matched[0]?.path || route.path,
+        route: route.matched?.length
+          ? route.matched[route.matched.length - 1]?.path
+          : route.path,
         path: route.path,
       });
     });
     // On navigation to a new page
     nuxtApp.hooks.hook('page:finish', () => {
       pageview({
-        route: route.matched[0]?.path || route.path,
+        route: route.matched?.length
+          ? route.matched[route.matched.length - 1]?.path
+          : route.path,
         path: route.path,
       });
     });
