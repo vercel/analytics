@@ -26,7 +26,7 @@ function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
       });
       const route = useRoute();
       pageview({
-        route: route.matched?.length
+        route: route.matched.length
           ? route.matched[route.matched.length - 1]?.path
           : route.path,
         path: route.path,
@@ -35,7 +35,7 @@ function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
     // On navigation to a new page
     router.afterEach((to) => {
       pageview({
-        route: to.matched?.length
+        route: to.matched.length
           ? to.matched[to.matched.length - 1]?.path
           : to.path,
         path: to.path,
