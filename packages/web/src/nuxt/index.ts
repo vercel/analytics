@@ -1,4 +1,4 @@
-import { useRoute, useNuxtApp, onNuxtReady } from 'nuxt/app';
+import { onNuxtReady, useRouter, useRoute } from 'nuxt/app';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
 import { createComponent } from '../vue/create-component';
 import { inject, pageview, track } from '../generic';
@@ -15,9 +15,7 @@ export type { AnalyticsProps, BeforeSend, BeforeSendEvent };
 function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
   if (isBrowser()) {
     // eslint-disable-next-line react-hooks/rules-of-hooks -- we are not using a React here
-    const nuxtApp = useNuxtApp();
-    // eslint-disable-next-line react-hooks/rules-of-hooks -- we are not using a React here
-    const route = useRoute();
+    const router = useRouter();
 
     onNuxtReady(() => {
       inject({
@@ -26,6 +24,7 @@ function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
         disableAutoTrack: true,
         basePath: getBasePath(),
       });
+      const route = useRoute();
       pageview({
         route: route.matched?.length
           ? route.matched[route.matched.length - 1]?.path
@@ -34,12 +33,12 @@ function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
       });
     });
     // On navigation to a new page
-    nuxtApp.hooks.hook('page:finish', () => {
+    router.afterEach((to) => {
       pageview({
-        route: route.matched?.length
-          ? route.matched[route.matched.length - 1]?.path
-          : route.path,
-        path: route.path,
+        route: to.matched?.length
+          ? to.matched[to.matched.length - 1]?.path
+          : to.path,
+        path: to.path,
       });
     });
   }
