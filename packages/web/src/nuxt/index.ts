@@ -2,7 +2,7 @@ import { onNuxtReady, useRouter, useRoute } from 'nuxt/app';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
 import { createComponent } from '../vue/create-component';
 import { inject, pageview, track } from '../generic';
-import { isBrowser } from '../utils';
+import { isBrowser, computeRoute } from '../utils';
 import { getBasePath } from './utils';
 
 // Export the Analytics component
@@ -26,18 +26,14 @@ function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
       });
       const route = useRoute();
       pageview({
-        route: route.matched.length
-          ? route.matched[route.matched.length - 1]?.path
-          : route.path,
+        route: computeRoute(route.path, route.params),
         path: route.path,
       });
     });
     // On navigation to a new page
     router.afterEach((to) => {
       pageview({
-        route: to.matched.length
-          ? to.matched[to.matched.length - 1]?.path
-          : to.path,
+        route: computeRoute(to.path, to.params),
         path: to.path,
       });
     });
