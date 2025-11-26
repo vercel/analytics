@@ -35,7 +35,7 @@ importers:
         version: link:../../packages/web
       astro:
         specifier: latest
-        version: 5.15.9(typescript@5.9.3)
+        version: 5.16.1(typescript@5.9.3)
     devDependencies:
       '@astrojs/check':
         specifier: ^0.5.4
@@ -120,15 +120,18 @@ importers:
       '@vercel/analytics':
         specifier: workspace:*
         version: link:../../packages/web
+      '@vercel/speed-insights':
+        specifier: ^1.2.0
+        version: 1.2.0(vue-router@4.6.3)(vue@3.5.25)
       nuxt:
         specifier: ^4.2.0
-        version: 4.2.0(@vue/compiler-sfc@3.5.24)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.2)
+        version: 4.2.0(@vue/compiler-sfc@3.5.25)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.4)
       vue:
         specifier: latest
-        version: 3.5.24(typescript@5.9.3)
+        version: 3.5.25(typescript@5.9.3)
       vue-router:
         specifier: latest
-        version: 4.6.3(vue@3.5.24)
+        version: 4.6.3(vue@3.5.25)
 
   apps/remix:
     dependencies:
@@ -186,28 +189,28 @@ importers:
     devDependencies:
       '@sveltejs/adapter-vercel':
         specifier: latest
-        version: 6.1.1(@sveltejs/kit@2.48.5)
+        version: 6.1.2(@sveltejs/kit@2.49.0)
       '@sveltejs/kit':
         specifier: latest
-        version: 2.48.5(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.43.12)(vite@7.2.2)
+        version: 2.49.0(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.44.1)(vite@7.2.4)
       '@sveltejs/vite-plugin-svelte':
         specifier: latest
-        version: 6.2.1(svelte@5.43.12)(vite@7.2.2)
+        version: 6.2.1(svelte@5.44.1)(vite@7.2.4)
       '@vercel/analytics':
         specifier: workspace:*
         version: link:../../packages/web
       svelte:
         specifier: latest
-        version: 5.43.12
+        version: 5.44.1
       svelte-check:
         specifier: latest
-        version: 4.3.4(svelte@5.43.12)(typescript@5.9.3)
+        version: 4.3.4(svelte@5.44.1)(typescript@5.9.3)
       typescript:
         specifier: latest
         version: 5.9.3
       vite:
         specifier: latest
-        version: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
+        version: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
 
   apps/vue:
     dependencies:
@@ -216,14 +219,14 @@ importers:
         version: link:../../packages/web
       vue:
         specifier: latest
-        version: 3.5.24(typescript@5.9.3)
+        version: 3.5.25(typescript@5.9.3)
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: latest
-        version: 6.0.2(vite@7.2.2)(vue@3.5.24)
+        version: 6.0.2(vite@7.2.4)(vue@3.5.25)
       vite:
         specifier: latest
-        version: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
+        version: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
 
   packages/eslint-config:
     dependencies:
@@ -251,13 +254,13 @@ importers:
         version: 2.17.2(react-dom@18.3.1)(react@18.3.1)(typescript@5.9.3)
       '@sveltejs/kit':
         specifier: ^1 || ^2
-        version: 2.48.5(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.43.12)(vite@7.2.2)
+        version: 2.48.5(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.43.12)(vite@7.2.4)
       next:
         specifier: '>= 13'
         version: 14.1.0(@babel/core@7.28.5)(react-dom@18.3.1)(react@18.3.1)
       nuxt:
         specifier: '>= 3'
-        version: 4.2.0(@types/node@22.9.0)(@vue/compiler-sfc@3.5.24)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.2)
+        version: 4.2.0(@types/node@22.9.0)(@vue/compiler-sfc@3.5.25)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.4)
       react:
         specifier: ^18 || ^19 || ^19.0.0-rc
         version: 18.3.1
@@ -512,7 +515,7 @@ packages:
       '@babel/types': 7.28.5
       '@jridgewell/gen-mapping': 0.3.13
       '@jridgewell/trace-mapping': 0.3.31
-      jsesc: 3.0.2
+      jsesc: 3.1.0
 
   /@babel/helper-annotate-as-pure@7.27.3:
     resolution: {integrity: sha512-fXSwMQqitTGeHLBC08Eq5yXz2m37E4pJX1qAU1+2cNedz/ifv/bVXft90VeSav5nFO61EcNgwr0aJxbyPaWBPg==}
@@ -2404,6 +2407,18 @@ packages:
     resolution: {integrity: sha512-aFT2yemJJo+TZCmieA7qnYGQooOS7QfNmYrzGtsYd3g9j5iDP8AimYYAesf79ohjbLG12XxC4nG5DyEnC88AsQ==}
     dev: false
 
+  /@isaacs/balanced-match@4.0.1:
+    resolution: {integrity: sha512-yzMTt9lEb8Gv7zRioUilSglI0c0smZ9k5D65677DLWLtWJaXIS3CqcGyUFByYKlnUj6TkjLVs54fBl6+TiGQDQ==}
+    engines: {node: 20 || >=22}
+    dev: true
+
+  /@isaacs/brace-expansion@5.0.0:
+    resolution: {integrity: sha512-ZT55BDLV0yv0RBm2czMiZ+SqCGO7AvmOM3G/w2xhVPH+te0aKgFjmBvGlL1dH+ql2tgGO3MVrbb3jCKyvpgnxA==}
+    engines: {node: 20 || >=22}
+    dependencies:
+      '@isaacs/balanced-match': 4.0.1
+    dev: true
+
   /@isaacs/cliui@8.0.2:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
@@ -3080,14 +3095,14 @@ packages:
     resolution: {integrity: sha512-GBzP8zOc7CGWyFQS6dv1lQz8VVpz5C2yRszbXufwG/9zhStTIH50EtD87NmWbTMwXDvZLNg8GIpb1UFdH93JCA==}
     dev: false
 
-  /@nuxt/devtools-kit@2.7.0(magicast@0.3.5)(vite@7.2.2):
+  /@nuxt/devtools-kit@2.7.0(magicast@0.3.5)(vite@7.2.4):
     resolution: {integrity: sha512-MIJdah6CF6YOW2GhfKnb8Sivu6HpcQheqdjOlZqShBr+1DyjtKQbAKSCAyKPaoIzZP4QOo2SmTFV6aN8jBeEIQ==}
     peerDependencies:
       vite: '>=6.0'
     dependencies:
       '@nuxt/kit': 3.20.1(magicast@0.3.5)
       execa: 8.0.1
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
     transitivePeerDependencies:
       - magicast
     dev: false
@@ -3106,16 +3121,16 @@ packages:
       semver: 7.7.3
     dev: false
 
-  /@nuxt/devtools@2.7.0(vite@7.2.2)(vue@3.5.24):
+  /@nuxt/devtools@2.7.0(vite@7.2.4)(vue@3.5.25):
     resolution: {integrity: sha512-BtIklVYny14Ykek4SHeexAHoa28MEV9kz223ZzvoNYqE0f+YVV+cJP69ovZHf+HUVpxaAMJfWKLHXinWXiCZ4Q==}
     hasBin: true
     peerDependencies:
       vite: '>=6.0'
     dependencies:
-      '@nuxt/devtools-kit': 2.7.0(magicast@0.3.5)(vite@7.2.2)
+      '@nuxt/devtools-kit': 2.7.0(magicast@0.3.5)(vite@7.2.4)
       '@nuxt/devtools-wizard': 2.7.0
       '@nuxt/kit': 3.20.1(magicast@0.3.5)
-      '@vue/devtools-core': 7.7.9(vite@7.2.2)(vue@3.5.24)
+      '@vue/devtools-core': 7.7.9(vite@7.2.4)(vue@3.5.25)
       '@vue/devtools-kit': 7.7.9
       birpc: 2.8.0
       consola: 3.4.2
@@ -3140,9 +3155,9 @@ packages:
       sirv: 3.0.2
       structured-clone-es: 1.0.0
       tinyglobby: 0.2.15
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
-      vite-plugin-inspect: 11.3.3(@nuxt/kit@3.20.1)(vite@7.2.2)
-      vite-plugin-vue-tracer: 1.1.3(vite@7.2.2)(vue@3.5.24)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
+      vite-plugin-inspect: 11.3.3(@nuxt/kit@3.20.1)(vite@7.2.4)
+      vite-plugin-vue-tracer: 1.1.3(vite@7.2.4)(vue@3.5.25)
       which: 5.0.0
       ws: 8.18.3
     transitivePeerDependencies:
@@ -3273,8 +3288,8 @@ packages:
     dependencies:
       '@nuxt/devalue': 2.0.2
       '@nuxt/kit': 4.2.0
-      '@unhead/vue': 2.0.19(vue@3.5.24)
-      '@vue/shared': 3.5.24
+      '@unhead/vue': 2.0.19(vue@3.5.25)
+      '@vue/shared': 3.5.25
       consola: 3.4.2
       defu: 6.1.4
       destr: 2.0.5
@@ -3287,15 +3302,15 @@ packages:
       klona: 2.0.6
       mocked-exports: 0.1.1
       nitropack: 2.12.9
-      nuxt: 4.2.0(@vue/compiler-sfc@3.5.24)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.2)
+      nuxt: 4.2.0(@vue/compiler-sfc@3.5.25)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.4)
       pathe: 2.0.3
       pkg-types: 2.3.0
       radix3: 1.1.2
       std-env: 3.10.0
       ufo: 1.6.1
       unctx: 2.4.1
-      unstorage: 1.17.2(db0@0.3.4)(ioredis@5.8.2)
-      vue: 3.5.24(typescript@5.9.3)
+      unstorage: 1.17.3(db0@0.3.4)(ioredis@5.8.2)
+      vue: 3.5.25(typescript@5.9.3)
       vue-bundle-renderer: 2.2.0
       vue-devtools-stub: 0.1.0
     transitivePeerDependencies:
@@ -3365,7 +3380,7 @@ packages:
       - magicast
     dev: false
 
-  /@nuxt/vite-builder@4.2.0(@types/node@22.9.0)(eslint@8.57.1)(nuxt@4.2.0)(typescript@5.9.3)(vue@3.5.24):
+  /@nuxt/vite-builder@4.2.0(@types/node@22.9.0)(eslint@8.57.1)(nuxt@4.2.0)(typescript@5.9.3)(vue@3.5.25):
     resolution: {integrity: sha512-pNHIoO8kiSsOnoMo2zmxy0mk71ZBP4KJCiXr7Ahq8ewOm4W4vFQ1NV1O46wJGZyxlPC6nqFuYBvcUwVp1LgTNg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
@@ -3378,8 +3393,8 @@ packages:
     dependencies:
       '@nuxt/kit': 4.2.0
       '@rollup/plugin-replace': 6.0.3(rollup@4.53.3)
-      '@vitejs/plugin-vue': 6.0.2(vite@7.2.2)(vue@3.5.24)
-      '@vitejs/plugin-vue-jsx': 5.1.2(vite@7.2.2)(vue@3.5.24)
+      '@vitejs/plugin-vue': 6.0.2(vite@7.2.4)(vue@3.5.25)
+      '@vitejs/plugin-vue-jsx': 5.1.2(vite@7.2.4)(vue@3.5.25)
       autoprefixer: 10.4.22(postcss@8.5.6)
       consola: 3.4.2
       cssnano: 7.1.2(postcss@8.5.6)
@@ -3394,7 +3409,7 @@ packages:
       magic-string: 0.30.21
       mlly: 1.8.0
       mocked-exports: 0.1.1
-      nuxt: 4.2.0(@types/node@22.9.0)(@vue/compiler-sfc@3.5.24)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.2)
+      nuxt: 4.2.0(@types/node@22.9.0)(@vue/compiler-sfc@3.5.25)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.4)
       pathe: 2.0.3
       pkg-types: 2.3.0
       postcss: 8.5.6
@@ -3403,10 +3418,10 @@ packages:
       std-env: 3.10.0
       ufo: 1.6.1
       unenv: 2.0.0-rc.24
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
       vite-node: 3.2.4(@types/node@22.9.0)(jiti@2.6.1)
-      vite-plugin-checker: 0.11.0(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.2)
-      vue: 3.5.24(typescript@5.9.3)
+      vite-plugin-checker: 0.11.0(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.4)
+      vue: 3.5.25(typescript@5.9.3)
       vue-bundle-renderer: 2.2.0
     transitivePeerDependencies:
       - '@biomejs/biome'
@@ -3434,7 +3449,7 @@ packages:
       - yaml
     dev: false
 
-  /@nuxt/vite-builder@4.2.0(eslint@8.57.1)(nuxt@4.2.0)(typescript@5.9.3)(vue@3.5.24):
+  /@nuxt/vite-builder@4.2.0(eslint@8.57.1)(nuxt@4.2.0)(typescript@5.9.3)(vue@3.5.25):
     resolution: {integrity: sha512-pNHIoO8kiSsOnoMo2zmxy0mk71ZBP4KJCiXr7Ahq8ewOm4W4vFQ1NV1O46wJGZyxlPC6nqFuYBvcUwVp1LgTNg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
@@ -3447,8 +3462,8 @@ packages:
     dependencies:
       '@nuxt/kit': 4.2.0
       '@rollup/plugin-replace': 6.0.3(rollup@4.53.3)
-      '@vitejs/plugin-vue': 6.0.2(vite@7.2.2)(vue@3.5.24)
-      '@vitejs/plugin-vue-jsx': 5.1.2(vite@7.2.2)(vue@3.5.24)
+      '@vitejs/plugin-vue': 6.0.2(vite@7.2.4)(vue@3.5.25)
+      '@vitejs/plugin-vue-jsx': 5.1.2(vite@7.2.4)(vue@3.5.25)
       autoprefixer: 10.4.22(postcss@8.5.6)
       consola: 3.4.2
       cssnano: 7.1.2(postcss@8.5.6)
@@ -3463,7 +3478,7 @@ packages:
       magic-string: 0.30.21
       mlly: 1.8.0
       mocked-exports: 0.1.1
-      nuxt: 4.2.0(@vue/compiler-sfc@3.5.24)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.2)
+      nuxt: 4.2.0(@vue/compiler-sfc@3.5.25)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.4)
       pathe: 2.0.3
       pkg-types: 2.3.0
       postcss: 8.5.6
@@ -3472,10 +3487,10 @@ packages:
       std-env: 3.10.0
       ufo: 1.6.1
       unenv: 2.0.0-rc.24
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
       vite-node: 3.2.4(@types/node@22.9.0)(jiti@2.6.1)
-      vite-plugin-checker: 0.11.0(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.2)
-      vue: 3.5.24(typescript@5.9.3)
+      vite-plugin-checker: 0.11.0(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.4)
+      vue: 3.5.25(typescript@5.9.3)
       vue-bundle-renderer: 2.2.0
     transitivePeerDependencies:
       - '@biomejs/biome'
@@ -4015,6 +4030,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.8
+      napi-wasm: 1.1.3
     dev: false
     bundledDependencies:
       - napi-wasm
@@ -4177,10 +4193,10 @@ packages:
       picocolors: 1.1.1
       picomatch: 2.3.1
       pidtree: 0.6.0
-      postcss: 8.4.38
-      postcss-discard-duplicates: 5.1.0(postcss@8.4.38)
-      postcss-load-config: 4.0.2(postcss@8.4.38)
-      postcss-modules: 6.0.1(postcss@8.4.38)
+      postcss: 8.5.6
+      postcss-discard-duplicates: 5.1.0(postcss@8.5.6)
+      postcss-load-config: 4.0.2(postcss@8.5.6)
+      postcss-modules: 6.0.1(postcss@8.5.6)
       prettier: 2.8.8
       pretty-ms: 7.0.1
       react-refresh: 0.14.2
@@ -4715,14 +4731,14 @@ packages:
     dependencies:
       acorn: 8.15.0
 
-  /@sveltejs/adapter-vercel@6.1.1(@sveltejs/kit@2.48.5):
-    resolution: {integrity: sha512-rnuREIO/dBYZn825aXTmdCU7sBr4nQqxNVkqYLUHoUnuv3vaas6O/SxAI1TiYBDEetgeQ5m51I5dTVJvhVzASA==}
+  /@sveltejs/adapter-vercel@6.1.2(@sveltejs/kit@2.49.0):
+    resolution: {integrity: sha512-S1f6OIvC+GRBfKe7xO7ilE6HBZiYRvPRHpoWUUSHneQIwqhJvmgrXZ7epYJR15BjVwUscZH9xwFfok58ZC4I7g==}
     engines: {node: '>=20.0'}
     peerDependencies:
       '@sveltejs/kit': ^2.4.0
     dependencies:
-      '@sveltejs/kit': 2.48.5(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.43.12)(vite@7.2.2)
-      '@vercel/nft': 0.30.3(rollup@4.53.3)
+      '@sveltejs/kit': 2.49.0(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.44.1)(vite@7.2.4)
+      '@vercel/nft': 1.1.0
       esbuild: 0.25.12
     transitivePeerDependencies:
       - encoding
@@ -4730,7 +4746,7 @@ packages:
       - supports-color
     dev: true
 
-  /@sveltejs/kit@2.48.5(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.43.12)(vite@7.2.2):
+  /@sveltejs/kit@2.48.5(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.43.12)(vite@7.2.4):
     resolution: {integrity: sha512-/rnwfSWS3qwUSzvHynUTORF9xSJi7PCR9yXkxUOnRrNqyKmCmh3FPHH+E9BbgqxXfTevGXBqgnlh9kMb+9T5XA==}
     engines: {node: '>=18.13'}
     hasBin: true
@@ -4745,7 +4761,7 @@ packages:
     dependencies:
       '@standard-schema/spec': 1.0.0
       '@sveltejs/acorn-typescript': 1.0.7(acorn@8.15.0)
-      '@sveltejs/vite-plugin-svelte': 6.2.1(svelte@5.43.12)(vite@7.2.2)
+      '@sveltejs/vite-plugin-svelte': 6.2.1(svelte@5.43.12)(vite@7.2.4)
       '@types/cookie': 0.6.0
       acorn: 8.15.0
       cookie: 0.6.0
@@ -4758,9 +4774,41 @@ packages:
       set-cookie-parser: 2.7.2
       sirv: 3.0.2
       svelte: 5.43.12
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
+    dev: false
 
-  /@sveltejs/vite-plugin-svelte-inspector@5.0.1(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.43.12)(vite@7.2.2):
+  /@sveltejs/kit@2.49.0(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.44.1)(vite@7.2.4):
+    resolution: {integrity: sha512-oH8tXw7EZnie8FdOWYrF7Yn4IKrqTFHhXvl8YxXxbKwTMcD/5NNCryUSEXRk2ZR4ojnub0P8rNrsVGHXWqIDtA==}
+    engines: {node: '>=18.13'}
+    hasBin: true
+    peerDependencies:
+      '@opentelemetry/api': ^1.0.0
+      '@sveltejs/vite-plugin-svelte': ^3.0.0 || ^4.0.0-next.1 || ^5.0.0 || ^6.0.0-next.0
+      svelte: ^4.0.0 || ^5.0.0-next.0
+      vite: ^5.0.3 || ^6.0.0 || ^7.0.0-beta.0
+    peerDependenciesMeta:
+      '@opentelemetry/api':
+        optional: true
+    dependencies:
+      '@standard-schema/spec': 1.0.0
+      '@sveltejs/acorn-typescript': 1.0.7(acorn@8.15.0)
+      '@sveltejs/vite-plugin-svelte': 6.2.1(svelte@5.44.1)(vite@7.2.4)
+      '@types/cookie': 0.6.0
+      acorn: 8.15.0
+      cookie: 0.6.0
+      devalue: 5.5.0
+      esm-env: 1.2.2
+      kleur: 4.1.5
+      magic-string: 0.30.21
+      mrmime: 2.0.1
+      sade: 1.8.1
+      set-cookie-parser: 2.7.2
+      sirv: 3.0.2
+      svelte: 5.44.1
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
+    dev: true
+
+  /@sveltejs/vite-plugin-svelte-inspector@5.0.1(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.43.12)(vite@7.2.4):
     resolution: {integrity: sha512-ubWshlMk4bc8mkwWbg6vNvCeT7lGQojE3ijDh3QTR6Zr/R+GXxsGbyH4PExEPpiFmqPhYiVSVmHBjUcVc1JIrA==}
     engines: {node: ^20.19 || ^22.12 || >=24}
     peerDependencies:
@@ -4768,29 +4816,65 @@ packages:
       svelte: ^5.0.0
       vite: ^6.3.0 || ^7.0.0
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 6.2.1(svelte@5.43.12)(vite@7.2.2)
+      '@sveltejs/vite-plugin-svelte': 6.2.1(svelte@5.43.12)(vite@7.2.4)
       debug: 4.4.3
       svelte: 5.43.12
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
-  /@sveltejs/vite-plugin-svelte@6.2.1(svelte@5.43.12)(vite@7.2.2):
+  /@sveltejs/vite-plugin-svelte-inspector@5.0.1(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.44.1)(vite@7.2.4):
+    resolution: {integrity: sha512-ubWshlMk4bc8mkwWbg6vNvCeT7lGQojE3ijDh3QTR6Zr/R+GXxsGbyH4PExEPpiFmqPhYiVSVmHBjUcVc1JIrA==}
+    engines: {node: ^20.19 || ^22.12 || >=24}
+    peerDependencies:
+      '@sveltejs/vite-plugin-svelte': ^6.0.0-next.0
+      svelte: ^5.0.0
+      vite: ^6.3.0 || ^7.0.0
+    dependencies:
+      '@sveltejs/vite-plugin-svelte': 6.2.1(svelte@5.44.1)(vite@7.2.4)
+      debug: 4.4.3
+      svelte: 5.44.1
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@sveltejs/vite-plugin-svelte@6.2.1(svelte@5.43.12)(vite@7.2.4):
     resolution: {integrity: sha512-YZs/OSKOQAQCnJvM/P+F1URotNnYNeU3P2s4oIpzm1uFaqUEqRxUB0g5ejMjEb5Gjb9/PiBI5Ktrq4rUUF8UVQ==}
     engines: {node: ^20.19 || ^22.12 || >=24}
     peerDependencies:
       svelte: ^5.0.0
       vite: ^6.3.0 || ^7.0.0
     dependencies:
-      '@sveltejs/vite-plugin-svelte-inspector': 5.0.1(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.43.12)(vite@7.2.2)
+      '@sveltejs/vite-plugin-svelte-inspector': 5.0.1(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.43.12)(vite@7.2.4)
       debug: 4.4.3
       deepmerge: 4.3.1
       magic-string: 0.30.21
       svelte: 5.43.12
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
-      vitefu: 1.1.1(vite@7.2.2)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
+      vitefu: 1.1.1(vite@7.2.4)
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@sveltejs/vite-plugin-svelte@6.2.1(svelte@5.44.1)(vite@7.2.4):
+    resolution: {integrity: sha512-YZs/OSKOQAQCnJvM/P+F1URotNnYNeU3P2s4oIpzm1uFaqUEqRxUB0g5ejMjEb5Gjb9/PiBI5Ktrq4rUUF8UVQ==}
+    engines: {node: ^20.19 || ^22.12 || >=24}
+    peerDependencies:
+      svelte: ^5.0.0
+      vite: ^6.3.0 || ^7.0.0
+    dependencies:
+      '@sveltejs/vite-plugin-svelte-inspector': 5.0.1(@sveltejs/vite-plugin-svelte@6.2.1)(svelte@5.44.1)(vite@7.2.4)
+      debug: 4.4.3
+      deepmerge: 4.3.1
+      magic-string: 0.30.21
+      svelte: 5.44.1
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
+      vitefu: 1.1.1(vite@7.2.4)
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
 
   /@swc/core-darwin-arm64@1.9.2:
     resolution: {integrity: sha512-nETmsCoY29krTF2PtspEgicb3tqw7Ci5sInTI03EU5zpqYbPjoPH99BVTjj0OsF53jP5MxwnLI5Hm21lUn1d6A==}
@@ -5783,14 +5867,14 @@ packages:
   /@ungap/structured-clone@1.3.0:
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
 
-  /@unhead/vue@2.0.19(vue@3.5.24):
+  /@unhead/vue@2.0.19(vue@3.5.25):
     resolution: {integrity: sha512-7BYjHfOaoZ9+ARJkT10Q2TjnTUqDXmMpfakIAsD/hXiuff1oqWg1xeXT5+MomhNcC15HbiABpbbBmITLSHxdKg==}
     peerDependencies:
       vue: '>=3.5.18'
     dependencies:
       hookable: 5.5.3
       unhead: 2.0.19
-      vue: 3.5.24(typescript@5.9.3)
+      vue: 3.5.25(typescript@5.9.3)
     dev: false
 
   /@unrs/resolver-binding-android-arm-eabi@1.11.1:
@@ -5981,7 +6065,7 @@ packages:
       '@babel/plugin-syntax-typescript': 7.27.1(@babel/core@7.28.5)
       '@vanilla-extract/babel-plugin-debug-ids': 1.2.2
       '@vanilla-extract/css': 1.17.4
-      esbuild: 0.17.6
+      esbuild: 0.19.12
       eval: 0.1.8
       find-up: 5.0.0
       javascript-stringify: 2.1.0
@@ -6027,6 +6111,58 @@ packages:
       - encoding
       - rollup
       - supports-color
+    dev: false
+
+  /@vercel/nft@1.1.0:
+    resolution: {integrity: sha512-mmttcHfhWiVRkO1mgnuyOXw9QMfh+K4AkT/kTTlvcLMymzO0vLUSa5YKJYeO33141ybwEsGBgB/5093UGhfZkQ==}
+    engines: {node: '>=20'}
+    hasBin: true
+    dependencies:
+      '@mapbox/node-pre-gyp': 2.0.0
+      '@rollup/pluginutils': 5.3.0(rollup@4.53.3)
+      acorn: 8.15.0
+      acorn-import-attributes: 1.9.5(acorn@8.15.0)
+      async-sema: 3.1.1
+      bindings: 1.5.0
+      estree-walker: 2.0.2
+      glob: 13.0.0
+      graceful-fs: 4.2.11
+      node-gyp-build: 4.8.4
+      picomatch: 4.0.3
+      resolve-from: 5.0.0
+    transitivePeerDependencies:
+      - encoding
+      - rollup
+      - supports-color
+    dev: true
+
+  /@vercel/speed-insights@1.2.0(vue-router@4.6.3)(vue@3.5.25):
+    resolution: {integrity: sha512-y9GVzrUJ2xmgtQlzFP2KhVRoCglwfRQgjyfY607aU0hh0Un6d0OUyrJkjuAlsV18qR4zfoFPs/BiIj9YDS6Wzw==}
+    requiresBuild: true
+    peerDependencies:
+      '@sveltejs/kit': ^1 || ^2
+      next: '>= 13'
+      react: ^18 || ^19 || ^19.0.0-rc
+      svelte: '>= 4'
+      vue: ^3
+      vue-router: ^4
+    peerDependenciesMeta:
+      '@sveltejs/kit':
+        optional: true
+      next:
+        optional: true
+      react:
+        optional: true
+      svelte:
+        optional: true
+      vue:
+        optional: true
+      vue-router:
+        optional: true
+    dependencies:
+      vue: 3.5.25(typescript@5.9.3)
+      vue-router: 4.6.3(vue@3.5.25)
+    dev: false
 
   /@vercel/style-guide@5.0.1(@next/eslint-plugin-next@13.4.7)(eslint@8.43.0)(prettier@2.8.8)(typescript@5.1.3):
     resolution: {integrity: sha512-3J/5xpwJ2Wk+cKB3EGY2KCdVQycaThLKhjBmgXPfIKb+E74lPpXVIDfaQE0D2JoAyIzGsqdH7Lbmr+DojwofxQ==}
@@ -6123,7 +6259,7 @@ packages:
       - supports-color
     dev: true
 
-  /@vitejs/plugin-vue-jsx@5.1.2(vite@7.2.2)(vue@3.5.24):
+  /@vitejs/plugin-vue-jsx@5.1.2(vite@7.2.4)(vue@3.5.25):
     resolution: {integrity: sha512-3a2BOryRjG/Iih87x87YXz5c8nw27eSlHytvSKYfp8ZIsp5+FgFQoKeA7k2PnqWpjJrv6AoVTMnvmuKUXb771A==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
@@ -6135,13 +6271,13 @@ packages:
       '@babel/plugin-transform-typescript': 7.28.5(@babel/core@7.28.5)
       '@rolldown/pluginutils': 1.0.0-beta.51
       '@vue/babel-plugin-jsx': 2.0.1(@babel/core@7.28.5)
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
-      vue: 3.5.24(typescript@5.9.3)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
+      vue: 3.5.25(typescript@5.9.3)
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@vitejs/plugin-vue@6.0.2(vite@7.2.2)(vue@3.5.24):
+  /@vitejs/plugin-vue@6.0.2(vite@7.2.4)(vue@3.5.25):
     resolution: {integrity: sha512-iHmwV3QcVGGvSC1BG5bZ4z6iwa1SOpAPWmnjOErd4Ske+lZua5K9TtAVdx0gMBClJ28DViCbSmZitjWZsWO3LA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
@@ -6149,8 +6285,8 @@ packages:
       vue: ^3.2.25
     dependencies:
       '@rolldown/pluginutils': 1.0.0-beta.50
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
-      vue: 3.5.24(typescript@5.9.3)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
+      vue: 3.5.25(typescript@5.9.3)
 
   /@vitest/expect@2.1.5:
     resolution: {integrity: sha512-nZSBTW1XIdpZvEJyoP/Sy8fUg0b8od7ZpGDkTUcfJ7wz/VoZAFzFfLyxVxGFhUjJzhYqSbIpfMtl/+k/dpWa3Q==}
@@ -6284,7 +6420,7 @@ packages:
     resolution: {integrity: sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ==}
     dev: true
 
-  /@vue-macros/common@3.1.1(vue@3.5.24):
+  /@vue-macros/common@3.1.1(vue@3.5.25):
     resolution: {integrity: sha512-afW2DMjgCBVs33mWRlz7YsGHzoEEupnl0DK5ZTKsgziAlLh5syc5m+GM7eqeYrgiQpwMaVxa1fk73caCvPxyAw==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
@@ -6293,12 +6429,12 @@ packages:
       vue:
         optional: true
     dependencies:
-      '@vue/compiler-sfc': 3.5.24
+      '@vue/compiler-sfc': 3.5.25
       ast-kit: 2.2.0
       local-pkg: 1.1.2
       magic-string-ast: 1.0.3
       unplugin-utils: 0.3.1
-      vue: 3.5.24(typescript@5.9.3)
+      vue: 3.5.25(typescript@5.9.3)
     dev: false
 
   /@vue/babel-helper-vue-transform-on@2.0.1:
@@ -6322,7 +6458,7 @@ packages:
       '@babel/types': 7.28.5
       '@vue/babel-helper-vue-transform-on': 2.0.1
       '@vue/babel-plugin-resolve-type': 2.0.1(@babel/core@7.28.5)
-      '@vue/shared': 3.5.24
+      '@vue/shared': 3.5.25
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -6337,7 +6473,7 @@ packages:
       '@babel/helper-module-imports': 7.27.1
       '@babel/helper-plugin-utils': 7.27.1
       '@babel/parser': 7.28.5
-      '@vue/compiler-sfc': 3.5.24
+      '@vue/compiler-sfc': 3.5.25
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -6350,12 +6486,29 @@ packages:
       entities: 4.5.0
       estree-walker: 2.0.2
       source-map-js: 1.2.1
+    dev: true
+
+  /@vue/compiler-core@3.5.25:
+    resolution: {integrity: sha512-vay5/oQJdsNHmliWoZfHPoVZZRmnSWhug0BYT34njkYTPqClh3DNWLkZNJBVSjsNMrg0CCrBfoKkjZQPM/QVUw==}
+    dependencies:
+      '@babel/parser': 7.28.5
+      '@vue/shared': 3.5.25
+      entities: 4.5.0
+      estree-walker: 2.0.2
+      source-map-js: 1.2.1
 
   /@vue/compiler-dom@3.5.24:
     resolution: {integrity: sha512-1QHGAvs53gXkWdd3ZMGYuvQFXHW4ksKWPG8HP8/2BscrbZ0brw183q2oNWjMrSWImYLHxHrx1ItBQr50I/q2zw==}
     dependencies:
       '@vue/compiler-core': 3.5.24
       '@vue/shared': 3.5.24
+    dev: true
+
+  /@vue/compiler-dom@3.5.25:
+    resolution: {integrity: sha512-4We0OAcMZsKgYoGlMjzYvaoErltdFI2/25wqanuTu+S4gismOTRTBPi4IASOjxWdzIwrYSjnqONfKvuqkXzE2Q==}
+    dependencies:
+      '@vue/compiler-core': 3.5.25
+      '@vue/shared': 3.5.25
 
   /@vue/compiler-sfc@3.5.24:
     resolution: {integrity: sha512-8EG5YPRgmTB+YxYBM3VXy8zHD9SWHUJLIGPhDovo3Z8VOgvP+O7UP5vl0J4BBPWYD9vxtBabzW1EuEZ+Cqs14g==}
@@ -6369,17 +6522,38 @@ packages:
       magic-string: 0.30.21
       postcss: 8.5.6
       source-map-js: 1.2.1
+    dev: true
+
+  /@vue/compiler-sfc@3.5.25:
+    resolution: {integrity: sha512-PUgKp2rn8fFsI++lF2sO7gwO2d9Yj57Utr5yEsDf3GNaQcowCLKL7sf+LvVFvtJDXUp/03+dC6f2+LCv5aK1ag==}
+    dependencies:
+      '@babel/parser': 7.28.5
+      '@vue/compiler-core': 3.5.25
+      '@vue/compiler-dom': 3.5.25
+      '@vue/compiler-ssr': 3.5.25
+      '@vue/shared': 3.5.25
+      estree-walker: 2.0.2
+      magic-string: 0.30.21
+      postcss: 8.5.6
+      source-map-js: 1.2.1
 
   /@vue/compiler-ssr@3.5.24:
     resolution: {integrity: sha512-trOvMWNBMQ/odMRHW7Ae1CdfYx+7MuiQu62Jtu36gMLXcaoqKvAyh+P73sYG9ll+6jLB6QPovqoKGGZROzkFFg==}
     dependencies:
       '@vue/compiler-dom': 3.5.24
       '@vue/shared': 3.5.24
+    dev: true
+
+  /@vue/compiler-ssr@3.5.25:
+    resolution: {integrity: sha512-ritPSKLBcParnsKYi+GNtbdbrIE1mtuFEJ4U1sWeuOMlIziK5GtOL85t5RhsNy4uWIXPgk+OUdpnXiTdzn8o3A==}
+    dependencies:
+      '@vue/compiler-dom': 3.5.25
+      '@vue/shared': 3.5.25
 
   /@vue/devtools-api@6.6.4:
     resolution: {integrity: sha512-sGhTPMuXqZ1rVOk32RylztWkfXTRhuS7vgAKv0zjqk8gbsHkJ7xfFf+jbySxt7tWObEJwyKaHMikV/WGDiQm8g==}
 
-  /@vue/devtools-core@7.7.9(vite@7.2.2)(vue@3.5.24):
+  /@vue/devtools-core@7.7.9(vite@7.2.4)(vue@3.5.25):
     resolution: {integrity: sha512-48jrBSwG4GVQRvVeeXn9p9+dlx+ISgasM7SxZZKczseohB0cBz+ITKr4YbLWjmJdy45UHL7UMPlR4Y0CWTRcSQ==}
     peerDependencies:
       vue: ^3.0.0
@@ -6389,8 +6563,8 @@ packages:
       mitt: 3.0.1
       nanoid: 5.1.6
       pathe: 2.0.3
-      vite-hot-client: 2.1.0(vite@7.2.2)
-      vue: 3.5.24(typescript@5.9.3)
+      vite-hot-client: 2.1.0(vite@7.2.4)
+      vue: 3.5.25(typescript@5.9.3)
     transitivePeerDependencies:
       - vite
     dev: false
@@ -6422,8 +6596,8 @@ packages:
         optional: true
     dependencies:
       '@volar/language-core': 2.4.23
-      '@vue/compiler-dom': 3.5.24
-      '@vue/shared': 3.5.24
+      '@vue/compiler-dom': 3.5.25
+      '@vue/shared': 3.5.25
       alien-signals: 3.1.0
       muggle-string: 0.4.1
       path-browserify: 1.0.1
@@ -6435,12 +6609,25 @@ packages:
     resolution: {integrity: sha512-BM8kBhtlkkbnyl4q+HiF5R5BL0ycDPfihowulm02q3WYp2vxgPcJuZO866qa/0u3idbMntKEtVNuAUp5bw4teg==}
     dependencies:
       '@vue/shared': 3.5.24
+    dev: true
+
+  /@vue/reactivity@3.5.25:
+    resolution: {integrity: sha512-5xfAypCQepv4Jog1U4zn8cZIcbKKFka3AgWHEFQeK65OW+Ys4XybP6z2kKgws4YB43KGpqp5D/K3go2UPPunLA==}
+    dependencies:
+      '@vue/shared': 3.5.25
 
   /@vue/runtime-core@3.5.24:
     resolution: {integrity: sha512-RYP/byyKDgNIqfX/gNb2PB55dJmM97jc9wyF3jK7QUInYKypK2exmZMNwnjueWwGceEkP6NChd3D2ZVEp9undQ==}
     dependencies:
       '@vue/reactivity': 3.5.24
       '@vue/shared': 3.5.24
+    dev: true
+
+  /@vue/runtime-core@3.5.25:
+    resolution: {integrity: sha512-Z751v203YWwYzy460bzsYQISDfPjHTl+6Zzwo/a3CsAf+0ccEjQ8c+0CdX1WsumRTHeywvyUFtW6KvNukT/smA==}
+    dependencies:
+      '@vue/reactivity': 3.5.25
+      '@vue/shared': 3.5.25
 
   /@vue/runtime-dom@3.5.24:
     resolution: {integrity: sha512-Z8ANhr/i0XIluonHVjbUkjvn+CyrxbXRIxR7wn7+X7xlcb7dJsfITZbkVOeJZdP8VZwfrWRsWdShH6pngMxRjw==}
@@ -6448,6 +6635,15 @@ packages:
       '@vue/reactivity': 3.5.24
       '@vue/runtime-core': 3.5.24
       '@vue/shared': 3.5.24
+      csstype: 3.2.3
+    dev: true
+
+  /@vue/runtime-dom@3.5.25:
+    resolution: {integrity: sha512-a4WrkYFbb19i9pjkz38zJBg8wa/rboNERq3+hRRb0dHiJh13c+6kAbgqCPfMaJ2gg4weWD3APZswASOfmKwamA==}
+    dependencies:
+      '@vue/reactivity': 3.5.25
+      '@vue/runtime-core': 3.5.25
+      '@vue/shared': 3.5.25
       csstype: 3.2.3
 
   /@vue/server-renderer@3.5.24(vue@3.5.24):
@@ -6458,9 +6654,22 @@ packages:
       '@vue/compiler-ssr': 3.5.24
       '@vue/shared': 3.5.24
       vue: 3.5.24(typescript@5.9.3)
+    dev: true
+
+  /@vue/server-renderer@3.5.25(vue@3.5.25):
+    resolution: {integrity: sha512-UJaXR54vMG61i8XNIzTSf2Q7MOqZHpp8+x3XLGtE3+fL+nQd+k7O5+X3D/uWrnQXOdMw5VPih+Uremcw+u1woQ==}
+    peerDependencies:
+      vue: 3.5.25
+    dependencies:
+      '@vue/compiler-ssr': 3.5.25
+      '@vue/shared': 3.5.25
+      vue: 3.5.25(typescript@5.9.3)
 
   /@vue/shared@3.5.24:
     resolution: {integrity: sha512-9cwHL2EsJBdi8NY22pngYYWzkTDhld6fAD6jlaeloNGciNSJL6bLpbxVgXl96X00Jtc6YWQv96YA/0sxex/k1A==}
+
+  /@vue/shared@3.5.25:
+    resolution: {integrity: sha512-AbOPdQQnAnzs58H2FrrDxYj/TJfmeS2jdfEEhgiKINy+bnOANmVizIEgq1r+C5zsbs6l1CCQxtcj71rwNQ4jWg==}
 
   /@web3-storage/multipart-parser@1.0.0:
     resolution: {integrity: sha512-BEO6al7BYqcnfX15W2cnGR+Q566ACXAT9UQykORCWW80lmkpWsnEob6zJS1ZVBKsSJC8+7vJkHwlp+lXG1UCdw==}
@@ -6828,8 +7037,8 @@ packages:
     hasBin: true
     dev: true
 
-  /astro@5.15.9(typescript@5.9.3):
-    resolution: {integrity: sha512-XLDXxu0282cC/oYHswWZm3johGlRvk9rLRS7pWVWSne+HsZe9JgrpHI+vewAJSSNHBGd1aCyaQOElT5RNGe7IQ==}
+  /astro@5.16.1(typescript@5.9.3):
+    resolution: {integrity: sha512-fkEP3Qi7QlVL4ncyecLRzi+eZx/2RByNApjyw7n5kMhkF9vCYuOZBBm7EbdYM3vrCirSqvSn19C03vjhvKRa6A==}
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
     dependencies:
@@ -6872,20 +7081,21 @@ packages:
       p-limit: 6.2.0
       p-queue: 8.1.1
       package-manager-detector: 1.5.0
-      picocolors: 1.1.1
+      piccolore: 0.1.3
       picomatch: 4.0.3
       prompts: 2.4.2
       rehype: 13.0.2
       semver: 7.7.3
       shiki: 3.15.0
       smol-toml: 1.5.2
+      svgo: 4.0.0
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
       tsconfck: 3.1.6(typescript@5.9.3)
       ultrahtml: 1.6.0
       unifont: 0.6.0
       unist-util-visit: 5.0.0
-      unstorage: 1.17.2(db0@0.3.4)(ioredis@5.8.2)
+      unstorage: 1.17.3(db0@0.3.4)(ioredis@5.8.2)
       vfile: 6.0.3
       vite: 6.4.1
       vitefu: 1.1.1(vite@6.4.1)
@@ -10317,6 +10527,15 @@ packages:
       package-json-from-dist: 1.0.1
       path-scurry: 1.11.1
 
+  /glob@13.0.0:
+    resolution: {integrity: sha512-tvZgpqk6fz4BaNZ66ZsRaZnbHvP/jG3uKJvAZOwEVUL4RTA5nJeeLYfyN9/VA8NX/V3IBG+hkeuGpKjvELkVhA==}
+    engines: {node: 20 || >=22}
+    dependencies:
+      minimatch: 10.1.1
+      minipass: 7.1.2
+      path-scurry: 2.0.1
+    dev: true
+
   /glob@7.1.7:
     resolution: {integrity: sha512-OvD9ENzPLbegENnYP5UUfJIirTg4+XwMWGaQfQTY0JenxNvvIKP3U3/tAQSPIu/lHxXYSZmpXlUHeqAIdKzBLQ==}
     deprecated: Glob versions prior to v9 are no longer supported
@@ -10727,13 +10946,13 @@ packages:
       safer-buffer: 2.1.2
     dev: true
 
-  /icss-utils@5.1.0(postcss@8.4.38):
+  /icss-utils@5.1.0(postcss@8.5.6):
     resolution: {integrity: sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==}
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      postcss: 8.4.38
+      postcss: 8.5.6
     dev: true
 
   /ieee754@1.2.1:
@@ -11840,12 +12059,12 @@ packages:
     resolution: {integrity: sha512-xKqzzWXDttJuOcawBt4KnKHHIf5oQ/Cxax+0PWFG+DFDgHNAdi+TXECADI+RYiFUMmx8792xsMbbgXj4CwnP4g==}
     engines: {node: '>=6'}
     hasBin: true
+    dev: true
 
   /jsesc@3.1.0:
     resolution: {integrity: sha512-/sM3dO2FOzXjKQhJuo0Q173wf2KOo8t4I8vHy6lF9poUp7bKT0/NHE8fPX23PwfhnykfqnC2xRxOnVw5XuGIaA==}
     engines: {node: '>=6'}
     hasBin: true
-    dev: true
 
   /json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
@@ -12143,6 +12362,11 @@ packages:
 
   /lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
+
+  /lru-cache@11.2.2:
+    resolution: {integrity: sha512-F9ODfyqML2coTIsQpSkRHnLSZMtkU8Q+mSfcaIyKwy58u+8k5nvAYeiNhsyMARvzNcXJ9QfWVrcPsC9e9rAxtg==}
+    engines: {node: 20 || >=22}
+    dev: true
 
   /lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
@@ -13112,6 +13336,13 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
+  /minimatch@10.1.1:
+    resolution: {integrity: sha512-enIvLvRAFZYXJzkCYG5RKmPfrFArdLv+R+lbQ53BmIMLIry74bjKzX6iHAm8WYamJkhSSEabrWN5D97XnKObjQ==}
+    engines: {node: 20 || >=22}
+    dependencies:
+      '@isaacs/brace-expansion': 5.0.0
+    dev: true
+
   /minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
     dependencies:
@@ -13283,6 +13514,10 @@ packages:
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
     hasBin: true
     dev: true
+
+  /napi-wasm@1.1.3:
+    resolution: {integrity: sha512-h/4nMGsHjZDCYmQVNODIrYACVJ+I9KItbG+0si6W/jSjdA9JbWDoU4LLeMXVcEQGHjttI2tuXqDrbGF7qkUHHg==}
+    dev: false
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
@@ -13459,7 +13694,7 @@ packages:
       unenv: 2.0.0-rc.24
       unimport: 5.5.0
       unplugin-utils: 0.3.1
-      unstorage: 1.17.2(db0@0.3.4)(ioredis@5.8.2)
+      unstorage: 1.17.3(db0@0.3.4)(ioredis@5.8.2)
       untyped: 2.0.0
       unwasm: 0.3.11
       youch: 4.1.0-beta.13
@@ -13633,7 +13868,7 @@ packages:
       boolbase: 1.0.0
     dev: false
 
-  /nuxt@4.2.0(@types/node@22.9.0)(@vue/compiler-sfc@3.5.24)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.2):
+  /nuxt@4.2.0(@types/node@22.9.0)(@vue/compiler-sfc@3.5.25)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.4):
     resolution: {integrity: sha512-4qzf2Ymf07dMMj50TZdNZgMqCdzDch8NY3NO2ClucUaIvvsr6wd9+JrDpI1CckSTHwqU37/dIPFpvIQZoeHoYA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
@@ -13648,14 +13883,14 @@ packages:
     dependencies:
       '@dxup/nuxt': 0.2.2
       '@nuxt/cli': 3.30.0
-      '@nuxt/devtools': 2.7.0(vite@7.2.2)(vue@3.5.24)
+      '@nuxt/devtools': 2.7.0(vite@7.2.4)(vue@3.5.25)
       '@nuxt/kit': 4.2.0
       '@nuxt/nitro-server': 4.2.0(nuxt@4.2.0)(typescript@5.9.3)
       '@nuxt/schema': 4.2.0
       '@nuxt/telemetry': 2.6.6
-      '@nuxt/vite-builder': 4.2.0(@types/node@22.9.0)(eslint@8.57.1)(nuxt@4.2.0)(typescript@5.9.3)(vue@3.5.24)
+      '@nuxt/vite-builder': 4.2.0(@types/node@22.9.0)(eslint@8.57.1)(nuxt@4.2.0)(typescript@5.9.3)(vue@3.5.25)
       '@types/node': 22.9.0
-      '@unhead/vue': 2.0.19(vue@3.5.24)
+      '@unhead/vue': 2.0.19(vue@3.5.25)
       '@vue/shared': 3.5.24
       c12: 3.3.2(magicast@0.5.1)
       chokidar: 4.0.3
@@ -13700,10 +13935,10 @@ packages:
       unctx: 2.4.1
       unimport: 5.5.0
       unplugin: 2.3.10
-      unplugin-vue-router: 0.16.2(@vue/compiler-sfc@3.5.24)(typescript@5.9.3)(vue-router@4.6.3)(vue@3.5.24)
+      unplugin-vue-router: 0.16.2(@vue/compiler-sfc@3.5.25)(typescript@5.9.3)(vue-router@4.6.3)(vue@3.5.25)
       untyped: 2.0.0
-      vue: 3.5.24(typescript@5.9.3)
-      vue-router: 4.6.3(vue@3.5.24)
+      vue: 3.5.25(typescript@5.9.3)
+      vue-router: 4.6.3(vue@3.5.25)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -13763,7 +13998,7 @@ packages:
       - yaml
     dev: false
 
-  /nuxt@4.2.0(@vue/compiler-sfc@3.5.24)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.2):
+  /nuxt@4.2.0(@vue/compiler-sfc@3.5.25)(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.4):
     resolution: {integrity: sha512-4qzf2Ymf07dMMj50TZdNZgMqCdzDch8NY3NO2ClucUaIvvsr6wd9+JrDpI1CckSTHwqU37/dIPFpvIQZoeHoYA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
@@ -13778,13 +14013,13 @@ packages:
     dependencies:
       '@dxup/nuxt': 0.2.2
       '@nuxt/cli': 3.30.0
-      '@nuxt/devtools': 2.7.0(vite@7.2.2)(vue@3.5.24)
+      '@nuxt/devtools': 2.7.0(vite@7.2.4)(vue@3.5.25)
       '@nuxt/kit': 4.2.0
       '@nuxt/nitro-server': 4.2.0(nuxt@4.2.0)(typescript@5.9.3)
       '@nuxt/schema': 4.2.0
       '@nuxt/telemetry': 2.6.6
-      '@nuxt/vite-builder': 4.2.0(eslint@8.57.1)(nuxt@4.2.0)(typescript@5.9.3)(vue@3.5.24)
-      '@unhead/vue': 2.0.19(vue@3.5.24)
+      '@nuxt/vite-builder': 4.2.0(eslint@8.57.1)(nuxt@4.2.0)(typescript@5.9.3)(vue@3.5.25)
+      '@unhead/vue': 2.0.19(vue@3.5.25)
       '@vue/shared': 3.5.24
       c12: 3.3.2(magicast@0.5.1)
       chokidar: 4.0.3
@@ -13829,10 +14064,10 @@ packages:
       unctx: 2.4.1
       unimport: 5.5.0
       unplugin: 2.3.10
-      unplugin-vue-router: 0.16.2(@vue/compiler-sfc@3.5.24)(typescript@5.9.3)(vue-router@4.6.3)(vue@3.5.24)
+      unplugin-vue-router: 0.16.2(@vue/compiler-sfc@3.5.25)(typescript@5.9.3)(vue-router@4.6.3)(vue@3.5.25)
       untyped: 2.0.0
-      vue: 3.5.24(typescript@5.9.3)
-      vue-router: 4.6.3(vue@3.5.24)
+      vue: 3.5.25(typescript@5.9.3)
+      vue-router: 4.6.3(vue@3.5.25)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -14343,6 +14578,14 @@ packages:
       lru-cache: 10.4.3
       minipass: 7.1.2
 
+  /path-scurry@2.0.1:
+    resolution: {integrity: sha512-oWyT4gICAu+kaA7QWk/jvCHWarMKNs6pXOGWKDTr7cw4IGcUbW+PeTfbaQiLGheFRpjo6O9J0PmyMfQPjH71oA==}
+    engines: {node: 20 || >=22}
+    dependencies:
+      lru-cache: 11.2.2
+      minipass: 7.1.2
+    dev: true
+
   /path-to-regexp@0.1.12:
     resolution: {integrity: sha512-RA1GjUVMnvYFxuqovrEqZoxxW5NUZqbwKtYz/Tt7nXerk0LbLblQmrsgdeOxV5SFHf0UDggjS/bSeOZwt1pmEQ==}
 
@@ -14389,6 +14632,10 @@ packages:
       estree-walker: 3.0.3
       is-reference: 3.0.3
     dev: true
+
+  /piccolore@0.1.3:
+    resolution: {integrity: sha512-o8bTeDWjE086iwKrROaDf31K0qC/BENdm15/uH9usSC/uZjJOKb2YGiVHfLY4GhwsERiPI1jmwI2XrA7ACOxVw==}
+    dev: false
 
   /picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -14497,13 +14744,13 @@ packages:
       postcss-selector-parser: 7.1.0
     dev: false
 
-  /postcss-discard-duplicates@5.1.0(postcss@8.4.38):
+  /postcss-discard-duplicates@5.1.0(postcss@8.5.6):
     resolution: {integrity: sha512-zmX3IoSI2aoenxHV6C7plngHWWhUOV3sP1T8y2ifzxzbtnuhk1EdPwm0S1bIUNaJ2eNbWeGLEwzw8huPD67aQw==}
     engines: {node: ^10 || ^12 || >=14.0}
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      postcss: 8.4.38
+      postcss: 8.5.6
     dev: true
 
   /postcss-discard-duplicates@7.0.2(postcss@8.5.6):
@@ -14569,6 +14816,23 @@ packages:
     dependencies:
       lilconfig: 3.1.3
       postcss: 8.4.38
+      yaml: 2.8.1
+    dev: true
+
+  /postcss-load-config@4.0.2(postcss@8.5.6):
+    resolution: {integrity: sha512-bSVhyJGL00wMVoPUzAVAnbEoWyqRxkjv64tUl427SKnPrENtq6hJwUojroMz2VB+Q1edmi4IfrAPpami5VVgMQ==}
+    engines: {node: '>= 14'}
+    peerDependencies:
+      postcss: '>=8.0.9'
+      ts-node: '>=9.0.0'
+    peerDependenciesMeta:
+      postcss:
+        optional: true
+      ts-node:
+        optional: true
+    dependencies:
+      lilconfig: 3.1.3
+      postcss: 8.5.6
       yaml: 2.8.1
     dev: true
 
@@ -14663,60 +14927,60 @@ packages:
       postcss-selector-parser: 7.1.0
     dev: false
 
-  /postcss-modules-extract-imports@3.1.0(postcss@8.4.38):
+  /postcss-modules-extract-imports@3.1.0(postcss@8.5.6):
     resolution: {integrity: sha512-k3kNe0aNFQDAZGbin48pL2VNidTF0w4/eASDsxlyspobzU3wZQLOGj7L9gfRe0Jo9/4uud09DsjFNH7winGv8Q==}
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      postcss: 8.4.38
+      postcss: 8.5.6
     dev: true
 
-  /postcss-modules-local-by-default@4.2.0(postcss@8.4.38):
+  /postcss-modules-local-by-default@4.2.0(postcss@8.5.6):
     resolution: {integrity: sha512-5kcJm/zk+GJDSfw+V/42fJ5fhjL5YbFDl8nVdXkJPLLW+Vf9mTD5Xe0wqIaDnLuL2U6cDNpTr+UQ+v2HWIBhzw==}
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      icss-utils: 5.1.0(postcss@8.4.38)
-      postcss: 8.4.38
+      icss-utils: 5.1.0(postcss@8.5.6)
+      postcss: 8.5.6
       postcss-selector-parser: 7.1.0
       postcss-value-parser: 4.2.0
     dev: true
 
-  /postcss-modules-scope@3.2.1(postcss@8.4.38):
+  /postcss-modules-scope@3.2.1(postcss@8.5.6):
     resolution: {integrity: sha512-m9jZstCVaqGjTAuny8MdgE88scJnCiQSlSrOWcTQgM2t32UBe+MUmFSO5t7VMSfAf/FJKImAxBav8ooCHJXCJA==}
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      postcss: 8.4.38
+      postcss: 8.5.6
       postcss-selector-parser: 7.1.0
     dev: true
 
-  /postcss-modules-values@4.0.0(postcss@8.4.38):
+  /postcss-modules-values@4.0.0(postcss@8.5.6):
     resolution: {integrity: sha512-RDxHkAiEGI78gS2ofyvCsu7iycRv7oqw5xMWn9iMoR0N/7mf9D50ecQqUo5BZ9Zh2vH4bCUR/ktCqbB9m8vJjQ==}
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      icss-utils: 5.1.0(postcss@8.4.38)
-      postcss: 8.4.38
+      icss-utils: 5.1.0(postcss@8.5.6)
+      postcss: 8.5.6
     dev: true
 
-  /postcss-modules@6.0.1(postcss@8.4.38):
+  /postcss-modules@6.0.1(postcss@8.5.6):
     resolution: {integrity: sha512-zyo2sAkVvuZFFy0gc2+4O+xar5dYlaVy/ebO24KT0ftk/iJevSNyPyQellsBLlnccwh7f6V6Y4GvuKRYToNgpQ==}
     peerDependencies:
       postcss: ^8.0.0
     dependencies:
       generic-names: 4.0.0
-      icss-utils: 5.1.0(postcss@8.4.38)
+      icss-utils: 5.1.0(postcss@8.5.6)
       lodash.camelcase: 4.3.0
-      postcss: 8.4.38
-      postcss-modules-extract-imports: 3.1.0(postcss@8.4.38)
-      postcss-modules-local-by-default: 4.2.0(postcss@8.4.38)
-      postcss-modules-scope: 3.2.1(postcss@8.4.38)
-      postcss-modules-values: 4.0.0(postcss@8.4.38)
+      postcss: 8.5.6
+      postcss-modules-extract-imports: 3.1.0(postcss@8.5.6)
+      postcss-modules-local-by-default: 4.2.0(postcss@8.5.6)
+      postcss-modules-scope: 3.2.1(postcss@8.5.6)
+      postcss-modules-values: 4.0.0(postcss@8.5.6)
       string-hash: 1.1.3
     dev: true
 
@@ -16521,7 +16785,7 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /svelte-check@4.3.4(svelte@5.43.12)(typescript@5.9.3):
+  /svelte-check@4.3.4(svelte@5.44.1)(typescript@5.9.3):
     resolution: {integrity: sha512-DVWvxhBrDsd+0hHWKfjP99lsSXASeOhHJYyuKOFYJcP7ThfSCKgjVarE8XfuMWpS5JV3AlDf+iK1YGGo2TACdw==}
     engines: {node: '>= 18.0.0'}
     hasBin: true
@@ -16534,7 +16798,7 @@ packages:
       fdir: 6.5.0(picomatch@4.0.3)
       picocolors: 1.1.1
       sade: 1.8.1
-      svelte: 5.43.12
+      svelte: 5.44.1
       typescript: 5.9.3
     transitivePeerDependencies:
       - picomatch
@@ -16558,6 +16822,27 @@ packages:
       locate-character: 3.0.0
       magic-string: 0.30.21
       zimmerframe: 1.1.4
+
+  /svelte@5.44.1:
+    resolution: {integrity: sha512-8VnkRXpa6tJ9IqiwKvzZBNnBy9tZg0N63duDz0EJqiozsmBEAZfHiZzWWWAneIN+cAWkK1JkafW1xIbC4YrdBA==}
+    engines: {node: '>=18'}
+    dependencies:
+      '@jridgewell/remapping': 2.3.5
+      '@jridgewell/sourcemap-codec': 1.5.5
+      '@sveltejs/acorn-typescript': 1.0.7(acorn@8.15.0)
+      '@types/estree': 1.0.8
+      acorn: 8.15.0
+      aria-query: 5.3.2
+      axobject-query: 4.1.0
+      clsx: 2.1.1
+      devalue: 5.5.0
+      esm-env: 1.2.2
+      esrap: 2.1.3
+      is-reference: 3.0.3
+      locate-character: 3.0.0
+      magic-string: 0.30.21
+      zimmerframe: 1.1.4
+    dev: true
 
   /svgo@4.0.0:
     resolution: {integrity: sha512-VvrHQ+9uniE+Mvx3+C9IEe/lWasXCU0nXMY2kZeLrHNICuRiC8uMPyM14UEaMOFA5mhyQqEkB02VoQ16n3DLaw==}
@@ -17419,7 +17704,7 @@ packages:
       picomatch: 4.0.3
     dev: false
 
-  /unplugin-vue-router@0.16.2(@vue/compiler-sfc@3.5.24)(typescript@5.9.3)(vue-router@4.6.3)(vue@3.5.24):
+  /unplugin-vue-router@0.16.2(@vue/compiler-sfc@3.5.25)(typescript@5.9.3)(vue-router@4.6.3)(vue@3.5.25):
     resolution: {integrity: sha512-lE6ZjnHaXfS2vFI/PSEwdKcdOo5RwAbCKUnPBIN9YwLgSWas3x+qivzQvJa/uxhKzJldE6WK43aDKjGj9Rij9w==}
     peerDependencies:
       '@vue/compiler-sfc': ^3.5.17
@@ -17429,8 +17714,8 @@ packages:
         optional: true
     dependencies:
       '@babel/generator': 7.28.5
-      '@vue-macros/common': 3.1.1(vue@3.5.24)
-      '@vue/compiler-sfc': 3.5.24
+      '@vue-macros/common': 3.1.1(vue@3.5.25)
+      '@vue/compiler-sfc': 3.5.25
       '@vue/language-core': 3.1.4(typescript@5.9.3)
       ast-walker-scope: 0.8.3
       chokidar: 4.0.3
@@ -17445,7 +17730,7 @@ packages:
       tinyglobby: 0.2.15
       unplugin: 2.3.10
       unplugin-utils: 0.3.1
-      vue-router: 4.6.3(vue@3.5.24)
+      vue-router: 4.6.3(vue@3.5.25)
       yaml: 2.8.1
     transitivePeerDependencies:
       - typescript
@@ -17488,8 +17773,8 @@ packages:
       '@unrs/resolver-binding-win32-x64-msvc': 1.11.1
     dev: true
 
-  /unstorage@1.17.2(db0@0.3.4)(ioredis@5.8.2):
-    resolution: {integrity: sha512-cKEsD6iBWJgOMJ6vW1ID/SYuqNf8oN4yqRk8OYqaVQ3nnkJXOT1PSpaMh2QfzLs78UN5kSNRD2c/mgjT8tX7+w==}
+  /unstorage@1.17.3(db0@0.3.4)(ioredis@5.8.2):
+    resolution: {integrity: sha512-i+JYyy0DoKmQ3FximTHbGadmIYb8JEpq7lxUjnjeB702bCPum0vzo6oy5Mfu0lpqISw7hCyMW2yj4nWC8bqJ3Q==}
     peerDependencies:
       '@azure/app-configuration': ^1.8.0
       '@azure/cosmos': ^4.2.0
@@ -17722,22 +18007,22 @@ packages:
       vfile-message: 4.0.3
     dev: false
 
-  /vite-dev-rpc@1.1.0(vite@7.2.2):
+  /vite-dev-rpc@1.1.0(vite@7.2.4):
     resolution: {integrity: sha512-pKXZlgoXGoE8sEKiKJSng4hI1sQ4wi5YT24FCrwrLt6opmkjlqPPVmiPWWJn8M8byMxRGzp1CrFuqQs4M/Z39A==}
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0 || ^6.0.1 || ^7.0.0-0
     dependencies:
       birpc: 2.8.0
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
-      vite-hot-client: 2.1.0(vite@7.2.2)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
+      vite-hot-client: 2.1.0(vite@7.2.4)
     dev: false
 
-  /vite-hot-client@2.1.0(vite@7.2.2):
+  /vite-hot-client@2.1.0(vite@7.2.4):
     resolution: {integrity: sha512-7SpgZmU7R+dDnSmvXE1mfDtnHLHQSisdySVR7lO8ceAXvM0otZeuQQ6C8LrS5d/aYyP/QZ0hI0L+dIPrm4YlFQ==}
     peerDependencies:
       vite: ^2.6.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0
     dependencies:
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
     dev: false
 
   /vite-node@1.6.1:
@@ -17791,7 +18076,7 @@ packages:
       debug: 4.4.3
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -17806,7 +18091,7 @@ packages:
       - tsx
       - yaml
 
-  /vite-plugin-checker@0.11.0(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.2):
+  /vite-plugin-checker@0.11.0(eslint@8.57.1)(typescript@5.9.3)(vite@7.2.4):
     resolution: {integrity: sha512-iUdO9Pl9UIBRPAragwi3as/BXXTtRu4G12L3CMrjx+WVTd9g/MsqNakreib9M/2YRVkhZYiTEwdH2j4Dm0w7lw==}
     engines: {node: '>=16.11'}
     peerDependencies:
@@ -17852,11 +18137,11 @@ packages:
       tiny-invariant: 1.3.3
       tinyglobby: 0.2.15
       typescript: 5.9.3
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
       vscode-uri: 3.1.0
     dev: false
 
-  /vite-plugin-inspect@11.3.3(@nuxt/kit@3.20.1)(vite@7.2.2):
+  /vite-plugin-inspect@11.3.3(@nuxt/kit@3.20.1)(vite@7.2.4):
     resolution: {integrity: sha512-u2eV5La99oHoYPHE6UvbwgEqKKOQGz86wMg40CCosP6q8BkB6e5xPneZfYagK4ojPJSj5anHCrnvC20DpwVdRA==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -17875,13 +18160,13 @@ packages:
       perfect-debounce: 2.0.0
       sirv: 3.0.2
       unplugin-utils: 0.3.1
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
-      vite-dev-rpc: 1.1.0(vite@7.2.2)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
+      vite-dev-rpc: 1.1.0(vite@7.2.4)
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /vite-plugin-vue-tracer@1.1.3(vite@7.2.2)(vue@3.5.24):
+  /vite-plugin-vue-tracer@1.1.3(vite@7.2.4)(vue@3.5.25):
     resolution: {integrity: sha512-fM7hfHELZvbPnSn8EKZwHfzxm5EfYFQIclz8rwcNXfodNbRkwNvh0AGMtaBfMxQ9HC5KVa3KitwHnmE4ezDemw==}
     peerDependencies:
       vite: ^6.0.0 || ^7.0.0
@@ -17892,8 +18177,8 @@ packages:
       magic-string: 0.30.21
       pathe: 2.0.3
       source-map-js: 1.2.1
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
-      vue: 3.5.24(typescript@5.9.3)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
+      vue: 3.5.25(typescript@5.9.3)
     dev: false
 
   /vite-tsconfig-paths@4.2.1(typescript@5.9.3)(vite@5.1.0):
@@ -17943,7 +18228,7 @@ packages:
     dependencies:
       '@types/node': 22.9.0
       esbuild: 0.19.12
-      postcss: 8.4.38
+      postcss: 8.5.6
       rollup: 4.53.3
     optionalDependencies:
       fsevents: 2.3.3
@@ -17999,8 +18284,8 @@ packages:
       fsevents: 2.3.3
     dev: false
 
-  /vite@7.2.2(@types/node@22.9.0)(jiti@2.6.1):
-    resolution: {integrity: sha512-BxAKBWmIbrDgrokdGZH1IgkIk/5mMHDreLDmCJ0qpyJaAteP8NvMhkwr/ZCQNqNH97bw/dANTE9PDzqwJghfMQ==}
+  /vite@7.2.4(@types/node@22.9.0)(jiti@2.6.1):
+    resolution: {integrity: sha512-NL8jTlbo0Tn4dUEXEsUg8KeyG/Lkmc4Fnzb8JXN/Ykm9G4HNImjtABMJgkQoVjOBN/j2WAwDTRytdqJbZsah7w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -18061,7 +18346,7 @@ packages:
       vite: 6.4.1
     dev: false
 
-  /vitefu@1.1.1(vite@7.2.2):
+  /vitefu@1.1.1(vite@7.2.4):
     resolution: {integrity: sha512-B/Fegf3i8zh0yFbpzZ21amWzHmuNlLlmJT6n7bu5e+pCHUKQIfXSYokrqOBGEMMe9UG2sostKQF9mml/vYaWJQ==}
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0-beta.0
@@ -18069,7 +18354,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 7.2.2(@types/node@22.9.0)(jiti@2.6.1)
+      vite: 7.2.4(@types/node@22.9.0)(jiti@2.6.1)
 
   /vitest@2.1.5(@types/node@22.9.0):
     resolution: {integrity: sha512-P4ljsdpuzRTPI/kbND2sDZ4VmieerR2c9szEZpjc+98Z9ebvnXmM5+0tHEKqYZumXqlvnmfWsjeFOjXVriDG7A==}
@@ -18308,6 +18593,16 @@ packages:
     dependencies:
       '@vue/devtools-api': 6.6.4
       vue: 3.5.24(typescript@5.9.3)
+    dev: true
+
+  /vue-router@4.6.3(vue@3.5.25):
+    resolution: {integrity: sha512-ARBedLm9YlbvQomnmq91Os7ck6efydTSpRP3nuOKCvgJOHNrhRoJDSKtee8kcL1Vf7nz6U+PMBL+hTvR3bTVQg==}
+    peerDependencies:
+      vue: ^3.5.0
+    dependencies:
+      '@vue/devtools-api': 6.6.4
+      vue: 3.5.25(typescript@5.9.3)
+    dev: false
 
   /vue@3.5.24(typescript@5.9.3):
     resolution: {integrity: sha512-uTHDOpVQTMjcGgrqFPSb8iO2m1DUvo+WbGqoXQz8Y1CeBYQ0FXf2z1gLRaBtHjlRz7zZUBHxjVB5VTLzYkvftg==}
@@ -18322,6 +18617,22 @@ packages:
       '@vue/runtime-dom': 3.5.24
       '@vue/server-renderer': 3.5.24(vue@3.5.24)
       '@vue/shared': 3.5.24
+      typescript: 5.9.3
+    dev: true
+
+  /vue@3.5.25(typescript@5.9.3):
+    resolution: {integrity: sha512-YLVdgv2K13WJ6n+kD5owehKtEXwdwXuj2TTyJMsO7pSeKw2bfRNZGjhB7YzrpbMYj5b5QsUebHpOqR3R3ziy/g==}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/compiler-dom': 3.5.25
+      '@vue/compiler-sfc': 3.5.25
+      '@vue/runtime-dom': 3.5.25
+      '@vue/server-renderer': 3.5.25(vue@3.5.25)
+      '@vue/shared': 3.5.25
       typescript: 5.9.3
 
   /w3c-xmlserializer@4.0.0:

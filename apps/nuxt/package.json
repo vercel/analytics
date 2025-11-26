@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@vercel/analytics": "workspace:*",
+    "@vercel/speed-insights": "^1.2.0",
     "nuxt": "^4.2.0",
     "vue": "latest",
     "vue-router": "latest"

@@ -1,3 +1,7 @@
+<script setup>
+import { SpeedInsights } from '@vercel/speed-insights/vue';
+</script>
+
 <template>
   <header>
     <img alt="Nuxt logo" class="logo" src="@/assets/logo.svg" width="180" />
@@ -10,6 +14,7 @@
     </div>
     <slot />
   </header>
+  <SpeedInsights />
 </template>
 
 <style>
