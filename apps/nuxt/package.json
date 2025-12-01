@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@vercel/analytics": "workspace:*",
-    "nuxt": "^3.14.0",
+    "nuxt": "^4.2.1",
     "vue": "latest",
     "vue-router": "latest"
   }
