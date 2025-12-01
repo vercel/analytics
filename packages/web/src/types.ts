@@ -10,7 +10,12 @@ interface CustomEvent {
 export type BeforeSendEvent = PageViewEvent | CustomEvent;
 
 export type Mode = 'auto' | 'development' | 'production';
-export type AllowedPropertyValues = string | number | boolean | null;
+export type AllowedPropertyValues =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined;
 
 export type BeforeSend = (event: BeforeSendEvent) => BeforeSendEvent | null;
 
