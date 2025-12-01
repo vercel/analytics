@@ -29,9 +29,8 @@ export default defineConfig([
     ...cfg,
     entry: {
       index: 'src/nuxt/index.ts',
-      module: 'src/nuxt/module.ts',
     },
-    external: ['vue', 'vue-router', 'nuxt', '@nuxt/kit', '@nuxt/schema'],
+    external: ['vue', 'vue-router'],
     outDir: 'dist/nuxt',
   },
   {
