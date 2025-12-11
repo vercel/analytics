@@ -1,6 +1,6 @@
 {
   "name": "@vercel/analytics",
-  "version": "1.6.1",
+  "version": "2.0.0",
   "description": "Gain real-time traffic insights with Vercel Web Analytics",
   "keywords": [
     "analytics",
@@ -27,9 +27,13 @@
       "require": "./dist/next/index.js"
     },
     "./nuxt": {
-      "browser": "./dist/nuxt/index.mjs",
       "import": "./dist/nuxt/index.mjs",
       "require": "./dist/nuxt/index.js"
+    },
+    "./nuxt/runtime": {
+      "browser": "./dist/nuxt/runtime/index.mjs",
+      "import": "./dist/nuxt/runtime/index.mjs",
+      "require": "./dist/nuxt/runtime/index.js"
     },
     "./react": {
       "browser": "./dist/react/index.mjs",
@@ -71,6 +75,9 @@
       "nuxt": [
         "dist/nuxt/index.d.ts"
       ],
+      "nuxt/runtime": [
+        "dist/nuxt/runtime/index.d.ts"
+      ],
       "react": [
         "dist/react/index.d.ts"
       ],
@@ -109,6 +116,8 @@
     ]
   },
   "devDependencies": {
+    "@nuxt/kit": "^4.2.0",
+    "@nuxt/schema": "^4.2.0",
     "@swc/core": "^1.9.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
@@ -126,6 +135,7 @@
     "@remix-run/react": "^2",
     "@sveltejs/kit": "^1 || ^2",
     "next": ">= 13",
+    "nuxt": ">= 3",
     "react": "^18 || ^19 || ^19.0.0-rc",
     "svelte": ">= 4",
     "vue": "^3",
