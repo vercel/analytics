@@ -5,20 +5,18 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev --turbopack",
-    "lint": "next lint",
     "start": "next start"
   },
   "dependencies": {
     "@vercel/analytics": "workspace:^",
-    "next": "15.1.9",
-    "react": "19.2.1",
-    "react-dom": "19.2.1"
+    "next": "16.0.7",
+    "react": "latest",
+    "react-dom": "latest"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
-    "eslint-config-next": "15.0.1",
-    "typescript": "^5"
+    "eslint-config-next": "15.0.1"
   }
 }

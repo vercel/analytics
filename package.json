@@ -4,7 +4,7 @@
     "type": "git",
     "url": "git+https://github.com/vercel/analytics.git"
   },
-  "license": "MPL-2.0",
+  "license": "MIT",
   "scripts": {
     "prepare": "husky install"
   },
