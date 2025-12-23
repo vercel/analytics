@@ -1,6 +1,6 @@
 <script>
-  import { page } from '$app/stores';
-  import { track } from '@vercel/analytics/sveltekit';
+import { track } from '@vercel/analytics/sveltekit';
+import { page } from '$app/stores';
 </script>
 
 <h1>We don't talk about {$page.params.slug}</h1>

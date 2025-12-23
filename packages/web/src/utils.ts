@@ -1,4 +1,11 @@
-import type { AllowedPropertyValues, AnalyticsProps, Mode } from './types';
+import { name as packageName, version } from '../package.json';
+import type {
+  AllowedPropertyValues,
+  AnalyticsProps,
+  BeforeSend,
+  InjectProps,
+  Mode,
+} from './types';
 
 export function isBrowser(): boolean {
   return typeof window !== 'undefined';
@@ -10,7 +17,7 @@ function detectEnvironment(): 'development' | 'production' {
     if (env === 'development' || env === 'test') {
       return 'development';
     }
-  } catch (e) {
+  } catch {
     // do nothing, this is okay
   }
   return 'production';
@@ -40,7 +47,7 @@ export function isDevelopment(): boolean {
 
 function removeKey(
   key: string,
-  { [key]: _, ...rest }
+  { [key]: _, ...rest },
 ): Record<string, unknown> {
   return rest;
 }
@@ -49,7 +56,7 @@ export function parseProperties(
   properties: Record<string, unknown> | undefined,
   options: {
     strip?: boolean;
-  }
+  },
 ): Error | Record<string, AllowedPropertyValues> | undefined {
   if (!properties) return undefined;
   let props = properties;
@@ -67,8 +74,8 @@ export function parseProperties(
   if (errorProperties.length > 0 && !options.strip) {
     throw Error(
       `The following properties are not valid: ${errorProperties.join(
-        ', '
-      )}. Only strings, numbers, booleans, and null are allowed.`
+        ', ',
+      )}. Only strings, numbers, booleans, and null are allowed.`,
     );
   }
   return props as Record<string, AllowedPropertyValues>;
@@ -76,7 +83,7 @@ export function parseProperties(
 
 export function computeRoute(
   pathname: string | null,
-  pathParams: Record<string, string | string[]> | null
+  pathParams: Record<string, string | string[]> | null,
 ): string | null {
   if (!pathname || !pathParams) {
     return pathname;
@@ -104,7 +111,7 @@ export function computeRoute(
       }
     }
     return result;
-  } catch (e) {
+  } catch {
     return pathname;
   }
 }
@@ -117,9 +124,7 @@ function escapeRegExp(string: string): string {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-export function getScriptSrc(
-  props: AnalyticsProps & { basePath?: string }
-): string {
+function getScriptSrc(props: AnalyticsProps & { basePath?: string }): string {
   if (props.scriptSrc) {
     return props.scriptSrc;
   }
@@ -130,4 +135,58 @@ export function getScriptSrc(
     return `${props.basePath}/insights/script.js`;
   }
   return '/_vercel/insights/script.js';
+}
+
+export function loadProps(
+  explicitProps: InjectProps,
+  confString?: string,
+): {
+  src: string;
+  beforeSend?: BeforeSend;
+  dataset: Record<string, string>;
+} {
+  let props = explicitProps;
+  if (confString) {
+    try {
+      props = {
+        ...(JSON.parse(confString)?.analytics as InjectProps),
+        ...explicitProps,
+      };
+    } catch {
+      // do nothing
+    }
+  }
+  setMode(props.mode);
+
+  const dataset: Record<string, string> = {
+    sdkn: packageName + (props.framework ? `/${props.framework}` : ''),
+    sdkv: version,
+  };
+  if (props.disableAutoTrack) {
+    dataset.disableAutoTrack = '1';
+  }
+  if (props.viewEndpoint) {
+    dataset.viewEndpoint = props.viewEndpoint;
+  }
+  if (props.eventEndpoint) {
+    dataset.eventEndpoint = props.eventEndpoint;
+  }
+  if (isDevelopment() && props.debug === false) {
+    dataset.debug = 'false';
+  }
+  if (props.dsn) {
+    dataset.dsn = props.dsn;
+  }
+  // depreacated
+  if (props.endpoint) {
+    dataset.endpoint = props.endpoint;
+  } else if (props.basePath) {
+    dataset.endpoint = `${props.basePath}/insights`;
+  }
+
+  return {
+    beforeSend: props.beforeSend,
+    src: getScriptSrc(props),
+    dataset,
+  };
 }

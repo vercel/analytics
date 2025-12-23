@@ -10,7 +10,7 @@ describe('app API serverless route', () => {
     expect(response.status).toBe(200);
     expect(log).toHaveBeenCalledTimes(1);
     expect(log).toHaveBeenCalledWith(
-      '[Vercel Web Analytics] Track "Serverless Event" with data {"data":"serverless","router":"app"}'
+      '[Vercel Web Analytics] Track "Serverless Event" with data {"data":"serverless","router":"app"}',
     );
   });
 });
