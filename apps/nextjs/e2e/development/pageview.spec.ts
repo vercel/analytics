@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { useMockForProductionScript } from '../utils';
 
 test.describe('pageview', () => {
@@ -35,13 +35,13 @@ test.describe('pageview', () => {
 
     expect(
       messages.find((m) =>
-        m.includes('[pageview] http://localhost:3000/navigation/first')
-      )
+        m.includes('[pageview] http://localhost:3000/navigation/first'),
+      ),
     ).toBeDefined();
     expect(
       messages.find((m) =>
-        m.includes('[pageview] http://localhost:3000/navigation/second')
-      )
+        m.includes('[pageview] http://localhost:3000/navigation/second'),
+      ),
     ).toBeDefined();
   });
 });

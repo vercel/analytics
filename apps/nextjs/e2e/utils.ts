@@ -1,8 +1,8 @@
-import { Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
 export async function useMockForProductionScript(props: {
   page: Page;
-  onPageView: (page: string, payload: Object) => void;
+  onPageView: (page: string, payload: unknown) => void;
   debug?: boolean;
 }) {
   await props.page.route('**/_vercel/insights/script.js', async (route, _) => {

@@ -1,29 +1,30 @@
-import { onNuxtReady, useRouter, useRoute } from 'nuxt/app';
-import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../../types';
-import { createComponent } from '../../vue/create-component';
+import { onNuxtReady, useRoute, useRouter } from 'nuxt/app';
 import { inject, pageview, track } from '../../generic';
-import { isBrowser, computeRoute } from '../../utils';
-import { getBasePath } from './utils';
+import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../../types';
+import { computeRoute, isBrowser } from '../../utils';
+import { createComponent } from '../../vue/create-component';
+import { getBasePath, getConfigString } from './utils';
 
 // Export the Analytics component
 // Not recommended as must be used in both app.vue and error.vue
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- vue's defineComponent return type is any
 export const Analytics = createComponent('nuxt');
 export type { AnalyticsProps, BeforeSend, BeforeSendEvent };
 
 // Export the injectAnalytics script with automatic tracking on page changes
 function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
   if (isBrowser()) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks -- we are not using a React here
     const router = useRouter();
 
     onNuxtReady(() => {
-      inject({
-        ...props,
-        framework: 'nuxt',
-        disableAutoTrack: true,
-        basePath: getBasePath(),
-      });
+      inject(
+        {
+          ...props,
+          framework: 'nuxt',
+          disableAutoTrack: true,
+          basePath: getBasePath(),
+        },
+        getConfigString(),
+      );
       const route = useRoute();
       pageview({
         route: computeRoute(route.path, route.params),

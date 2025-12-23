@@ -1,4 +1,3 @@
-/* eslint-disable no-console -- Allow logging on the server */
 import type {
   AllowedPropertyValues,
   FlagsDataInput,
@@ -38,7 +37,7 @@ const logPrefix = '[Vercel Web Analytics]';
 export async function track(
   eventName: string,
   properties?: Record<string, AllowedPropertyValues>,
-  options?: Options
+  options?: Options,
 ): Promise<void> {
   const ENDPOINT =
     process.env.VERCEL_WEB_ANALYTICS_ENDPOINT || process.env.VERCEL_URL;
@@ -48,7 +47,7 @@ export async function track(
   if (typeof window !== 'undefined') {
     if (!isProduction()) {
       throw new Error(
-        `${logPrefix} It seems like you imported the \`track\` function from \`@vercel/web-analytics/server\` in a browser environment. This function is only meant to be used in a server environment.`
+        `${logPrefix} It seems like you imported the \`track\` function from \`@vercel/web-analytics/server\` in a browser environment. This function is only meant to be used in a server environment.`,
       );
     }
 
@@ -62,13 +61,13 @@ export async function track(
   if (!ENDPOINT) {
     if (isProduction()) {
       console.log(
-        `${logPrefix} Can't find VERCEL_URL in environment variables.`
+        `${logPrefix} Can't find VERCEL_URL in environment variables.`,
       );
     } else if (!DISABLE_LOGS) {
       console.log(
         `${logPrefix} Track "${eventName}" ${
           props ? `with data ${JSON.stringify(props)}` : ''
-        }`
+        }`,
       );
     }
     return;
@@ -105,7 +104,7 @@ export async function track(
 
     const body = {
       o: origin,
-      ts: new Date().getTime(),
+      ts: Date.now(),
       r: '',
       en: eventName,
       ed: props,
@@ -116,14 +115,13 @@ export async function track(
 
     if (!hasHeaders) {
       throw new Error(
-        'No session context found. Pass `request` or `headers` to the `track` function.'
+        'No session context found. Pass `request` or `headers` to the `track` function.',
       );
     }
 
     const promise = fetch(`${url.origin}/_vercel/insights/event`, {
       headers: {
         'content-type': 'application/json',
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- The throwing is temporary until we add support for non Vercel hosted environments
         ...(hasHeaders
           ? {
               'user-agent': tmp['user-agent'] as string,
@@ -166,7 +164,7 @@ export async function track(
 
 function safeGetFlags(
   flags: Options['flags'],
-  requestContext?: ReturnType<RequestContext['get']>
+  requestContext?: ReturnType<RequestContext['get']>,
 ):
   | {
       p: PlainFlags;

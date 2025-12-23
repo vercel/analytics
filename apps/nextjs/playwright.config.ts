@@ -1,5 +1,5 @@
-import { PlaywrightTestConfig, devices } from '@playwright/test';
-import path from 'path';
+import path from 'node:path';
+import { devices, type PlaywrightTestConfig } from '@playwright/test';
 
 // Use process.env.PORT by default and fallback to port 3000
 const PORT = process.env.PORT || 3000;
