@@ -11,6 +11,7 @@ concurrency:
 
 jobs:
   biome:
+    name: lint and format
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -37,7 +38,7 @@ jobs:
       - name: Install
         uses: ./.github/composite-actions/install
       - name: Build
-        run: pnpm -F @vercel/anayltics build
+        run: pnpm -F @vercel/analytics build
       - name: Run tests
         run: pnpm -r test
 
