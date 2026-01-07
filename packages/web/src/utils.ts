@@ -177,7 +177,7 @@ export function loadProps(
   if (props.dsn) {
     dataset.dsn = props.dsn;
   }
-  // depreacated
+  // deprecated
   if (props.endpoint) {
     dataset.endpoint = props.endpoint;
   } else if (props.basePath) {

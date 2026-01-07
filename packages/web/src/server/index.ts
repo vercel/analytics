@@ -1,3 +1,4 @@
+import { name as packageName, version } from '../../package.json';
 import type {
   AllowedPropertyValues,
   FlagsDataInput,
@@ -97,14 +98,15 @@ export async function track(
       tmp = headers;
     }
 
-    const origin =
-      requestContext?.url || (tmp.referer as string) || `https://${ENDPOINT}`;
-
-    const url = new URL(origin);
+    const url = ENDPOINT.startsWith('http')
+      ? ENDPOINT
+      : new URL('/_vercel/insights/event', `https://${ENDPOINT}`).toString();
 
     const body = {
-      o: origin,
+      o: requestContext?.url || (tmp.referer as string) || new URL(url).origin,
       ts: Date.now(),
+      sdkn: `${packageName}/server`,
+      sdkv: version,
       r: '',
       en: eventName,
       ed: props,
@@ -119,7 +121,7 @@ export async function track(
       );
     }
 
-    const promise = fetch(`${url.origin}/_vercel/insights/event`, {
+    const promise = fetch(url, {
       headers: {
         'content-type': 'application/json',
         ...(hasHeaders
@@ -171,12 +173,12 @@ function safeGetFlags(
     }
   | undefined {
   try {
-    if (!requestContext || !flags) return;
     // In the case plain flags are passed, just return them
-    if (!Array.isArray(flags)) {
+    if (flags && !Array.isArray(flags)) {
       return { p: flags };
     }
 
+    if (!requestContext || !flags) return;
     const plainFlags: Record<string, unknown> = {};
     // returns all available plain flags
     const resolvedPlainFlags = requestContext.flags?.getValues() ?? {};
