@@ -5,6 +5,11 @@ export async function useMockForProductionScript(props: {
   onPageView: (page: string, payload: unknown) => void;
   debug?: boolean;
 }) {
+  await props.page.addInitScript({
+    content:
+      "Object.defineProperty(navigator, 'webdriver', { get() { return undefined }})",
+  });
+
   await props.page.route('**/_vercel/insights/script.js', async (route, _) => {
     return route.fulfill({
       status: 301,
