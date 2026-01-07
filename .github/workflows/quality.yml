@@ -36,6 +36,8 @@ jobs:
           persist-credentials: false
       - name: Install
         uses: ./.github/composite-actions/install
+      - name: Build
+        run: pnpm -F @vercel/anayltics build
       - name: Run tests
         run: pnpm -r test
 

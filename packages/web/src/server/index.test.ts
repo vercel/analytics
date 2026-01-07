@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { track } from './index';
 import { name as packageName, version } from '../../package.json';
+import { track } from './index';
+
 // @vitest-environment node
 
 const sdkn = `${packageName}/server`;
