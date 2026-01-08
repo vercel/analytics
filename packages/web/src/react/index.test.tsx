@@ -46,7 +46,14 @@ describe('<Analytics />', () => {
       const sessionEndpoint = `/_sessions-${Math.random()}`;
       const scriptSrc = `http://acme.org/_vercel/${Math.random()}`;
       process.env.REACT_APP_VERCEL_OBSERVABILITY_CLIENT_CONFIG = JSON.stringify(
-        { analytics: { viewEndpoint, eventEndpoint, sessionEndpoint, scriptSrc } },
+        {
+          analytics: {
+            viewEndpoint,
+            eventEndpoint,
+            sessionEndpoint,
+            scriptSrc,
+          },
+        },
       );
       render(<Analytics mode={mode} />);
 
