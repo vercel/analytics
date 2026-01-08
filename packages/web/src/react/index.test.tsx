@@ -41,10 +41,12 @@ describe('<Analytics />', () => {
     });
 
     it('uses config string', () => {
-      const eventEndpoint = `/_vercel/${Math.random()}`;
+      const viewEndpoint = `/_vercel-${Math.random()}`;
+      const eventEndpoint = `/hfi/${Math.random()}`;
+      const sessionEndpoint = `/_sessions-${Math.random()}`;
       const scriptSrc = `http://acme.org/_vercel/${Math.random()}`;
       process.env.REACT_APP_VERCEL_OBSERVABILITY_CLIENT_CONFIG = JSON.stringify(
-        { analytics: { eventEndpoint, scriptSrc } },
+        { analytics: { viewEndpoint, eventEndpoint, sessionEndpoint, scriptSrc } },
       );
       render(<Analytics mode={mode} />);
 
@@ -56,6 +58,8 @@ describe('<Analytics />', () => {
       expect(script?.src).toEqual(scriptSrc);
       expect(script).toHaveAttribute('defer');
       expect(script).toHaveAttribute('data-event-endpoint', eventEndpoint);
+      expect(script).toHaveAttribute('data-view-endpoint', viewEndpoint);
+      expect(script).toHaveAttribute('data-session-endpoint', sessionEndpoint);
     });
 
     it('sets and changes beforeSend', () => {

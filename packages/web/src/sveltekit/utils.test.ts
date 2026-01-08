@@ -18,7 +18,9 @@ describe('getConfigString()', () => {
   it('returns configuration string for SvelteKit', () => {
     const config = JSON.stringify({
       analytics: {
-        eventEndpoint: `/_vercel-${Math.random()}`,
+        viewEndpoint: `/_vercel-${Math.random()}`,
+        eventEndpoint: `/hfi/${Math.random()}`,
+        sessionEndpoint: `/_sessions-${Math.random()}`,
       },
     });
     import.meta.env.VITE_VERCEL_OBSERVABILITY_CLIENT_CONFIG = config;

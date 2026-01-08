@@ -45,7 +45,9 @@ describe('getConfigString()', () => {
   it('returns configuration string set for CRA', () => {
     const config = JSON.stringify({
       analytics: {
-        eventEndpoint: `/_vercel-${Math.random()}`,
+        viewEndpoint: `/_vercel-${Math.random()}`,
+        eventEndpoint: `/hfi/${Math.random()}`,
+        sessionEndpoint: `/_sessions-${Math.random()}`,
       },
     });
     process.env.NEXT_PUBLIC_VERCEL_OBSERVABILITY_CLIENT_CONFIG = config;

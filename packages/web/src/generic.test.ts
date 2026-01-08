@@ -32,8 +32,9 @@ describe.each([
     it('uses props over config string', () => {
       const dsn = 'test-dsn-value';
       const endpoint = 'https://example.com/analytics';
-      const viewEndpoint = 'https://example.com/view';
-      const eventEndpoint = 'https://example.com/event';
+      const viewEndpoint = 'https://example.com/page-view';
+      const eventEndpoint = 'https://example.com/custom-event';
+      const sessionEndpoint = 'https://example.com/sticky-session';
       const scriptSrc = 'https://example.com/custom-script.js';
       const framework = 'nuxt';
       inject(
@@ -43,6 +44,7 @@ describe.each([
           endpoint,
           eventEndpoint,
           viewEndpoint,
+          sessionEndpoint,
           dsn,
           debug: false,
           scriptSrc,
@@ -54,6 +56,7 @@ describe.each([
             endpoint: 'unused',
             eventEndpoint: 'unused',
             viewEndpoint: 'unused',
+            sessionEndpoint: 'unused',
             dsn: 'unused',
             debug: true,
             scriptSrc: file,
@@ -76,6 +79,7 @@ describe.each([
         endpoint,
         viewEndpoint,
         eventEndpoint,
+        sessionEndpoint,
         dsn,
         debug: 'false',
         disableAutoTrack: '1',
@@ -88,8 +92,9 @@ describe.each([
       const dsn = 'test-dsn-value';
       const endpoint = 'https://example.com/analytics';
       const scriptSrc = 'https://example.com/custom-script.js';
-      const viewEndpoint = 'https://example.com/view';
-      const eventEndpoint = 'https://example.com/event';
+      const viewEndpoint = 'https://example.com/page-view';
+      const eventEndpoint = 'https://example.com/custom-event';
+      const sessionEndpoint = 'https://example.com/sticky-session';
       const framework = 'nuxt';
       inject(
         {},
@@ -100,6 +105,7 @@ describe.each([
             endpoint,
             eventEndpoint,
             viewEndpoint,
+            sessionEndpoint,
             dsn,
             debug: false,
             scriptSrc,
@@ -122,6 +128,7 @@ describe.each([
         endpoint,
         viewEndpoint,
         eventEndpoint,
+        sessionEndpoint,
         dsn,
         debug: 'false',
         disableAutoTrack: '1',

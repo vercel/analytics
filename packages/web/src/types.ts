@@ -27,7 +27,8 @@ export interface AnalyticsProps {
   dsn?: string;
   eventEndpoint?: string;
   viewEndpoint?: string;
-  // deprecated, use eventEndpoint/viewEndpoint instead.
+  sessionEndpoint?: string;
+  // deprecated, use eventEndpoint/viewEndpoint/sessionEndpoint instead.
   endpoint?: string;
 }
 

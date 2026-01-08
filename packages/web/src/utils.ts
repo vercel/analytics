@@ -171,6 +171,9 @@ export function loadProps(
   if (props.eventEndpoint) {
     dataset.eventEndpoint = props.eventEndpoint;
   }
+  if (props.sessionEndpoint) {
+    dataset.sessionEndpoint = props.sessionEndpoint;
+  }
   if (isDevelopment() && props.debug === false) {
     dataset.debug = 'false';
   }
