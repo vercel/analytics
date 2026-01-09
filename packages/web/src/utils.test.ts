@@ -1,8 +1,8 @@
-import { afterEach, beforeAll, describe, it, expect } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import {
   computeRoute,
   getMode,
-  getScriptSrc,
+  loadProps,
   parseProperties,
   setMode,
 } from './utils';
@@ -110,7 +110,7 @@ describe('utils', () => {
   describe('computeRoute()', () => {
     it('returns unchanged pathname if no pathParams provided', () => {
       expect(computeRoute('/vercel/next-site/analytics', null)).toBe(
-        '/vercel/next-site/analytics'
+        '/vercel/next-site/analytics',
       );
     });
 
@@ -195,7 +195,7 @@ describe('utils', () => {
         productSlug: 'shirt',
       };
       expect(computeRoute('/m/john/p/shirt', params)).toBe(
-        '/m/[merchantId]/p/[productSlug]'
+        '/m/[merchantId]/p/[productSlug]',
       );
     });
 
@@ -222,39 +222,212 @@ describe('utils', () => {
     });
   });
 
-  describe('getScriptSrc()', () => {
+  describe('loadProps()', () => {
     const envSave = { ...process.env };
+
+    beforeEach(() => {
+      process.env.NODE_ENV = 'production';
+    });
 
     afterEach(() => {
       window.vam = undefined;
       process.env = { ...envSave };
     });
 
-    it('returns debug script in development', () => {
-      window.vam = 'development';
-      expect(getScriptSrc({})).toBe(
-        'https://va.vercel-scripts.com/v1/script.debug.js'
-      );
+    describe('script src', () => {
+      it('returns debug script in development', () => {
+        process.env.NODE_ENV = 'development';
+        expect(loadProps({}).src).toBe(
+          'https://va.vercel-scripts.com/v1/script.debug.js',
+        );
+      });
+
+      it('uses the override prop in development', () => {
+        const scriptSrc = `https://example.com/${Math.random()}/script.js`;
+        process.env.NODE_ENV = 'development';
+        expect(loadProps({ scriptSrc }).src).toBe(scriptSrc);
+      });
+
+      it('returns generic route in production', () => {
+        expect(loadProps({}).src).toBe('/_vercel/insights/script.js');
+      });
+
+      it('uses base path in production', () => {
+        const basePath = `/_vercel-${Math.random()}`;
+        expect(loadProps({ basePath }).src).toBe(
+          `${basePath}/insights/script.js`,
+        );
+      });
+
+      it('uses the override prop in production', () => {
+        const scriptSrc = `https://example.com/${Math.random()}/script.js`;
+        expect(loadProps({ scriptSrc }).src).toBe(scriptSrc);
+      });
+
+      it('uses value from config string', () => {
+        const scriptSrc = `https://example.com/${Math.random()}.js`;
+        expect(
+          loadProps({}, JSON.stringify({ analytics: { scriptSrc } })).src,
+        ).toBe(scriptSrc);
+      });
+
+      it('uses props over config string', () => {
+        const scriptSrc = `https://example.com/${Math.random()}.js`;
+        expect(
+          loadProps(
+            { scriptSrc },
+            JSON.stringify({ analytics: { scriptSrc: 'notused' } }),
+          ).src,
+        ).toBe(scriptSrc);
+      });
     });
 
-    it('returns the specified prop in development', () => {
-      const scriptSrc = `https://example.com/${Math.random()}/script.js`;
-      window.vam = 'development';
-      expect(getScriptSrc({ scriptSrc })).toBe(scriptSrc);
-    });
+    describe('dataset', () => {
+      it('returns default dataset with version and package name only', () => {
+        expect(loadProps({}).dataset).toEqual({
+          sdkn: expect.stringMatching(/@vercel\/analytics/) as string,
+          sdkv: expect.any(String) as string,
+        });
+      });
 
-    it('returns generic route in production', () => {
-      expect(getScriptSrc({})).toBe('/_vercel/insights/script.js');
-    });
+      it('includes the provided framework in sdkn', () => {
+        expect(loadProps({ framework: 'react' }).dataset).toEqual(
+          expect.objectContaining({
+            sdkn: expect.stringContaining('/react') as string,
+          }),
+        );
+      });
 
-    it('returns base path in production', () => {
-      const basePath = `/_vercel-${Math.random()}`;
-      expect(getScriptSrc({ basePath })).toBe(`${basePath}/insights/script.js`);
-    });
+      it('sets disableAutoTrack on demand', () => {
+        expect(
+          loadProps({ disableAutoTrack: true }).dataset.disableAutoTrack,
+        ).toBe('1');
+      });
 
-    it('returns the specified prop in production', () => {
-      const scriptSrc = `https://example.com/${Math.random()}/script.js`;
-      expect(getScriptSrc({ scriptSrc })).toBe(scriptSrc);
+      it('uses the provided endpoint', () => {
+        const endpoint = 'https://example.com/analytics';
+        expect(loadProps({ endpoint }).dataset.endpoint).toEqual(endpoint);
+      });
+
+      it('uses the provided basepath', () => {
+        const basePath = '/custom-base';
+        expect(loadProps({ basePath }).dataset.endpoint).toEqual(
+          `${basePath}/insights`,
+        );
+      });
+
+      it('prefers explicit endpoint over basePath', () => {
+        const endpoint = 'https://example.com/analytics';
+        const basePath = '/custom-base';
+        expect(loadProps({ endpoint, basePath }).dataset.endpoint).toEqual(
+          endpoint,
+        );
+      });
+
+      it('uses the provided dsn', () => {
+        const dsn = 'test-dsn-value';
+        expect(loadProps({ dsn }).dataset.dsn).toEqual(dsn);
+      });
+
+      it('can override debug in development', () => {
+        process.env.NODE_ENV = 'development';
+        expect(loadProps({ debug: false }).dataset.debug).toBe('false');
+      });
+
+      it('can not set debug in production', () => {
+        expect(loadProps({ debug: false }).dataset).not.toHaveProperty('debug');
+      });
+
+      it('returns complete dataset with all properties', () => {
+        process.env.NODE_ENV = 'development';
+        const dsn = 'test-dsn-value';
+        const endpoint = 'https://example.com/analytics';
+        const framework = 'nuxt';
+        expect(
+          loadProps({
+            framework,
+            disableAutoTrack: true,
+            endpoint,
+            dsn,
+            debug: false,
+          }).dataset,
+        ).toEqual(
+          expect.objectContaining({
+            sdkn: expect.stringContaining(`/${framework}`) as string,
+            sdkv: expect.any(String) as string,
+            disableAutoTrack: '1',
+            endpoint,
+            dsn,
+            debug: 'false',
+          }),
+        );
+      });
+
+      it('uses values from config string', () => {
+        process.env.NODE_ENV = 'development';
+        const dsn = 'test-dsn-value';
+        const endpoint = 'https://example.com/analytics';
+        const framework = 'nuxt';
+        expect(
+          loadProps(
+            {},
+            JSON.stringify({
+              analytics: {
+                framework,
+                disableAutoTrack: true,
+                endpoint,
+                dsn,
+                debug: false,
+              },
+            }),
+          ).dataset,
+        ).toEqual(
+          expect.objectContaining({
+            sdkn: expect.stringContaining(`/${framework}`) as string,
+            sdkv: expect.any(String) as string,
+            disableAutoTrack: '1',
+            endpoint,
+            dsn,
+            debug: 'false',
+          }),
+        );
+      });
+
+      it('uses props over config string', () => {
+        process.env.NODE_ENV = 'development';
+        const dsn = 'test-dsn-value';
+        const endpoint = 'https://example.com/analytics';
+        const framework = 'nuxt';
+        expect(
+          loadProps(
+            {
+              framework,
+              disableAutoTrack: true,
+              endpoint,
+              dsn,
+              debug: false,
+            },
+            JSON.stringify({
+              analytics: {
+                framework: 'nextjs',
+                disableAutoTrack: false,
+                endpoint: 'unused',
+                dsn: 'unused',
+                debug: true,
+              },
+            }),
+          ).dataset,
+        ).toEqual(
+          expect.objectContaining({
+            sdkn: expect.stringContaining(`/${framework}`) as string,
+            sdkv: expect.any(String) as string,
+            disableAutoTrack: '1',
+            endpoint,
+            dsn,
+            debug: 'false',
+          }),
+        );
+      });
     });
   });
 });

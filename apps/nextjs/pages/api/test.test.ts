@@ -13,7 +13,7 @@ describe('pages API edge route', () => {
     expect(response.status).toBe(200);
     expect(log).toHaveBeenCalledTimes(1);
     expect(log).toHaveBeenCalledWith(
-      '[Vercel Web Analytics] Track "Pages Api Route" with data {"runtime":"edge","router":"pages"}'
+      '[Vercel Web Analytics] Track "Pages Api Route" with data {"runtime":"edge","router":"pages"}',
     );
   });
 });

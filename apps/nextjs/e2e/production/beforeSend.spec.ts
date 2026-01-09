@@ -1,11 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { useMockForProductionScript } from '../utils';
 
 test.describe('beforeSend', () => {
   test('should replace the value of the secret query parameter', async ({
     page,
   }) => {
-    const payloads: { page: string; payload: Object }[] = [];
+    const payloads: { page: string; payload: unknown }[] = [];
 
     await useMockForProductionScript({
       page,

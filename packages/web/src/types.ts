@@ -23,19 +23,27 @@ export interface AnalyticsProps {
   beforeSend?: BeforeSend;
   debug?: boolean;
   mode?: Mode;
-
   scriptSrc?: string;
-  endpoint?: string;
-
   dsn?: string;
+  eventEndpoint?: string;
+  viewEndpoint?: string;
+  sessionEndpoint?: string;
+  // deprecated, use eventEndpoint/viewEndpoint/sessionEndpoint instead.
+  endpoint?: string;
 }
+
+export type InjectProps = AnalyticsProps & {
+  framework?: string;
+  disableAutoTrack?: boolean;
+  basePath?: string;
+};
 
 declare global {
   interface Window {
     // Base interface
     va?: (
       event: 'beforeSend' | 'event' | 'pageview',
-      properties?: unknown
+      properties?: unknown,
     ) => void;
     // Queue for actions, before the library is loaded
     vaq?: [string, unknown?][];

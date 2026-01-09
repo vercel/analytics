@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { useMockForProductionScript } from '../utils';
 
 test.describe('beforeSend', () => {
@@ -35,15 +35,15 @@ test.describe('beforeSend', () => {
 
     expect(
       messages.find((m) =>
-        m.includes('[pageview] http://localhost:3000/before-send/first')
-      )
+        m.includes('[pageview] http://localhost:3000/before-send/first'),
+      ),
     ).toBeDefined();
     expect(
       messages.find((m) =>
         m.includes(
-          '[pageview] http://localhost:3000/before-send/second?secret=REDACTED'
-        )
-      )
+          '[pageview] http://localhost:3000/before-send/second?secret=REDACTED',
+        ),
+      ),
     ).toBeDefined();
 
     expect(messages.find((m) => m.includes('secret=vercel'))).toBeUndefined();

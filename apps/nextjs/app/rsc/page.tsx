@@ -1,5 +1,5 @@
-import { cookies } from 'next/headers';
 import { track } from '@vercel/analytics/server';
+import { cookies } from 'next/headers';
 
 export default async function RSC() {
   cookies();
