@@ -1,11 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { useMockForProductionScript } from '../utils';
 
 test.describe('pageview', () => {
   test('should track page views when navigating between pages', async ({
     page,
   }) => {
-    const payloads: { page: string; payload: Object }[] = [];
+    const payloads: { page: string; payload: unknown }[] = [];
 
     await useMockForProductionScript({
       page,
@@ -52,7 +52,7 @@ test.describe('pageview', () => {
   });
 
   test('should properly send dynamic route', async ({ page }) => {
-    const payloads: { page: string; payload: Object }[] = [];
+    const payloads: { page: string; payload: unknown }[] = [];
 
     await useMockForProductionScript({
       page,
@@ -132,7 +132,7 @@ test.describe('pageview', () => {
   test('should send pageviews when route doesnt change but path does', async ({
     page,
   }) => {
-    const payloads: { page: string; payload: Object }[] = [];
+    const payloads: { page: string; payload: unknown }[] = [];
 
     await useMockForProductionScript({
       page,

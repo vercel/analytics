@@ -10,7 +10,7 @@ describe('app API edge-no-context route', () => {
     expect(response.status).toBe(200);
     expect(log).toHaveBeenCalledTimes(1);
     expect(log).toHaveBeenCalledWith(
-      '[Vercel Web Analytics] Track "Edge Event" with data {"data":"edge","router":"app","manual":true}'
+      '[Vercel Web Analytics] Track "Edge Event" with data {"data":"edge","router":"app","manual":true}',
     );
   });
 });

@@ -5,17 +5,10 @@
     "url": "git+https://github.com/vercel/analytics.git"
   },
   "license": "MIT",
-  "scripts": {
-    "prepare": "husky install"
-  },
   "prettier": "@vercel/style-guide/prettier",
-  "dependencies": {
-    "lint-staged": "^13.2.2"
-  },
   "devDependencies": {
-    "@vercel/style-guide": "^5.0.1",
-    "husky": "^8.0.3",
-    "prettier": "2.8.8",
+    "@biomejs/biome": "^2.3.10",
+    "lefthook": "^2.0.12",
     "typescript": "^5.1.6"
   },
   "packageManager": "pnpm@8.6.5"

@@ -1,24 +1,29 @@
-import { afterEach, describe, it, expect } from 'vitest';
-import { getBasePath } from './utils';
+import { afterEach, describe, expect, it } from 'vitest';
+import { getBasePath, getConfigString } from './utils';
+
+afterEach(() => {
+  delete import.meta.env.VITE_VERCEL_OBSERVABILITY_BASEPATH;
+  delete import.meta.env.VITE_VERCEL_OBSERVABILITY_CLIENT_CONFIG;
+});
 
 describe('getBasePath()', () => {
-  const processSave = { ...process };
-  const envSave = { ...process.env };
-
-  afterEach(() => {
-    global.process = { ...processSave };
-    process.env = { ...envSave };
-  });
-
   it('returns basepath set for Remix', () => {
     const basepath = `/_vercel-${Math.random()}/insights`;
     import.meta.env.VITE_VERCEL_OBSERVABILITY_BASEPATH = basepath;
     expect(getBasePath()).toBe(basepath);
   });
+});
 
-  it('returns null without import.meta', () => {
-    // @ts-expect-error -- yes, we want to completely drop import.meta.env for this test!!
-    import.meta.env = undefined;
-    expect(getBasePath()).toBeUndefined();
+describe('getConfigString()', () => {
+  it('returns configuration string for Remix', () => {
+    const config = JSON.stringify({
+      analytics: {
+        viewEndpoint: `/_vercel-${Math.random()}`,
+        eventEndpoint: `/hfi/${Math.random()}`,
+        sessionEndpoint: `/_sessions-${Math.random()}`,
+      },
+    });
+    import.meta.env.VITE_VERCEL_OBSERVABILITY_CLIENT_CONFIG = config;
+    expect(getConfigString()).toBe(config);
   });
 });

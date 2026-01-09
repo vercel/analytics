@@ -1,11 +1,14 @@
-import * as React from 'react';
-import { afterEach, beforeEach, describe, it, expect } from 'vitest';
 import { cleanup, render } from '@testing-library/react';
+import * as React from 'react';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { AllowedPropertyValues, AnalyticsProps, Mode } from '../types';
 import { Analytics, track } from './index';
 
 describe('<Analytics />', () => {
+  const envSave = { ...process.env };
+
   afterEach(() => {
+    process.env = { ...envSave };
     cleanup();
   });
 
@@ -37,13 +40,42 @@ describe('<Analytics />', () => {
       expect(script).toHaveAttribute('defer');
     });
 
+    it('uses config string', () => {
+      const viewEndpoint = `/_vercel-${Math.random()}`;
+      const eventEndpoint = `/hfi/${Math.random()}`;
+      const sessionEndpoint = `/_sessions-${Math.random()}`;
+      const scriptSrc = `http://acme.org/_vercel/${Math.random()}`;
+      process.env.REACT_APP_VERCEL_OBSERVABILITY_CLIENT_CONFIG = JSON.stringify(
+        {
+          analytics: {
+            viewEndpoint,
+            eventEndpoint,
+            sessionEndpoint,
+            scriptSrc,
+          },
+        },
+      );
+      render(<Analytics mode={mode} />);
+
+      const scripts = document.getElementsByTagName('script');
+      expect(scripts).toHaveLength(1);
+
+      const script = document.head.querySelector('script');
+      expect(script).toBeDefined();
+      expect(script?.src).toEqual(scriptSrc);
+      expect(script).toHaveAttribute('defer');
+      expect(script).toHaveAttribute('data-event-endpoint', eventEndpoint);
+      expect(script).toHaveAttribute('data-view-endpoint', viewEndpoint);
+      expect(script).toHaveAttribute('data-session-endpoint', sessionEndpoint);
+    });
+
     it('sets and changes beforeSend', () => {
       const beforeSend: Required<AnalyticsProps>['beforeSend'] = (event) =>
         event;
       const beforeSend2: Required<AnalyticsProps>['beforeSend'] = (event) =>
         event;
       const { rerender } = render(
-        <Analytics beforeSend={beforeSend} mode="production" />
+        <Analytics beforeSend={beforeSend} mode="production" />,
       );
 
       expect(window.vaq?.[0]).toEqual(['beforeSend', beforeSend]);

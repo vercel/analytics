@@ -1,0 +1,49 @@
+{
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "javascript": {
+    // So biome does not complain about React "unused" import
+    "jsxRuntime": "reactClassic",
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
+  "overrides": [
+    {
+      // Recommended settings for partially supported frameworks
+      "includes": ["packages/web/src/nuxt/**/*"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            // nuxt useRouter isn't a React hook
+            "useHookAtTopLevel": "off"
+          }
+        }
+      }
+    },
+    {
+      // Recommended settings for partially supported frameworks
+      "includes": ["**/*.svelte", "**/*.astro", "**/*.vue"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
+          },
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    }
+  ]
+}

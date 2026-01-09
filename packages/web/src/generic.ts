@@ -1,25 +1,24 @@
-import { name as packageName, version } from '../package.json';
 import { initQueue } from './queue';
 import type {
   AllowedPropertyValues,
   AnalyticsProps,
-  FlagsDataInput,
   BeforeSend,
   BeforeSendEvent,
+  FlagsDataInput,
+  InjectProps,
 } from './types';
 import {
+  computeRoute,
   isBrowser,
-  parseProperties,
-  setMode,
   isDevelopment,
   isProduction,
-  computeRoute,
-  getScriptSrc,
+  loadProps,
+  parseProperties,
 } from './utils';
 
 /**
  * Injects the Vercel Web Analytics script into the page head and starts tracking page views. Read more in our [documentation](https://vercel.com/docs/concepts/analytics/package).
- * @param [props] - Analytics options.
+ * @param props - Analytics options.
  * @param [props.mode] - The mode to use for the analytics script. Defaults to `auto`.
  *  - `auto` - Automatically detect the environment.  Uses `production` if the environment cannot be determined.
  *  - `production` - Always use the production script. (Sends events to the server)
@@ -28,63 +27,39 @@ import {
  * @param [props.beforeSend] - A middleware function to modify events before they are sent. Should return the event object or `null` to cancel the event.
  * @param [props.dsn] - The DSN of the project to send events to. Only required when self-hosting.
  * @param [props.disableAutoTrack] - Whether the injected script should track page views from pushState events. Disable if route is updated after pushState, a manually call page pageview().
+ * @param [confString] - an optional JSON string (InjectProps) containing the default configuration. Explicit props will take over any provided default.
  */
 function inject(
-  props: AnalyticsProps & {
-    framework?: string;
-    disableAutoTrack?: boolean;
-    basePath?: string;
-  } = {
+  props: InjectProps = {
     debug: true,
-  }
+  },
+  confString?: string,
 ): void {
   if (!isBrowser()) return;
 
-  setMode(props.mode);
-
+  const { beforeSend, src, dataset } = loadProps(props, confString);
   initQueue();
 
-  if (props.beforeSend) {
-    window.va?.('beforeSend', props.beforeSend);
+  if (beforeSend) {
+    window.va?.('beforeSend', beforeSend);
   }
-
-  const src = getScriptSrc(props);
-
   if (document.head.querySelector(`script[src*="${src}"]`)) return;
 
   const script = document.createElement('script');
   script.src = src;
+  for (const [key, value] of Object.entries(dataset)) {
+    script.dataset[key] = value;
+  }
   script.defer = true;
-  script.dataset.sdkn =
-    packageName + (props.framework ? `/${props.framework}` : '');
-  script.dataset.sdkv = version;
-
-  if (props.disableAutoTrack) {
-    script.dataset.disableAutoTrack = '1';
-  }
-  if (props.endpoint) {
-    script.dataset.endpoint = props.endpoint;
-  } else if (props.basePath) {
-    script.dataset.endpoint = `${props.basePath}/insights`;
-  }
-  if (props.dsn) {
-    script.dataset.dsn = props.dsn;
-  }
-
   script.onerror = (): void => {
     const errorMessage = isDevelopment()
       ? 'Please check if any ad blockers are enabled and try again.'
       : 'Be sure to enable Web Analytics for your project and deploy again. See https://vercel.com/docs/analytics/quickstart for more information.';
 
-    // eslint-disable-next-line no-console -- Logging to console is intentional
     console.log(
-      `[Vercel Web Analytics] Failed to load script from ${src}. ${errorMessage}`
+      `[Vercel Web Analytics] Failed to load script from ${src}. ${errorMessage}`,
     );
   };
-
-  if (isDevelopment() && props.debug === false) {
-    script.dataset.debug = 'false';
-  }
 
   document.head.appendChild(script);
 }
@@ -100,14 +75,13 @@ function track(
   properties?: Record<string, AllowedPropertyValues>,
   options?: {
     flags?: FlagsDataInput;
-  }
+  },
 ): void {
   if (!isBrowser()) {
     const msg =
       '[Vercel Web Analytics] Please import `track` from `@vercel/analytics/server` when using this function in a server environment';
 
     if (isProduction()) {
-      // eslint-disable-next-line no-console -- Show warning in production
       console.warn(msg);
     } else {
       throw new Error(msg);
@@ -133,7 +107,6 @@ function track(
     });
   } catch (err) {
     if (err instanceof Error && isDevelopment()) {
-      // eslint-disable-next-line no-console -- Logging to console is intentional
       console.error(err);
     }
   }
@@ -152,7 +125,6 @@ function pageview({
 export { inject, track, pageview, computeRoute };
 export type { AnalyticsProps, BeforeSend, BeforeSendEvent };
 
-// eslint-disable-next-line import/no-default-export -- Default export is intentional
 export default {
   inject,
   track,
