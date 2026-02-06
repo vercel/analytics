@@ -126,13 +126,13 @@ function escapeRegExp(string: string): string {
 
 function getScriptSrc(props: AnalyticsProps & { basePath?: string }): string {
   if (props.scriptSrc) {
-    return props.scriptSrc;
+    return makeAbsolute(props.scriptSrc);
   }
   if (isDevelopment()) {
     return 'https://va.vercel-scripts.com/v1/script.debug.js';
   }
   if (props.basePath) {
-    return `${props.basePath}/insights/script.js`;
+    return makeAbsolute(`${props.basePath}/insights/script.js`);
   }
   return '/_vercel/insights/script.js';
 }
@@ -166,13 +166,13 @@ export function loadProps(
     dataset.disableAutoTrack = '1';
   }
   if (props.viewEndpoint) {
-    dataset.viewEndpoint = props.viewEndpoint;
+    dataset.viewEndpoint = makeAbsolute(props.viewEndpoint);
   }
   if (props.eventEndpoint) {
-    dataset.eventEndpoint = props.eventEndpoint;
+    dataset.eventEndpoint = makeAbsolute(props.eventEndpoint);
   }
   if (props.sessionEndpoint) {
-    dataset.sessionEndpoint = props.sessionEndpoint;
+    dataset.sessionEndpoint = makeAbsolute(props.sessionEndpoint);
   }
   if (isDevelopment() && props.debug === false) {
     dataset.debug = 'false';
@@ -184,7 +184,7 @@ export function loadProps(
   if (props.endpoint) {
     dataset.endpoint = props.endpoint;
   } else if (props.basePath) {
-    dataset.endpoint = `${props.basePath}/insights`;
+    dataset.endpoint = makeAbsolute(`${props.basePath}/insights`);
   }
 
   return {
@@ -192,4 +192,12 @@ export function loadProps(
     src: getScriptSrc(props),
     dataset,
   };
+}
+
+function makeAbsolute(url: string): string {
+  return url.startsWith('http://') ||
+    url.startsWith('https://') ||
+    url.startsWith('/')
+    ? url
+    : `/${url}`;
 }
