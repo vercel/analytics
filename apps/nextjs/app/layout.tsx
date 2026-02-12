@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata = {
   title: 'Next.js',
@@ -13,8 +14,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Analytics />
+        {/* Your website content */}
         {children}
+
+        {/* Vercel tracking components (only one of each!) */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
