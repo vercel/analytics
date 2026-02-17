@@ -6,23 +6,23 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - name: Install
         uses: ./.github/composite-actions/install
-      - name: lint
-        run: pnpm -r lint
-      - name: type-check
-        run: pnpm -r type-check
-      - name: prettier
-        run: pnpm prettier -c .
-      - name: build
-        run: pnpm -r build
-      - run: pnpm --filter @vercel/analytics publish --tag beta --no-git-checks
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+      - name: Run Biome
+        run: biome ci
+      - name: Build
+        run: pnpm -F @vercel/analytics build
+      - run: pnpm -F @vercel/analytics publish --tag beta --no-git-checks
         if: github.event.release.prerelease == true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_ELEVATED }}
-      - run: pnpm --filter @vercel/analytics publish --no-git-checks
+      - run: pnpm -F@vercel/analytics publish --no-git-checks
         if: github.event.release.prerelease == false
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_ELEVATED }}
