@@ -14,7 +14,10 @@ export function createComponent(
       const route = useRoute();
       inject(
         {
-          ...props,
+          // trim out undefined values to avoid overriding config values
+          ...Object.fromEntries(
+            Object.entries(props).filter(([_, v]) => v !== undefined),
+          ),
           basePath: getBasePath(),
           // keep auto-tracking unless we have route support (Nuxt or vue-router).
           disableAutoTrack: Boolean(route),
