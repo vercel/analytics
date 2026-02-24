@@ -1,5 +1,9 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { filterParallelRouteParams, getBasePath, getConfigString } from './utils';
+import {
+  filterParallelRouteParams,
+  getBasePath,
+  getConfigString,
+} from './utils';
 
 const processSave = { ...process };
 const envSave = { ...process.env };
@@ -20,7 +24,9 @@ describe('parallel route slot param filtering', () => {
     const params = { slug: ['api', 'reference'] };
     // Next.js joins catch-all values with '/' in the router tree
     const segments = ['docs', 'api/reference'];
-    expect(filterParallelRouteParams(params, segments)).toEqual({ slug: ['api', 'reference'] });
+    expect(filterParallelRouteParams(params, segments)).toEqual({
+      slug: ['api', 'reference'],
+    });
   });
 
   it('keeps string params and filters slot array params', () => {

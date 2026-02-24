@@ -35,12 +35,12 @@ test.describe('pageview', () => {
 
     expect(
       messages.find((m) =>
-        m.includes('[pageview] http://localhost:3000/navigation/first'),
+        m.includes('[view] http://localhost:3000/navigation/first'),
       ),
     ).toBeDefined();
     expect(
       messages.find((m) =>
-        m.includes('[pageview] http://localhost:3000/navigation/second'),
+        m.includes('[view] http://localhost:3000/navigation/second'),
       ),
     ).toBeDefined();
   });

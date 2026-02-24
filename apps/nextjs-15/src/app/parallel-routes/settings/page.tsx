@@ -10,7 +10,11 @@ export default function SettingsPage() {
       <p>This is a static page with no dynamic params.</p>
 
       <div
-        style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#e3f2fd' }}
+        style={{
+          marginTop: '1rem',
+          padding: '1rem',
+          backgroundColor: '#e3f2fd',
+        }}
       >
         <p>
           <strong>Path:</strong> {path}

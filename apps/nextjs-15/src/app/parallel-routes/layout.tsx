@@ -9,7 +9,9 @@ export default function ParallelRoutesLayout({
 }) {
   return (
     <div style={{ padding: '1rem' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1rem' }}>
+      <div
+        style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1rem' }}
+      >
         <aside>{sidebar}</aside>
         <main>{children}</main>
       </div>
