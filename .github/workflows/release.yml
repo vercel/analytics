@@ -14,6 +14,8 @@ jobs:
         uses: ./.github/composite-actions/install
       - name: Setup Biome
         uses: biomejs/setup-biome@v2
+        with:
+          version: 2.3.10
       - name: Run Biome
         run: biome ci
       - name: Build
