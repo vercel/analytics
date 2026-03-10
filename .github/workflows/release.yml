@@ -22,7 +22,7 @@ jobs:
         if: github.event.release.prerelease == true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_ELEVATED }}
-      - run: pnpm -F@vercel/analytics publish --no-git-checks
+      - run: pnpm -F @vercel/analytics publish --no-git-checks
         if: github.event.release.prerelease == false
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_ELEVATED }}
