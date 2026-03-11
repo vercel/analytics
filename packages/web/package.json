@@ -136,6 +136,9 @@
     "next": {
       "optional": true
     },
+    "nuxt": {
+      "optional": true
+    },
     "react": {
       "optional": true
     },
