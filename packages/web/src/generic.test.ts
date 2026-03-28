@@ -138,6 +138,22 @@ describe.each([
     });
   });
 
+  describe('track before inject', () => {
+    beforeEach(() => {
+      // simulate a fresh page load where inject hasn't run yet
+      window.va = undefined;
+      window.vaq = undefined;
+    });
+
+    it('initializes the queue and buffers events with properties', () => {
+      track('exposure', { variant: 'A' });
+      expect(window.vaq?.[0]).toEqual([
+        'event',
+        { name: 'exposure', data: { variant: 'A' } },
+      ]);
+    });
+  });
+
   describe('track custom events', () => {
     beforeEach(() => {
       // reset the internal queue before every test

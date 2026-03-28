@@ -1,0 +1,113 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100svh;
+  padding: 80px;
+  font-family: var(--font-geist-sans);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 480px;
+  width: 100%;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.badge::before {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.main h1 {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+
+.button {
+  align-self: flex-start;
+  appearance: none;
+  background: var(--foreground);
+  color: var(--background);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    opacity: 0.8;
+  }
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.back::before {
+  content: "←";
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .back:hover {
+    color: var(--foreground);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .badge {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .description {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .back {
+    color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 32px;
+    align-items: flex-start;
+    padding-top: 64px;
+  }
+}
