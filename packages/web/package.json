@@ -104,6 +104,7 @@
   "devDependencies": {
     "@nuxt/kit": "^4.2.0",
     "@nuxt/schema": "^4.2.0",
+    "@sveltejs/kit": "^2",
     "@swc/core": "^1.9.2",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
