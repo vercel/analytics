@@ -3,6 +3,7 @@ export const initQueue = (): void => {
   if (window.va) return;
 
   window.va = function a(...params): void {
-    (window.vaq = window.vaq || []).push(params);
+    if (!window.vaq) window.vaq = [];
+    window.vaq.push(params);
   };
 };

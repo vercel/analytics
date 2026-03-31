@@ -1,8 +1,8 @@
 'use client';
 import { useEffect } from 'react';
-import { inject, track, pageview } from '../generic';
+import { inject, pageview, track } from '../generic';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
-import { getBasePath } from './utils';
+import { getBasePath, getConfigString } from './utils';
 
 /**
  * Injects the Vercel Web Analytics script into the page head and starts tracking page views. Read more in our [documentation](https://vercel.com/docs/concepts/analytics/package).
@@ -33,7 +33,8 @@ function Analytics(
     route?: string | null;
     path?: string | null;
     basePath?: string;
-  }
+    configString?: string;
+  },
 ): null {
   useEffect(() => {
     if (props.beforeSend) {
@@ -43,13 +44,15 @@ function Analytics(
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: only run once
   useEffect(() => {
-    inject({
-      framework: props.framework || 'react',
-      basePath: props.basePath ?? getBasePath(),
-      ...(props.route !== undefined && { disableAutoTrack: true }),
-      ...props,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only run once
+    inject(
+      {
+        framework: props.framework || 'react',
+        basePath: props.basePath ?? getBasePath(),
+        ...(props.route !== undefined && { disableAutoTrack: true }),
+        ...props,
+      },
+      props.configString ?? getConfigString(),
+    );
   }, []);
 
   useEffect(() => {

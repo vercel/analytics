@@ -1,12 +1,15 @@
 import Link from 'next/link';
+import styles from './layout.module.css';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
-      <Link href="/blog/my-first-blogpost">My first blog post</Link>&nbsp;
-      <Link href="/blog/new-feature-release">Feature just got released</Link>
-      <br />
-      <div>{children}</div>
+    <div className={styles.page}>
+      <main className={styles.main}>
+        <Link className={styles.back} href="/">
+          Home
+        </Link>
+        {children}
+      </main>
     </div>
   );
 }

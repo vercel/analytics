@@ -1,14 +1,3 @@
-interface PageViewEvent {
-  type: 'pageview';
-  url: string;
-}
-interface CustomEvent {
-  type: 'event';
-  url: string;
-}
-
-export type BeforeSendEvent = PageViewEvent | CustomEvent;
-
 export type Mode = 'auto' | 'development' | 'production';
 export type AllowedPropertyValues =
   | string
@@ -17,25 +6,57 @@ export type AllowedPropertyValues =
   | null
   | undefined;
 
+export type PlainFlags = Record<string, unknown>;
+export type FlagsDataInput = (string | PlainFlags)[] | PlainFlags;
+
+export type TrackEventPayload = {
+  name: string;
+  data?: Record<string, AllowedPropertyValues>;
+  options?: {
+    flags?: FlagsDataInput;
+  };
+};
+
+interface PageViewEvent {
+  type: 'pageview';
+  url: string;
+}
+
+interface CustomEvent {
+  type: 'event';
+  url: string;
+  payload: TrackEventPayload;
+}
+
+export type BeforeSendEvent = PageViewEvent | CustomEvent;
+
 export type BeforeSend = (event: BeforeSendEvent) => BeforeSendEvent | null;
 
 export interface AnalyticsProps {
   beforeSend?: BeforeSend;
   debug?: boolean;
   mode?: Mode;
-
   scriptSrc?: string;
-  endpoint?: string;
-
   dsn?: string;
+  eventEndpoint?: string;
+  viewEndpoint?: string;
+  sessionEndpoint?: string;
+  // deprecated, use eventEndpoint/viewEndpoint/sessionEndpoint instead.
+  endpoint?: string;
 }
+
+export type InjectProps = AnalyticsProps & {
+  framework?: string;
+  disableAutoTrack?: boolean;
+  basePath?: string;
+};
 
 declare global {
   interface Window {
     // Base interface
     va?: (
       event: 'beforeSend' | 'event' | 'pageview',
-      properties?: unknown
+      properties?: unknown,
     ) => void;
     // Queue for actions, before the library is loaded
     vaq?: [string, unknown?][];
@@ -45,6 +66,3 @@ declare global {
     webAnalyticsBeforeSend?: BeforeSend;
   }
 }
-
-export type PlainFlags = Record<string, unknown>;
-export type FlagsDataInput = (string | PlainFlags)[] | PlainFlags;

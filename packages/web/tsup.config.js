@@ -28,10 +28,25 @@ export default defineConfig([
   {
     ...cfg,
     entry: {
-      index: 'src/nuxt/index.ts',
+      index: 'src/nuxt/module.ts',
     },
-    external: ['vue', 'vue-router'],
+    external: [
+      'vue',
+      'vue-router',
+      'nuxt',
+      '@nuxt/kit',
+      '@nuxt/schema',
+      '#imports',
+    ],
     outDir: 'dist/nuxt',
+  },
+  {
+    ...cfg,
+    entry: {
+      index: 'src/nuxt/runtime/index.ts',
+    },
+    external: ['vue', 'vue-router', 'nuxt'],
+    outDir: 'dist/nuxt/runtime',
   },
   {
     ...cfg,

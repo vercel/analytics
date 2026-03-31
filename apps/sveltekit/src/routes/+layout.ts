@@ -1,8 +1,8 @@
-import { dev } from '$app/environment';
 import {
-  injectAnalytics,
   type BeforeSendEvent,
+  injectAnalytics,
 } from '@vercel/analytics/sveltekit';
+import { dev } from '$app/environment';
 
 injectAnalytics({
   mode: dev ? 'development' : 'production',

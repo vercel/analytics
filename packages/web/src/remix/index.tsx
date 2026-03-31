@@ -1,7 +1,7 @@
 import React from 'react';
 import { Analytics as AnalyticsScript } from '../react';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
-import { getBasePath, useRoute } from './utils';
+import { getBasePath, getConfigString, useRoute } from './utils';
 
 export function Analytics(props: Omit<AnalyticsProps, 'route'>): JSX.Element {
   return (
@@ -9,6 +9,7 @@ export function Analytics(props: Omit<AnalyticsProps, 'route'>): JSX.Element {
       {...useRoute()}
       {...props}
       basePath={getBasePath()}
+      configString={getConfigString()}
       framework="remix"
     />
   );

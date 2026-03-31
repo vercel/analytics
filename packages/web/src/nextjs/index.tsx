@@ -1,8 +1,9 @@
 'use client';
-import React, { Suspense, type ReactNode } from 'react';
+import React, { type ReactNode, Suspense } from 'react';
+import { track } from '../generic';
 import { Analytics as AnalyticsScript } from '../react';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
-import { getBasePath, useRoute } from './utils';
+import { getBasePath, getConfigString, useRoute } from './utils';
 
 type Props = Omit<AnalyticsProps, 'route' | 'disableAutoTrack'>;
 
@@ -14,6 +15,7 @@ function AnalyticsComponent(props: Props): ReactNode {
       route={route}
       {...props}
       basePath={getBasePath()}
+      configString={getConfigString()}
       framework="next"
     />
   );
@@ -28,4 +30,5 @@ export function Analytics(props: Props): null {
   ) as never;
 }
 
+export { track };
 export type { AnalyticsProps, BeforeSend, BeforeSendEvent };

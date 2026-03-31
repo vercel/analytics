@@ -1,25 +1,11 @@
-<script setup lang="ts">
-import { track } from '@vercel/analytics';
-
-function navigate(event: { target: { href: string } }) {
-  track('navigation', { to: event.target.href });
-}
-</script>
-
 <template>
   <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
+    <img alt="Nuxt logo" class="logo" src="@/assets/logo.svg" width="180" />
     <div class="wrapper">
       <nav>
-        <NuxtLink @click="navigate" to="/">Home</NuxtLink>
-        <NuxtLink @click="navigate" to="/blog/various/hi">Hi!</NuxtLink>
-        <NuxtLink @click="navigate" to="/blog/various/hallo">Hallo!</NuxtLink>
+        <NuxtLink to="/">Home</NuxtLink>
+        <NuxtLink to="/blog/various/hi">Hi!</NuxtLink>
+        <NuxtLink to="/blog/various/hallo">Hallo!</NuxtLink>
       </nav>
     </div>
     <slot />
@@ -32,11 +18,12 @@ function navigate(event: { target: { href: string } }) {
 header {
   line-height: 1.5;
   max-height: 100vh;
+  text-align: center;
 }
 
 .logo {
   display: block;
-  margin: 0 auto 2rem;
+  margin: 2rem auto 2rem;
 }
 
 nav {
