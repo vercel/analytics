@@ -89,6 +89,10 @@ function track(
 
     return;
   }
+  // in case the track function is invoked even before inject
+  // (can happen because react renders children before their parents)
+  // make sure we do not miss them.
+  initQueue();
 
   if (!properties) {
     window.va?.('event', { name, options });

@@ -10,25 +10,60 @@
 .main {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 32px;
   max-width: 480px;
   width: 100%;
 }
 
-.main h1 {
-  font-size: 32px;
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.2;
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+  transition: color 0.15s;
 }
 
-.nav {
+.back::before {
+  content: "←";
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.badge::before {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3b82f6;
+}
+
+.main h1 {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.posts {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.link {
+.post {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -42,30 +77,53 @@
     border-color 0.15s;
 }
 
-.link::after {
+.post::after {
   content: "→";
   opacity: 0.4;
 }
 
+.description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+
 @media (hover: hover) and (pointer: fine) {
-  .link:hover {
+  .back:hover {
+    color: var(--foreground);
+  }
+
+  .post:hover {
     background: rgba(0, 0, 0, 0.04);
     border-color: rgba(0, 0, 0, 0.15);
   }
 
-  .link:hover::after {
+  .post:hover::after {
     opacity: 1;
   }
 }
 
 @media (prefers-color-scheme: dark) {
-  .link {
+  .back {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .badge {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .post {
     border-color: rgba(255, 255, 255, 0.1);
   }
 
-  .link:hover {
+  .post:hover {
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .description {
+    color: rgba(255, 255, 255, 0.5);
   }
 }
 

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import styles from '../layout.module.css';
 
 export default async function BlogPage({
   params,
@@ -7,10 +8,15 @@ export default async function BlogPage({
 }) {
   const { slug } = await params;
   return (
-    <div>
-      <h2>{slug}</h2>
-
-      <Link href="/blog">Back to blog</Link>
-    </div>
+    <>
+      <span className={styles.badge}>Blog</span>
+      <h1>{slug.replace(/-/g, ' ')}</h1>
+      <p className={styles.description}>
+        This is the post content for &ldquo;{slug}&rdquo;.
+      </p>
+      <Link className={styles.back} href="/blog">
+        All posts
+      </Link>
+    </>
   );
 }

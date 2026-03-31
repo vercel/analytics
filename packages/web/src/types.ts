@@ -1,14 +1,3 @@
-interface PageViewEvent {
-  type: 'pageview';
-  url: string;
-}
-interface CustomEvent {
-  type: 'event';
-  url: string;
-}
-
-export type BeforeSendEvent = PageViewEvent | CustomEvent;
-
 export type Mode = 'auto' | 'development' | 'production';
 export type AllowedPropertyValues =
   | string
@@ -16,6 +5,30 @@ export type AllowedPropertyValues =
   | boolean
   | null
   | undefined;
+
+export type PlainFlags = Record<string, unknown>;
+export type FlagsDataInput = (string | PlainFlags)[] | PlainFlags;
+
+export type TrackEventPayload = {
+  name: string;
+  data?: Record<string, AllowedPropertyValues>;
+  options?: {
+    flags?: FlagsDataInput;
+  };
+};
+
+interface PageViewEvent {
+  type: 'pageview';
+  url: string;
+}
+
+interface CustomEvent {
+  type: 'event';
+  url: string;
+  payload: TrackEventPayload;
+}
+
+export type BeforeSendEvent = PageViewEvent | CustomEvent;
 
 export type BeforeSend = (event: BeforeSendEvent) => BeforeSendEvent | null;
 
@@ -53,6 +66,3 @@ declare global {
     webAnalyticsBeforeSend?: BeforeSend;
   }
 }
-
-export type PlainFlags = Record<string, unknown>;
-export type FlagsDataInput = (string | PlainFlags)[] | PlainFlags;
