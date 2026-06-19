@@ -1,6 +1,6 @@
 {
   "name": "@vercel/analytics",
-  "version": "2.0.2-canary",
+  "version": "2.1.0-canary",
   "description": "Gain real-time traffic insights with Vercel Web Analytics",
   "keywords": [
     "analytics",
