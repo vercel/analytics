@@ -11,6 +11,9 @@
     "directory": "packages/web"
   },
   "license": "MIT",
+  "publishConfig": {
+    "provenance": true
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
