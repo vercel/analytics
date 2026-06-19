@@ -5,6 +5,9 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -22,9 +25,5 @@ jobs:
         run: pnpm -F @vercel/analytics build
       - run: pnpm -F @vercel/analytics publish --tag beta --no-git-checks
         if: github.event.release.prerelease == true
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_ELEVATED }}
       - run: pnpm -F @vercel/analytics publish --no-git-checks
         if: github.event.release.prerelease == false
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_ELEVATED }}
