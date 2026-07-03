@@ -59,6 +59,10 @@
       "svelte": "./dist/sveltekit/index.mjs",
       "types": "./dist/sveltekit/index.d.ts"
     },
+    "./sveltekit-next": {
+      "types": "./dist/sveltekit-next/index.svelte.d.mts",
+      "svelte": "./dist/sveltekit-next/index.svelte.js"
+    },
     "./vue": {
       "browser": "./dist/vue/index.mjs",
       "import": "./dist/vue/index.mjs",
@@ -93,20 +97,25 @@
       "sveltekit": [
         "dist/sveltekit/index.d.ts"
       ],
+      "sveltekit-next": [
+        "dist/sveltekit-next/index.svelte.d.mts"
+      ],
       "vue": [
         "dist/vue/index.d.ts"
       ]
     }
   },
   "scripts": {
-    "build": "tsup && pnpm copy-astro",
+    "build": "tsup && pnpm copy-astro && pnpm copy-sveltekit-next-package",
     "copy-astro": "cp -R src/astro dist/",
-    "dev": "pnpm copy-astro && tsup --watch",
+    "copy-sveltekit-next-package": "mkdir -p dist/sveltekit-next && cp src/sveltekit-next/package.json dist/sveltekit-next/package.json",
+    "dev": "pnpm copy-astro && pnpm copy-sveltekit-next-package && tsup --watch",
     "test": "vitest"
   },
   "devDependencies": {
     "@nuxt/kit": "^4.2.0",
     "@nuxt/schema": "^4.2.0",
+    "@sveltejs/kit": "^3.0.0-next.0",
     "@swc/core": "^1.9.2",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
@@ -123,7 +132,7 @@
   },
   "peerDependencies": {
     "@remix-run/react": "^2",
-    "@sveltejs/kit": "^1 || ^2",
+    "@sveltejs/kit": "^1 || ^2 || ^3 || ^3.0.0-next.0",
     "next": ">= 13",
     "nuxt": ">= 3",
     "react": "^18 || ^19 || ^19.0.0-rc",
