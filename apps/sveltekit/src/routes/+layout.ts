@@ -2,9 +2,10 @@ import {
   type BeforeSendEvent,
   injectAnalytics,
 } from '@vercel/analytics/sveltekit-next';
+import { dev } from '$app/env';
 
 injectAnalytics({
-  mode: import.meta.env.DEV ? 'development' : 'production',
+  mode: dev ? 'development' : 'production',
   beforeSend(event: BeforeSendEvent) {
     console.log('beforeSend', event);
     return event;
