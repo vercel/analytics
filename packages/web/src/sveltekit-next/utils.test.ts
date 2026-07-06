@@ -1,0 +1,29 @@
+import { afterEach, describe, expect, it } from 'vitest';
+import { getBasePath, getConfigString } from './utils';
+
+afterEach(() => {
+  delete import.meta.env.VITE_VERCEL_OBSERVABILITY_BASEPATH;
+  delete import.meta.env.VITE_VERCEL_OBSERVABILITY_CLIENT_CONFIG;
+});
+
+describe('getBasePath()', () => {
+  it('returns basepath set for SvelteKit', () => {
+    const basepath = `/_vercel-${Math.random()}/insights`;
+    import.meta.env.VITE_VERCEL_OBSERVABILITY_BASEPATH = basepath;
+    expect(getBasePath()).toBe(basepath);
+  });
+});
+
+describe('getConfigString()', () => {
+  it('returns configuration string for SvelteKit', () => {
+    const config = JSON.stringify({
+      analytics: {
+        viewEndpoint: `/_vercel-${Math.random()}`,
+        eventEndpoint: `/hfi/${Math.random()}`,
+        sessionEndpoint: `/_sessions-${Math.random()}`,
+      },
+    });
+    import.meta.env.VITE_VERCEL_OBSERVABILITY_CLIENT_CONFIG = config;
+    expect(getConfigString()).toBe(config);
+  });
+});

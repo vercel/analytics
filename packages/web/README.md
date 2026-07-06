@@ -26,6 +26,8 @@ This package does **not** track data in development mode.
 3. Inject the Analytics script to your app
 
    - If you are using **Next.js** or **React**, you can use the `<Analytics />` component to inject the script into your app.
+   - If you are using **SvelteKit 2**, you can use the `injectAnalytics()` function from `@vercel/analytics/sveltekit` in your top-level `+layout.js/ts` file.
+   - If you are using **SvelteKit 3**, import `injectAnalytics()` from `@vercel/analytics/sveltekit-next` instead.
    - To add the tracking script for other frameworks, use the `inject` function.
    - If you want to use Vercel Web Analytics on a static site without npm, follow the instructions in the [documentation](https://vercel.com/docs/analytics/quickstart).
 
