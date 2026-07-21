@@ -57,8 +57,11 @@ function Analytics(
 
   useEffect(() => {
     // explicitely track page view, since we disabled auto tracking
-    if (props.route && props.path) {
-      pageview({ route: props.route, path: props.path });
+    if (props.route) {
+      pageview({
+        route: props.route,
+        path: props.path ?? window.location.pathname,
+      });
     }
   }, [props.route, props.path]);
 
