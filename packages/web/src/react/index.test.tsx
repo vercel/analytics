@@ -140,4 +140,28 @@ describe('<Analytics />', () => {
       });
     });
   });
+
+  describe('pageview tracking', () => {
+    it('tracks a pageview when route and path are both provided', () => {
+      render(
+        <Analytics mode="production" path="/blog/hello" route="/blog/[slug]" />,
+      );
+
+      expect(window.vaq?.[0]).toEqual([
+        'pageview',
+        { route: '/blog/[slug]', path: '/blog/hello' },
+      ]);
+    });
+
+    it('tracks a pageview when route is provided without path', () => {
+      // auto tracking is disabled as soon as `route` is set, so the component
+      // must still emit a pageview instead of silently dropping it.
+      render(<Analytics mode="production" route="/blog/[slug]" />);
+
+      expect(window.vaq?.[0]).toEqual([
+        'pageview',
+        { route: '/blog/[slug]', path: window.location.pathname },
+      ]);
+    });
+  });
 });
