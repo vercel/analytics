@@ -1,6 +1,7 @@
 import { name as packageName, version } from '../../package.json';
 import type {
   AllowedPropertyValues,
+  BeforeSend,
   FlagsDataInput,
   PlainFlags,
 } from '../types';
@@ -15,6 +16,8 @@ function isHeaders(headers?: AllowedHeaders): headers is Headers {
 }
 
 interface Options {
+  /** A middleware function to modify the event before it is sent. Should return the event object or `null` to cancel the event. */
+  beforeSend?: BeforeSend;
   flags?: FlagsDataInput;
   headers?: AllowedHeaders;
   request?: { headers: AllowedHeaders };
@@ -102,8 +105,28 @@ export async function track(
       ? ENDPOINT
       : new URL('/_vercel/insights/event', `https://${ENDPOINT}`).toString();
 
+    const hasHeaders = Boolean(headers);
+
+    if (!hasHeaders) {
+      throw new Error(
+        'No session context found. Pass `request` or `headers` to the `track` function.',
+      );
+    }
+
+    let pageUrl =
+      requestContext?.url || (tmp.referer as string) || new URL(url).origin;
+
+    // runs before the body is built, so returning null sends nothing at all
+    if (options?.beforeSend) {
+      const event = options.beforeSend({ type: 'event', url: pageUrl });
+      if (!event) {
+        return;
+      }
+      pageUrl = event.url;
+    }
+
     const body = {
-      o: requestContext?.url || (tmp.referer as string) || new URL(url).origin,
+      o: pageUrl,
       ts: Date.now(),
       sdkn: `${packageName}/server`,
       sdkv: version,
@@ -112,14 +135,6 @@ export async function track(
       ed: props,
       f: safeGetFlags(options?.flags, requestContext),
     };
-
-    const hasHeaders = Boolean(headers);
-
-    if (!hasHeaders) {
-      throw new Error(
-        'No session context found. Pass `request` or `headers` to the `track` function.',
-      );
-    }
 
     const promise = fetch(url, {
       headers: {
@@ -198,3 +213,5 @@ function safeGetFlags(
     /* empty */
   }
 }
+
+export type { BeforeSend, BeforeSendEvent } from '../types';

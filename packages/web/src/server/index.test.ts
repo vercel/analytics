@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { name as packageName, version } from '../../package.json';
+import type { BeforeSendEvent } from '../types';
 import { track } from './index';
 
 // @vitest-environment node
@@ -403,6 +404,77 @@ describe('server track', () => {
       );
     });
 
+    describe('given a beforeSend hook', () => {
+      const tokenUrl = 'https://example.com/invite/s3cret';
+      const tokenHeaders = { ...headers, referer: tokenUrl };
+
+      it('sends the url the hook returns', async () => {
+        const name = 'invite_accepted';
+        const redacted = 'https://example.com/invite/[token]';
+        const beforeSend = vi.fn(
+          (event: BeforeSendEvent): BeforeSendEvent => ({
+            ...event,
+            url: redacted,
+          }),
+        );
+
+        await track(name, undefined, { headers: tokenHeaders, beforeSend });
+
+        expect(beforeSend).toHaveBeenCalledWith({
+          type: 'event',
+          url: tokenUrl,
+        });
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        expect(fetchMock).toHaveBeenCalledWith(
+          `https://${appDomain}/_vercel/insights/event`,
+          expect.objectContaining({
+            method: 'POST',
+            body: JSON.stringify({
+              o: redacted,
+              ts: vi.getMockedSystemTime()?.getTime(),
+              sdkn,
+              sdkv,
+              r: '',
+              en: name,
+            }),
+          }),
+        );
+      });
+
+      it('sends nothing when the hook returns null', async () => {
+        await track('invite_accepted', undefined, {
+          headers: tokenHeaders,
+          beforeSend: () => null,
+        });
+
+        expect(fetchMock).not.toHaveBeenCalled();
+        expect(consoleError).not.toHaveBeenCalled();
+      });
+
+      it('sends nothing when the hook throws', async () => {
+        const error = new Error('bad hook');
+
+        await track('invite_accepted', undefined, {
+          headers: tokenHeaders,
+          beforeSend: () => {
+            throw error;
+          },
+        });
+
+        expect(fetchMock).not.toHaveBeenCalled();
+        expect(consoleError).toHaveBeenCalledWith(error);
+      });
+
+      it('is not called when no headers are available', async () => {
+        const beforeSend = vi.fn((event: BeforeSendEvent) => event);
+
+        await track('test', undefined, { beforeSend });
+
+        expect(beforeSend).not.toHaveBeenCalled();
+        expect(fetchMock).not.toHaveBeenCalled();
+      });
+    });
+
     it('throws error when no headers are available', async () => {
       await track('test');
 
@@ -504,6 +576,41 @@ describe('server track', () => {
               r: '',
               en: name,
               ed: data,
+            }),
+          }),
+        );
+      });
+
+      it('passes the request context url to beforeSend', async () => {
+        const contextUrl = `https://${appDomain}/invite/s3cret`;
+        const redacted = `https://${appDomain}/invite/[token]`;
+        requestContext = { headers, url: contextUrl };
+        const beforeSend = vi.fn(
+          (event: BeforeSendEvent): BeforeSendEvent => ({
+            ...event,
+            url: redacted,
+          }),
+        );
+
+        const name = 'invite_accepted';
+        await track(name, undefined, { beforeSend });
+
+        expect(beforeSend).toHaveBeenCalledWith({
+          type: 'event',
+          url: contextUrl,
+        });
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        expect(fetchMock).toHaveBeenCalledWith(
+          `https://${appDomain}/_vercel/insights/event`,
+          expect.objectContaining({
+            method: 'POST',
+            body: JSON.stringify({
+              o: redacted,
+              ts: vi.getMockedSystemTime()?.getTime(),
+              sdkn,
+              sdkv,
+              r: '',
+              en: name,
             }),
           }),
         );
