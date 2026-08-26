@@ -1,172 +1,50 @@
-import { name as packageName, version } from '../../package.json';
-import type {
-  AllowedPropertyValues,
-  FlagsDataInput,
-  PlainFlags,
-} from '../types';
+import type { AllowedPropertyValues, PlainFlags } from '../types';
 import { isProduction, parseProperties } from '../utils';
-
-type HeadersObject = Record<string, string | string[] | undefined>;
-type AllowedHeaders = Headers | HeadersObject;
-
-function isHeaders(headers?: AllowedHeaders): headers is Headers {
-  if (!headers) return false;
-  return typeof (headers as HeadersObject).entries === 'function';
-}
-
-interface Options {
-  flags?: FlagsDataInput;
-  headers?: AllowedHeaders;
-  request?: { headers: AllowedHeaders };
-}
-
-interface RequestContext {
-  get: () => {
-    headers: Record<string, string | undefined>;
-    url: string;
-    waitUntil?: (promise: Promise<unknown>) => void;
-    flags?: {
-      getValues: () => PlainFlags;
-      reportValue: (key: string, value: unknown) => void;
-    };
-  };
-}
-
-const symbol = Symbol.for('@vercel/request-context');
-const logPrefix = '[Vercel Web Analytics]';
+import {
+  dispatch,
+  type Options,
+  type ResolvedRequestContext,
+  rejectBrowserRuntime,
+  reportMissingEndpoint,
+  resolveEndpoint,
+} from './request';
 
 export async function track(
   eventName: string,
   properties?: Record<string, AllowedPropertyValues>,
   options?: Options,
 ): Promise<void> {
-  const ENDPOINT =
-    process.env.VERCEL_WEB_ANALYTICS_ENDPOINT || process.env.VERCEL_URL;
-  const DISABLE_LOGS = Boolean(process.env.VERCEL_WEB_ANALYTICS_DISABLE_LOGS);
-  const BYPASS_SECRET = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
-
-  if (typeof window !== 'undefined') {
-    if (!isProduction()) {
-      throw new Error(
-        `${logPrefix} It seems like you imported the \`track\` function from \`@vercel/web-analytics/server\` in a browser environment. This function is only meant to be used in a server environment.`,
-      );
-    }
-
+  if (rejectBrowserRuntime('track')) {
     return;
   }
 
+  const endpoint = resolveEndpoint('event');
   const props = parseProperties(properties, {
     strip: isProduction(),
   });
 
-  if (!ENDPOINT) {
-    if (isProduction()) {
-      console.log(
-        `${logPrefix} Can't find VERCEL_URL in environment variables.`,
-      );
-    } else if (!DISABLE_LOGS) {
-      console.log(
-        `${logPrefix} Track "${eventName}" ${
-          props ? `with data ${JSON.stringify(props)}` : ''
-        }`,
-      );
-    }
+  if (!endpoint) {
+    reportMissingEndpoint(
+      `Track "${eventName}" ${props ? `with data ${JSON.stringify(props)}` : ''}`,
+    );
     return;
   }
-  try {
-    const requestContext = (
-      (globalThis as never)[symbol] as RequestContext | undefined
-    )?.get();
 
-    let headers: AllowedHeaders | undefined;
-
-    if (options && 'headers' in options) {
-      headers = options.headers;
-    } else if (options?.request) {
-      headers = options.request.headers;
-    } else if (requestContext?.headers) {
-      // not explicitly passed in context, so take it from async storage
-      headers = requestContext.headers;
-    }
-
-    let tmp: HeadersObject = {};
-    if (headers && isHeaders(headers)) {
-      headers.forEach((value, key) => {
-        tmp[key] = value;
-      });
-    } else if (headers) {
-      tmp = headers;
-    }
-
-    const url = ENDPOINT.startsWith('http')
-      ? ENDPOINT
-      : new URL('/_vercel/insights/event', `https://${ENDPOINT}`).toString();
-
-    const body = {
-      o: requestContext?.url || (tmp.referer as string) || new URL(url).origin,
-      ts: Date.now(),
-      sdkn: `${packageName}/server`,
-      sdkv: version,
-      r: '',
+  await dispatch({
+    endpoint,
+    fnName: 'track',
+    options,
+    payload: (requestContext) => ({
       en: eventName,
       ed: props,
       f: safeGetFlags(options?.flags, requestContext),
-    };
-
-    const hasHeaders = Boolean(headers);
-
-    if (!hasHeaders) {
-      throw new Error(
-        'No session context found. Pass `request` or `headers` to the `track` function.',
-      );
-    }
-
-    const promise = fetch(url, {
-      headers: {
-        'content-type': 'application/json',
-        ...(hasHeaders
-          ? {
-              'user-agent': tmp['user-agent'] as string,
-              'x-vercel-ip': tmp['x-forwarded-for'] as string,
-              'x-va-server': '1',
-              cookie: tmp.cookie as string,
-            }
-          : {
-              'x-va-server': '2',
-            }),
-        ...(BYPASS_SECRET
-          ? { 'x-vercel-protection-bypass': BYPASS_SECRET }
-          : {}),
-      },
-      body: JSON.stringify(body),
-      method: 'POST',
-    })
-      // We want to always consume the body; some cloud providers track fetch concurrency
-      // and may not release the connection until the body is consumed.
-      .then((response) => response.text())
-      .catch((err: unknown) => {
-        if (err instanceof Error && 'response' in err) {
-          console.error(err.response);
-        } else {
-          console.error(err);
-        }
-      });
-
-    if (requestContext?.waitUntil) {
-      requestContext.waitUntil(promise);
-    } else {
-      await promise;
-    }
-
-    return void 0;
-  } catch (err) {
-    console.error(err);
-  }
+    }),
+  });
 }
 
 function safeGetFlags(
   flags: Options['flags'],
-  requestContext?: ReturnType<RequestContext['get']>,
+  requestContext?: ResolvedRequestContext,
 ):
   | {
       p: PlainFlags;
@@ -198,3 +76,12 @@ function safeGetFlags(
     /* empty */
   }
 }
+
+export type {
+  ExposureAssignmentReason,
+  ExposureInput,
+  ExposureOptions,
+  ExposureUnitKey,
+  ServerExposureInput,
+} from './experiments';
+export { trackExposure } from './experiments';

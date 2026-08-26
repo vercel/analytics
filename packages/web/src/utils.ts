@@ -81,6 +81,16 @@ export function parseProperties(
   return props as Record<string, AllowedPropertyValues>;
 }
 
+/**
+ * Attribution strings are truncated to the same length the ingestion endpoint
+ * applies, so what the SDK sends is what gets stored.
+ */
+export const MAX_ATTRIBUTION_STRING_LENGTH = 256;
+
+export function truncateString(value: string): string {
+  return value.slice(0, MAX_ATTRIBUTION_STRING_LENGTH);
+}
+
 export function computeRoute(
   pathname: string | null,
   pathParams: Record<string, string | string[]> | null,
