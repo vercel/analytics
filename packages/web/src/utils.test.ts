@@ -3,8 +3,10 @@ import {
   computeRoute,
   getMode,
   loadProps,
+  MAX_ATTRIBUTION_STRING_LENGTH,
   parseProperties,
   setMode,
+  truncateString,
 } from './utils';
 
 describe('utils', () => {
@@ -65,6 +67,41 @@ describe('utils', () => {
           parseProperties(properties, { strip: false });
         }).toThrow(/arrayProp, objectProp/);
       });
+    });
+  });
+
+  describe('truncateString()', () => {
+    it('leaves a string shorter than the limit untouched', () => {
+      expect(truncateString('user_123')).toEqual('user_123');
+    });
+
+    it('leaves a string of exactly the limit untouched', () => {
+      const value = 'a'.repeat(MAX_ATTRIBUTION_STRING_LENGTH);
+
+      expect(truncateString(value)).toEqual(value);
+    });
+
+    it('cuts a longer string down to the limit', () => {
+      const value = `${'a'.repeat(MAX_ATTRIBUTION_STRING_LENGTH)}b`;
+
+      expect(truncateString(value)).toHaveLength(MAX_ATTRIBUTION_STRING_LENGTH);
+      expect(truncateString(value)).not.toContain('b');
+    });
+
+    it('handles an empty string', () => {
+      expect(truncateString('')).toEqual('');
+    });
+
+    it('truncates by code unit, so it can split a surrogate pair', () => {
+      // '😀' is 2 UTF-16 code units, so a limit landing mid-pair yields a
+      // lone surrogate. The ingestion endpoint slices the same way, so the
+      // SDK must not paper over it.
+      const value = `${'a'.repeat(MAX_ATTRIBUTION_STRING_LENGTH - 1)}😀`;
+
+      const result = truncateString(value);
+
+      expect(result).toHaveLength(MAX_ATTRIBUTION_STRING_LENGTH);
+      expect(result.endsWith('😀')).toBe(false);
     });
   });
 
