@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { name as packageName, version } from '../../package.json';
+import { withCdp } from '../test-utils';
 import { trackExposure } from './experiments';
 
 const sdkn = `${packageName}/server`;
@@ -120,6 +121,37 @@ describe('trackExposure', () => {
               unitKey: exposure.unitKey,
               unitValue: exposure.unitValue,
             },
+          }),
+        }),
+      );
+    });
+
+    it('forwards the __cdp envelope untouched', async () => {
+      const __cdp = {
+        schemaVersion: 1,
+        event: { type: 'track', context: { session: { id: 'abc' } } },
+      };
+
+      await trackExposure(exposure, withCdp({ headers, __cdp }));
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(fetchMock).toHaveBeenCalledWith(
+        `https://${appDomain}/_vercel/insights/exposure`,
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({
+            o: `https://${appDomain}`,
+            ts: vi.getMockedSystemTime()?.getTime(),
+            sdkn,
+            sdkv,
+            r: '',
+            en: exposure.experimentId,
+            ed: {
+              variantId: exposure.variantId,
+              unitKey: exposure.unitKey,
+              unitValue: exposure.unitValue,
+            },
+            __cdp,
           }),
         }),
       );

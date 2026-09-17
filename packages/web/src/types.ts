@@ -9,6 +9,16 @@ export type AllowedPropertyValues =
 export type PlainFlags = Record<string, unknown>;
 export type FlagsDataInput = (string | PlainFlags)[] | PlainFlags;
 
+/**
+ * Vercel's CDP attaches its envelope to the options of every operation at
+ * runtime. The field is deliberately absent from the public signatures: the
+ * SDK never reads it and forwards it unchanged, next to the regular payload.
+ * Validation, limits and project gating happen at the ingestion endpoint.
+ */
+export interface InternalOptions {
+  __cdp?: unknown;
+}
+
 export type TrackEventPayload = {
   name: string;
   data?: Record<string, AllowedPropertyValues>;
@@ -55,7 +65,7 @@ declare global {
   interface Window {
     // Base interface
     va?: (
-      event: 'beforeSend' | 'event' | 'pageview',
+      event: 'beforeSend' | 'event' | 'pageview' | 'identify' | 'group',
       properties?: unknown,
     ) => void;
     // Queue for actions, before the library is loaded

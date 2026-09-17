@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { name as packageName, version } from '../../package.json';
+import { withCdp } from '../test-utils';
 import { track } from './index';
 
 // @vitest-environment node
@@ -398,6 +399,38 @@ describe('server track', () => {
             en: name,
             ed: data,
             f: { p: flags },
+          }),
+        }),
+      );
+    });
+
+    it('forwards the __cdp envelope untouched', async () => {
+      const name = 'project_created';
+      const data = { source: 'dashboard' };
+      const __cdp = {
+        schemaVersion: 1,
+        event: {
+          type: 'track',
+          context: { attribution: { touches: [{ source: null }] } },
+        },
+      };
+
+      await track(name, data, withCdp({ headers, __cdp }));
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(fetchMock).toHaveBeenCalledWith(
+        `https://${appDomain}/_vercel/insights/event`,
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({
+            o: `https://${appDomain}`,
+            ts: vi.getMockedSystemTime()?.getTime(),
+            sdkn,
+            sdkv,
+            r: '',
+            en: name,
+            ed: data,
+            __cdp,
           }),
         }),
       );

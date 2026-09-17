@@ -1,4 +1,8 @@
-import type { AllowedPropertyValues, PlainFlags } from '../types';
+import type {
+  AllowedPropertyValues,
+  InternalOptions,
+  PlainFlags,
+} from '../types';
 import { isProduction, parseProperties } from '../utils';
 import {
   dispatch,
@@ -13,6 +17,11 @@ export async function track(
   eventName: string,
   properties?: Record<string, AllowedPropertyValues>,
   options?: Options,
+): Promise<void>;
+export async function track(
+  eventName: string,
+  properties?: Record<string, AllowedPropertyValues>,
+  options?: Options & InternalOptions,
 ): Promise<void> {
   if (rejectBrowserRuntime('track')) {
     return;
@@ -85,3 +94,5 @@ export type {
   ServerExposureInput,
 } from './experiments';
 export { trackExposure } from './experiments';
+export type { ProfileOptions } from './profiles';
+export { group, identify } from './profiles';

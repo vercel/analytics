@@ -114,6 +114,7 @@ describe('<Analytics />', () => {
           'event',
           {
             name: 'my event',
+            options: {},
           },
         ]);
       });
@@ -124,7 +125,7 @@ describe('<Analytics />', () => {
         const data = { string: 'string', number: 1 };
         track(name, data);
 
-        expect(window.vaq?.[0]).toEqual(['event', { name, data }]);
+        expect(window.vaq?.[0]).toEqual(['event', { name, data, options: {} }]);
       });
 
       it('strips data for nested objects', () => {
@@ -136,7 +137,7 @@ describe('<Analytics />', () => {
           nested: { object: '' } as unknown as AllowedPropertyValues,
         });
 
-        expect(window.vaq?.[0]).toEqual(['event', { name, data }]);
+        expect(window.vaq?.[0]).toEqual(['event', { name, data, options: {} }]);
       });
     });
   });
