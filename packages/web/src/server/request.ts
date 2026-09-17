@@ -1,5 +1,5 @@
 import { name as packageName, version } from '../../package.json';
-import type { FlagsDataInput, PlainFlags } from '../types';
+import type { FlagsDataInput, InternalOptions, PlainFlags } from '../types';
 import { isProduction } from '../utils';
 
 /**
@@ -38,7 +38,7 @@ const symbol = Symbol.for('@vercel/request-context');
 const logPrefix = '[Vercel Web Analytics]';
 
 /** Name of a public sender, quoted back to the user in messages. */
-export type SenderName = 'track' | 'trackExposure';
+export type SenderName = 'track' | 'trackExposure' | 'identify' | 'group';
 
 function isHeaders(headers?: AllowedHeaders): headers is Headers {
   if (!headers) return false;
@@ -125,19 +125,21 @@ export function resolveHeaders(
   return { requestHeaders, hasHeaders: Boolean(headers) };
 }
 
+/** Ingestion routes a server sender can post to. */
+export type EndpointKind = 'event' | 'exposure' | 'identify' | 'group';
+
 /**
  * `VERCEL_WEB_ANALYTICS_ENDPOINT` is used verbatim for events.
- * For exposures it is treated as a base URL, unless
- * `VERCEL_WEB_ANALYTICS_EXPOSURE_ENDPOINT` overrides it.
+ * For the other kinds it is treated as a base URL, unless their dedicated
+ * `VERCEL_WEB_ANALYTICS_<KIND>_ENDPOINT` variable overrides it.
  */
-export function resolveEndpoint(
-  kind: 'event' | 'exposure',
-): string | undefined {
-  if (
-    kind === 'exposure' &&
-    process.env.VERCEL_WEB_ANALYTICS_EXPOSURE_ENDPOINT
-  ) {
-    return process.env.VERCEL_WEB_ANALYTICS_EXPOSURE_ENDPOINT;
+export function resolveEndpoint(kind: EndpointKind): string | undefined {
+  if (kind !== 'event') {
+    const override =
+      process.env[`VERCEL_WEB_ANALYTICS_${kind.toUpperCase()}_ENDPOINT`];
+    if (override) {
+      return override;
+    }
   }
 
   const base =
@@ -161,8 +163,11 @@ export interface DispatchOptions {
   endpoint: string;
   /** Public function name, quoted back to the user in messages. */
   fnName: SenderName;
-  /** Caller options, the source of explicitly passed headers. */
-  options: Omit<Options, 'flags'> | undefined;
+  /**
+   * Caller options, the source of explicitly passed headers, and of the
+   * runtime-only `__cdp` envelope.
+   */
+  options: (Omit<Options, 'flags'> & InternalOptions) | undefined;
   /**
    * The fields that make this event what it is, merged over the shared
    * envelope. Receives the request context so a sender can read flags from it.
@@ -173,7 +178,8 @@ export interface DispatchOptions {
 /**
  * Wraps a payload in the envelope every event carries (origin, timestamp, SDK
  * name and version) and posts it, forwarding the session identity of the
- * incoming request. Never throws: a sender that fails must not take the
+ * incoming request. When the caller passed a CDP envelope, it is sent as-is
+ * next to the payload. Never throws: a sender that fails must not take the
  * surrounding request down with it.
  */
 export async function dispatch({
@@ -205,6 +211,7 @@ export async function dispatch({
       sdkv: version,
       r: '',
       ...payload(requestContext),
+      __cdp: options?.__cdp,
     };
 
     const BYPASS_SECRET = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;

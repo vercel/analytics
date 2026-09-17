@@ -6,6 +6,7 @@ import type {
   BeforeSendEvent,
   FlagsDataInput,
   InjectProps,
+  InternalOptions,
 } from './types';
 import {
   computeRoute,
@@ -65,28 +66,49 @@ function inject(
 }
 
 /**
+ * The browser senders must never run on the server. Throws in development so
+ * the mistake is loud, and warns in production so the caller can bail out.
+ *
+ * @returns `true` when the caller must return early.
+ */
+function rejectServerRuntime(fnName: 'track' | 'identify' | 'group'): boolean {
+  if (isBrowser()) {
+    return false;
+  }
+
+  const msg = `[Vercel Web Analytics] Please import \`${fnName}\` from \`@vercel/analytics/server\` when using this function in a server environment`;
+
+  if (isProduction()) {
+    console.warn(msg);
+  } else {
+    throw new Error(msg);
+  }
+
+  return true;
+}
+
+// The public signatures below are overloads: only they end up in the type
+// declarations. The implementation signatures also accept `InternalOptions`,
+// which stay a runtime-only contract with Vercel's CDP.
+
+/**
  * Tracks a custom event. Please refer to the [documentation](https://vercel.com/docs/concepts/analytics/custom-events) for more information on custom events.
  * @param name - The name of the event.
  * * Examples: `Purchase`, `Click Button`, or `Play Video`.
  * @param [properties] - Additional properties of the event. Nested objects are not supported. Allowed values are `string`, `number`, `boolean`, and `null`.
+ * @param [options.flags] - Feature flags to attach to the event.
  */
 function track(
   name: string,
   properties?: Record<string, AllowedPropertyValues>,
-  options?: {
-    flags?: FlagsDataInput;
-  },
+  options?: { flags?: FlagsDataInput },
+): void;
+function track(
+  name: string,
+  properties?: Record<string, AllowedPropertyValues>,
+  { __cdp, ...options }: { flags?: FlagsDataInput } & InternalOptions = {},
 ): void {
-  if (!isBrowser()) {
-    const msg =
-      '[Vercel Web Analytics] Please import `track` from `@vercel/analytics/server` when using this function in a server environment';
-
-    if (isProduction()) {
-      console.warn(msg);
-    } else {
-      throw new Error(msg);
-    }
-
+  if (rejectServerRuntime('track')) {
     return;
   }
   // in case the track function is invoked even before inject
@@ -95,7 +117,7 @@ function track(
   initQueue();
 
   if (!properties) {
-    window.va?.('event', { name, options });
+    window.va?.('event', { name, options, __cdp });
     return;
   }
 
@@ -104,10 +126,47 @@ function track(
       strip: isProduction(),
     });
 
-    window.va?.('event', {
-      name,
-      data: props,
-      options,
+    window.va?.('event', { name, data: props, options, __cdp });
+  } catch (err) {
+    if (err instanceof Error && isDevelopment()) {
+      console.error(err);
+    }
+  }
+}
+
+function pageview(input: { route?: string | null; path?: string }): void;
+function pageview({
+  route,
+  path,
+  __cdp,
+}: { route?: string | null; path?: string } & InternalOptions): void {
+  window.va?.('pageview', { route, path, __cdp });
+}
+
+/**
+ * Sends a profile mutation (`identify` or `group`) to the script. Traits go
+ * through the same validation as custom event properties: nested values are
+ * stripped in production and reported in development.
+ */
+function trackProfile(
+  name: 'identify' | 'group',
+  idKey: 'userId' | 'groupId',
+  id: string,
+  traits: Record<string, AllowedPropertyValues> | undefined,
+  { __cdp }: InternalOptions = {},
+): void {
+  if (rejectServerRuntime(name)) {
+    return;
+  }
+  initQueue();
+
+  try {
+    window.va?.(name, {
+      [idKey]: id,
+      traits: parseProperties(traits, {
+        strip: isProduction(),
+      }),
+      __cdp,
     });
   } catch (err) {
     if (err instanceof Error && isDevelopment()) {
@@ -116,18 +175,42 @@ function track(
   }
 }
 
-function pageview({
-  route,
-  path,
-}: {
-  route?: string | null;
-  path?: string;
-}): void {
-  window.va?.('pageview', { route, path });
+/**
+ * Associates the current visitor with a user.
+ * @param userId - The identifier of the user.
+ * @param [traits] - Additional traits of the user. Nested objects are not supported. Allowed values are `string`, `number`, `boolean`, and `null`.
+ */
+function identify(
+  userId: string,
+  traits?: Record<string, AllowedPropertyValues>,
+): void;
+function identify(
+  userId: string,
+  traits?: Record<string, AllowedPropertyValues>,
+  options?: InternalOptions,
+): void {
+  trackProfile('identify', 'userId', userId, traits, options);
 }
 
-export { inject, track, pageview, computeRoute };
+/**
+ * Associates the current visitor with a group, like a team or an organization.
+ * @param groupId - The identifier of the group.
+ * @param [traits] - Additional traits of the group. Nested objects are not supported. Allowed values are `string`, `number`, `boolean`, and `null`.
+ */
+function group(
+  groupId: string,
+  traits?: Record<string, AllowedPropertyValues>,
+): void;
+function group(
+  groupId: string,
+  traits?: Record<string, AllowedPropertyValues>,
+  options?: InternalOptions,
+): void {
+  trackProfile('group', 'groupId', groupId, traits, options);
+}
+
 export type { AnalyticsProps, BeforeSend, BeforeSendEvent };
+export { computeRoute, group, identify, inject, pageview, track };
 
 export default {
   inject,

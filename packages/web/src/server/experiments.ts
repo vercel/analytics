@@ -1,3 +1,4 @@
+import type { InternalOptions } from '../types';
 import { isProduction, parseProperties, truncateString } from '../utils';
 import type { ServerExposureInput } from './experiments-types';
 import {
@@ -23,6 +24,10 @@ export type ExposureOptions = Omit<Options, 'flags'>;
 export async function trackExposure(
   input: ServerExposureInput,
   options?: ExposureOptions,
+): Promise<void>;
+export async function trackExposure(
+  input: ServerExposureInput,
+  options?: ExposureOptions & InternalOptions,
 ): Promise<void> {
   if (rejectBrowserRuntime('trackExposure')) {
     return;
