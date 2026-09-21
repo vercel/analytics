@@ -71,7 +71,9 @@ function inject(
  *
  * @returns `true` when the caller must return early.
  */
-function rejectServerRuntime(fnName: 'track' | 'identify' | 'group'): boolean {
+function rejectServerRuntime(
+  fnName: 'track' | 'identify' | 'group' | 'reset',
+): boolean {
   if (isBrowser()) {
     return false;
   }
@@ -209,8 +211,20 @@ function group(
   trackProfile('group', 'groupId', groupId, traits, options);
 }
 
+/**
+ * Forgets the user and group set by `identify()` and `group()`. Call it when
+ * the visitor logs out, so later events are no longer attributed to them.
+ */
+function reset(): void {
+  if (rejectServerRuntime('reset')) {
+    return;
+  }
+  initQueue();
+  window.va?.('reset');
+}
+
 export type { AnalyticsProps, BeforeSend, BeforeSendEvent };
-export { computeRoute, group, identify, inject, pageview, track };
+export { computeRoute, group, identify, inject, pageview, reset, track };
 
 export default {
   inject,

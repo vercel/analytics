@@ -1,4 +1,4 @@
-import type { AllowedPropertyValues } from '../types';
+import type { Attribution } from './attribution';
 
 /**
  * Which unit an exposure applies to.
@@ -39,8 +39,4 @@ export interface ExposureInput {
  * The browser runtime reads `userId`, `groupId` and `props` from persisted
  * attribution state, which does not exist on the server. Pass them explicitly.
  */
-export interface ServerExposureInput extends ExposureInput {
-  userId?: string;
-  groupId?: string;
-  props?: Record<string, AllowedPropertyValues>;
-}
+export interface ServerExposureInput extends ExposureInput, Attribution {}

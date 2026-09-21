@@ -1,5 +1,5 @@
 import { onNuxtReady, useRoute, useRouter } from 'nuxt/app';
-import { inject, pageview, track } from '../../generic';
+import { group, identify, inject, pageview, reset, track } from '../../generic';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../../types';
 import { computeRoute, isBrowser } from '../../utils';
 import { createComponent } from '../../vue/create-component';
@@ -41,4 +41,4 @@ function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
   }
 }
 
-export { injectAnalytics, track };
+export { group, identify, injectAnalytics, reset, track };

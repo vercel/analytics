@@ -4,6 +4,7 @@ import type {
   PlainFlags,
 } from '../types';
 import { isProduction, parseProperties } from '../utils';
+import { type Attribution, attributionPayload } from './attribution';
 import {
   dispatch,
   type Options,
@@ -13,15 +14,31 @@ import {
   resolveEndpoint,
 } from './request';
 
+export interface TrackOptions extends Options, Attribution {}
+
+/**
+ * Tracks a custom event. Server-side only.
+ *
+ * The server keeps no profile: pass `userId`, `groupId` and `props` when you
+ * know them, for example from your session.
+ *
+ * @param eventName - The name of the event.
+ * @param [properties] - Additional properties of the event. Nested objects are not supported. Allowed values are `string`, `number`, `boolean`, and `null`.
+ * @param [options.flags] - Feature flags to attach to the event.
+ * @param [options.userId] - The user the event is attributed to.
+ * @param [options.groupId] - The group the event is attributed to.
+ * @param [options.props] - Traits of the user and group, like `plan` or `role`. Same constraints as `properties`.
+ * @param [options.request] / [options.headers] - Pass them when the function runs outside of a Vercel Function, where no request context is available.
+ */
 export async function track(
   eventName: string,
   properties?: Record<string, AllowedPropertyValues>,
-  options?: Options,
+  options?: TrackOptions,
 ): Promise<void>;
 export async function track(
   eventName: string,
   properties?: Record<string, AllowedPropertyValues>,
-  options?: Options & InternalOptions,
+  options?: TrackOptions & InternalOptions,
 ): Promise<void> {
   if (rejectBrowserRuntime('track')) {
     return;
@@ -31,6 +48,7 @@ export async function track(
   const props = parseProperties(properties, {
     strip: isProduction(),
   });
+  const attribution = attributionPayload(options);
 
   if (!endpoint) {
     reportMissingEndpoint(
@@ -44,6 +62,7 @@ export async function track(
     fnName: 'track',
     options,
     payload: (requestContext) => ({
+      ...attribution,
       en: eventName,
       ed: props,
       f: safeGetFlags(options?.flags, requestContext),
@@ -86,6 +105,8 @@ function safeGetFlags(
   }
 }
 
+export type { Attribution, ProfileOptions } from './attribution';
+export { group, identify } from './attribution';
 export type {
   ExposureAssignmentReason,
   ExposureInput,
@@ -94,5 +115,3 @@ export type {
   ServerExposureInput,
 } from './experiments';
 export { trackExposure } from './experiments';
-export type { ProfileOptions } from './profiles';
-export { group, identify } from './profiles';

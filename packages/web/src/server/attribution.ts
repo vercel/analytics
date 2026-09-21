@@ -8,6 +8,53 @@ import {
   resolveEndpoint,
 } from './request';
 
+/**
+ * Who an event is about: the `identify`/`group` profile senders, and the
+ * attribution fields every other sender attaches to its payload.
+ *
+ * In the browser, the script remembers the last `identify()` and `group()`
+ * calls and attaches them to every event. The server keeps no such state, so
+ * callers pass them explicitly when they know them.
+ */
+
+export interface Attribution {
+  /** The user the event is attributed to. */
+  userId?: string;
+  /** The group (team, organization...) the event is attributed to. */
+  groupId?: string;
+  /**
+   * Traits of the user and group at the time of the event, like `plan` or
+   * `role`. Nested objects are not supported. Allowed values are `string`,
+   * `number`, `boolean`, and `null`.
+   */
+  props?: Record<string, AllowedPropertyValues>;
+}
+
+/**
+ * The attribution fields of a payload, validated and truncated like the
+ * browser script does before sending them. Call it before `dispatch()`, so
+ * invalid `props` throw in development like invalid event properties do.
+ */
+export function attributionPayload(
+  attribution: Attribution | undefined,
+): Attribution {
+  // `parseProperties` throws on invalid input; it never returns the `Error`
+  // its signature mentions.
+  const props = parseProperties(attribution?.props, {
+    strip: isProduction(),
+  }) as Record<string, AllowedPropertyValues> | undefined;
+
+  return {
+    ...(attribution?.userId !== undefined && {
+      userId: truncateString(attribution.userId),
+    }),
+    ...(attribution?.groupId !== undefined && {
+      groupId: truncateString(attribution.groupId),
+    }),
+    ...(props && Object.keys(props).length > 0 && { props }),
+  };
+}
+
 /** Profile mutations carry no flags: they describe who, not what happened. */
 export type ProfileOptions = Omit<Options, 'flags'>;
 

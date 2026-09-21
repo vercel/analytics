@@ -227,6 +227,50 @@ describe('trackExposure', () => {
       );
     });
 
+    it('includes attribution passed in options, like track()', async () => {
+      await trackExposure(exposure, {
+        headers,
+        userId: 'user_123',
+        groupId: 'acme',
+        props: { plan: 'pro' },
+      });
+
+      const body = JSON.parse(
+        (fetchMock.mock.calls[0]?.[1] as RequestInit | undefined)
+          ?.body as string,
+      ) as Record<string, unknown>;
+
+      expect(body).toMatchObject({
+        userId: 'user_123',
+        groupId: 'acme',
+        props: { plan: 'pro' },
+        en: exposure.experimentId,
+      });
+    });
+
+    it('prefers attribution from options over the input, field by field', async () => {
+      await trackExposure(
+        {
+          ...exposure,
+          userId: 'input_user',
+          groupId: 'input_group',
+          props: { plan: 'free' },
+        },
+        { headers, userId: 'options_user', props: { plan: 'pro' } },
+      );
+
+      const body = JSON.parse(
+        (fetchMock.mock.calls[0]?.[1] as RequestInit | undefined)
+          ?.body as string,
+      ) as Record<string, unknown>;
+
+      expect(body).toMatchObject({
+        userId: 'options_user',
+        groupId: 'input_group',
+        props: { plan: 'pro' },
+      });
+    });
+
     it('truncates long userId and groupId', async () => {
       const long = 'a'.repeat(300);
       await trackExposure(
