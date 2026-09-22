@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { group, identify, inject, pageview, track } from './generic';
+import { group, identify, inject, pageview, reset, track } from './generic';
 import { withCdp } from './test-utils';
 import type { AllowedPropertyValues, Mode } from './types';
 
@@ -337,6 +337,30 @@ describe.each([
           { [idKey]: id, traits: { plan: 'pro' } },
         ]);
       }
+    });
+  });
+
+  describe('reset', () => {
+    beforeEach(() => {
+      window.va = undefined;
+      window.vaq = undefined;
+    });
+
+    it('queues the call even before inject', () => {
+      reset();
+      expect(window.vaq?.[0]).toEqual(['reset']);
+    });
+
+    it('queues the call after identify and group', () => {
+      inject({ mode });
+      identify('user_123');
+      group('team_456');
+      reset();
+      expect(window.vaq?.map(([command]) => command)).toEqual([
+        'identify',
+        'group',
+        'reset',
+      ]);
     });
   });
 });

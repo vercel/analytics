@@ -2,7 +2,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { name as packageName, version } from '../../package.json';
 import { withCdp } from '../test-utils';
-import { group, identify } from './profiles';
+import { group, identify } from './attribution';
 
 const sdkn = `${packageName}/server`;
 const sdkv = version;

@@ -1,6 +1,6 @@
 'use client';
 import React, { type ReactNode, Suspense } from 'react';
-import { track } from '../generic';
+import { group, identify, reset, track } from '../generic';
 import { Analytics as AnalyticsScript } from '../react';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
 import { getBasePath, getConfigString, useRoute } from './utils';
@@ -30,5 +30,5 @@ export function Analytics(props: Props): null {
   ) as never;
 }
 
-export { track };
 export type { AnalyticsProps, BeforeSend, BeforeSendEvent };
+export { group, identify, reset, track };

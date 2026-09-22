@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { inject, pageview, track } from '../generic';
+import { group, identify, inject, pageview, reset, track } from '../generic';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
 import { getBasePath, getConfigString } from './utils';
 
@@ -65,5 +65,5 @@ function Analytics(
   return null;
 }
 
-export { track, Analytics };
 export type { AnalyticsProps, BeforeSend, BeforeSendEvent };
+export { Analytics, group, identify, reset, track };

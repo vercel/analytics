@@ -73,6 +73,19 @@ describe('server track', () => {
       // Should not make fetch call due to error
       expect(fetchMock).not.toHaveBeenCalled();
     });
+
+    it('throws for invalid attribution props', async () => {
+      await expect(
+        track('test', undefined, {
+          headers,
+          userId: 'user_123',
+          props: { plan: 'pro', address: { city: 'Paris' } } as never,
+        }),
+      ).rejects.toThrow(
+        'The following properties are not valid: address. Only strings, numbers, booleans, and null are allowed.',
+      );
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
   });
 
   describe('given production mode', () => {
@@ -434,6 +447,65 @@ describe('server track', () => {
           }),
         }),
       );
+    });
+
+    it('attaches userId, groupId and props, ids truncated to 256 characters', async () => {
+      const name = 'project_created';
+      const longId = 'x'.repeat(300);
+
+      await track(
+        name,
+        { source: 'api' },
+        {
+          headers,
+          userId: 'user_123',
+          groupId: longId,
+          props: { plan: 'pro', seats: 12, churned: null },
+        },
+      );
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(fetchMock).toHaveBeenCalledWith(
+        `https://${appDomain}/_vercel/insights/event`,
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({
+            o: `https://${appDomain}`,
+            ts: vi.getMockedSystemTime()?.getTime(),
+            sdkn,
+            sdkv,
+            r: '',
+            userId: 'user_123',
+            groupId: 'x'.repeat(256),
+            props: { plan: 'pro', seats: 12, churned: null },
+            en: name,
+            ed: { source: 'api' },
+          }),
+        }),
+      );
+    });
+
+    it('strips invalid attribution props and omits them when empty', async () => {
+      await track('a', undefined, {
+        headers,
+        userId: 'user_123',
+        props: { nested: { a: 1 } } as never,
+      });
+      await track('b', undefined, {
+        headers,
+        userId: 'user_123',
+        props: { plan: 'pro', nested: { a: 1 } } as never,
+      });
+
+      const bodies = fetchMock.mock.calls.map(
+        ([, init]) =>
+          JSON.parse((init as RequestInit).body as string) as Record<
+            string,
+            unknown
+          >,
+      );
+      expect(bodies[0]).not.toHaveProperty('props');
+      expect(bodies[1]).toMatchObject({ props: { plan: 'pro' } });
     });
 
     it('throws error when no headers are available', async () => {
