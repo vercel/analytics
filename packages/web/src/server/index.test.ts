@@ -212,7 +212,7 @@ describe('server track', () => {
       );
     });
 
-    it('reuses provided referer, user-agent, cookie and IP headers', async () => {
+    it('reuses provided referer, user-agent and cookie headers', async () => {
       const userAgent = 'custom-agent/2.0';
       const cookie = 'session=def456';
       const ip = '190.80.130.60';
@@ -238,7 +238,6 @@ describe('server track', () => {
           headers: {
             'content-type': 'application/json',
             'user-agent': userAgent,
-            'x-vercel-ip': ip,
             cookie,
             'x-va-server': '1',
           },
@@ -255,7 +254,7 @@ describe('server track', () => {
       );
     });
 
-    it("reuses provided request's referer, user-agent, cookie and IP", async () => {
+    it("reuses provided request's referer, user-agent and cookie", async () => {
       const userAgent = 'mobile-agent/2.0';
       const cookie = 'session=def456';
       const ip = '10.0.0.1';
@@ -281,7 +280,6 @@ describe('server track', () => {
           headers: {
             'content-type': 'application/json',
             'user-agent': userAgent,
-            'x-vercel-ip': ip,
             cookie,
             'x-va-server': '1',
           },
@@ -298,7 +296,7 @@ describe('server track', () => {
       );
     });
 
-    it('reuses provided referer, user-agent, cookie and IP options', async () => {
+    it('reuses provided referer, user-agent and cookie options', async () => {
       const userAgent = 'custom-agent/1.0';
       const cookie = 'session=abc123';
       const ip = '196.82.138.67';
@@ -324,7 +322,6 @@ describe('server track', () => {
           headers: {
             'content-type': 'application/json',
             'user-agent': userAgent,
-            'x-vercel-ip': ip,
             cookie,
             'x-va-server': '1',
           },
@@ -597,7 +594,6 @@ describe('server track', () => {
             headers: {
               'content-type': 'application/json',
               'user-agent': userAgent,
-              'x-vercel-ip': ip,
               cookie,
               'x-va-server': '1',
             },

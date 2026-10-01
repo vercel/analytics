@@ -304,7 +304,7 @@ describe('trackExposure', () => {
       expect(body.props).toEqual({ valid: 'test' });
     });
 
-    it('reuses provided referer, user-agent, cookie and IP headers', async () => {
+    it('reuses provided referer, user-agent and cookie headers', async () => {
       const userAgent = 'custom-agent/2.0';
       const cookie = 'session=def456';
       const ip = '190.80.130.60';
@@ -325,7 +325,6 @@ describe('trackExposure', () => {
           headers: {
             'content-type': 'application/json',
             'user-agent': userAgent,
-            'x-vercel-ip': ip,
             cookie,
             'x-va-server': '1',
           },

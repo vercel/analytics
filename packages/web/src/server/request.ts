@@ -220,7 +220,6 @@ export async function dispatch({
       headers: {
         'content-type': 'application/json',
         'user-agent': requestHeaders['user-agent'] as string,
-        'x-vercel-ip': requestHeaders['x-forwarded-for'] as string,
         'x-va-server': '1',
         cookie: requestHeaders.cookie as string,
         ...(BYPASS_SECRET
