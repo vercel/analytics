@@ -1,5 +1,5 @@
 import type {} from '@sveltejs/kit';
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import { page } from '$app/stores';
 import { inject, pageview, track } from '../generic';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
