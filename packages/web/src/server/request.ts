@@ -16,6 +16,12 @@ export interface Options {
   flags?: FlagsDataInput;
   headers?: AllowedHeaders;
   request?: { headers: AllowedHeaders };
+  /**
+   * The page URL the event is reported for. Overrides the URL of the current
+   * request, for example to strip a token from its query. Must be an absolute
+   * `http(s)` URL; the event is not sent otherwise.
+   */
+  url?: string;
 }
 
 export interface RequestContext {
@@ -125,6 +131,44 @@ export function resolveHeaders(
   return { requestHeaders, hasHeaders: Boolean(headers) };
 }
 
+/**
+ * The URL reported in the `o` field of a payload. An explicit `url` wins over
+ * the URL of the incoming request, then its referer, then the endpoint origin.
+ *
+ * @throws when an explicit `url` is not an absolute `http(s)` URL: falling back
+ * to the request URL would send the value the caller wanted to replace.
+ */
+export function resolveUrl(
+  url: string | undefined,
+  requestContext: ResolvedRequestContext,
+  requestHeaders: HeadersObject,
+  endpoint: string,
+): string {
+  if (url !== undefined) {
+    let parsed: URL | undefined;
+    try {
+      parsed = new URL(url);
+    } catch {
+      /* reported below */
+    }
+    if (
+      !parsed ||
+      (parsed.protocol !== 'http:' && parsed.protocol !== 'https:')
+    ) {
+      throw new Error(
+        `Invalid \`url\` option: expected an absolute http(s) URL, got "${url}".`,
+      );
+    }
+    return url;
+  }
+
+  return (
+    requestContext?.url ||
+    (requestHeaders.referer as string) ||
+    new URL(endpoint).origin
+  );
+}
+
 /** Ingestion routes a server sender can post to. */
 export type EndpointKind = 'event' | 'exposure' | 'identify' | 'group';
 
@@ -202,10 +246,7 @@ export async function dispatch({
     }
 
     const body = {
-      o:
-        requestContext?.url ||
-        (requestHeaders.referer as string) ||
-        new URL(endpoint).origin,
+      o: resolveUrl(options?.url, requestContext, requestHeaders, endpoint),
       ts: Date.now(),
       sdkn: `${packageName}/server`,
       sdkv: version,

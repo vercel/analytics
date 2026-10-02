@@ -262,6 +262,21 @@ describe.each([
       expect(fetchMock).toHaveBeenCalledWith(override, expect.anything());
     });
 
+    it('reports the url option instead of the referer', async () => {
+      const url = 'https://acme.org/welcome';
+
+      await fn(id, undefined, {
+        headers: { ...headers, referer: `${url}?email=jo%40acme.org` },
+        url,
+      });
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      const body = JSON.parse(
+        fetchMock.mock.calls[0]?.[1]?.body as string,
+      ) as Record<string, unknown>;
+      expect(body.o).toBe(url);
+    });
+
     it('reports an error when no headers are available', async () => {
       await fn(id);
 

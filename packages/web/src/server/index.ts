@@ -29,6 +29,7 @@ export interface TrackOptions extends Options, Attribution {}
  * @param [options.groupId] - The group the event is attributed to.
  * @param [options.props] - Traits of the user and group, like `plan` or `role`. Same constraints as `properties`.
  * @param [options.request] / [options.headers] - Pass them when the function runs outside of a Vercel Function, where no request context is available.
+ * @param [options.url] - The page URL the event is reported for. Defaults to the URL of the current request.
  */
 export async function track(
   eventName: string,

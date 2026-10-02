@@ -364,6 +364,38 @@ describe('server track', () => {
       );
     });
 
+    describe('given a url option', () => {
+      it('reports it instead of the referer', async () => {
+        const url = 'https://acme.org/callback';
+
+        await track('login', undefined, {
+          headers: { ...headers, referer: `${url}?token=secret` },
+          url,
+        });
+
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        const body = JSON.parse(
+          fetchMock.mock.calls[0]?.[1]?.body as string,
+        ) as Record<string, unknown>;
+        expect(body.o).toBe(url);
+      });
+
+      it.each([
+        '/relative/path',
+        'not a url',
+        'ftp://acme.org/file',
+        '',
+      ])('does not send when the url is invalid (%j)', async (url) => {
+        await track('login', undefined, { headers, url });
+
+        expect(fetchMock).not.toHaveBeenCalled();
+        expect(consoleError).toHaveBeenCalledTimes(1);
+        expect(consoleError.mock.calls[0]?.[0]).toMatchObject({
+          message: expect.stringContaining('Invalid `url` option'),
+        });
+      });
+    });
+
     it('inclues the provided bypass secret', async () => {
       const bypassSecret = 'secretXYZ';
       process.env.VERCEL_AUTOMATION_BYPASS_SECRET = bypassSecret;
@@ -684,6 +716,23 @@ describe('server track', () => {
             }),
           }),
         );
+      });
+
+      it('reports the url option instead of the request url', async () => {
+        const url = 'https://acme.org/callback';
+        requestContext = {
+          headers: { ...headers, referer: `${url}?token=from-referer` },
+          url: `${url}?token=from-context&code=123`,
+        };
+
+        await track('login', undefined, { url });
+
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        const body = JSON.parse(
+          fetchMock.mock.calls[0]?.[1]?.body as string,
+        ) as Record<string, unknown>;
+        expect(body.o).toBe(url);
+        expect(JSON.stringify(body)).not.toContain('token=');
       });
 
       it('uses waitUntil', async () => {

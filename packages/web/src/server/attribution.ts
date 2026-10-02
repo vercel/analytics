@@ -106,7 +106,8 @@ async function trackProfile(
  * @param userId - The identifier of the user.
  * @param [traits] - Additional traits of the user. Nested objects are not supported. Allowed values are `string`, `number`, `boolean`, and `null`.
  * @param [options] - Pass `request` or `headers` when the function runs
- * outside of a Vercel Function, where no request context is available.
+ * outside of a Vercel Function, where no request context is available, and
+ * `url` to report another page URL than the one of the current request.
  */
 export async function identify(
   userId: string,
@@ -128,7 +129,8 @@ export async function identify(
  * @param groupId - The identifier of the group.
  * @param [traits] - Additional traits of the group. Nested objects are not supported. Allowed values are `string`, `number`, `boolean`, and `null`.
  * @param [options] - Pass `request` or `headers` when the function runs
- * outside of a Vercel Function, where no request context is available.
+ * outside of a Vercel Function, where no request context is available, and
+ * `url` to report another page URL than the one of the current request.
  */
 export async function group(
   groupId: string,

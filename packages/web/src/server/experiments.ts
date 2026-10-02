@@ -27,6 +27,7 @@ export interface ExposureOptions extends Omit<Options, 'flags'>, Attribution {}
  * @param [options.props] - Traits of the user and group, like `plan` or `role`.
  * @param [options.request] / [options.headers] - Pass them when the function runs
  * outside of a Vercel Function, where no request context is available.
+ * @param [options.url] - The page URL the exposure is reported for. Defaults to the URL of the current request.
  */
 export async function trackExposure(
   input: ServerExposureInput,
