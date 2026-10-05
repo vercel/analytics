@@ -11,13 +11,17 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@sveltejs/adapter-vercel": "latest",
-    "@sveltejs/kit": "latest",
+    "@sveltejs/adapter-vercel": "^7.0.0",
+    "@sveltejs/kit": "^3.0.0",
     "@sveltejs/vite-plugin-svelte": "latest",
     "@vercel/analytics": "workspace:*",
     "svelte": "latest",
     "svelte-check": "latest",
-    "typescript": "latest",
+    "typescript": "^6.0.0",
     "vite": "latest"
+  },
+  "imports": {
+    "#lib": "./src/lib/index.js",
+    "#lib/*": "./src/lib/*"
   }
 }

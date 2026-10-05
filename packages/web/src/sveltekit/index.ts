@@ -1,6 +1,6 @@
 import type {} from '@sveltejs/kit';
-import { browser } from '$app/environment';
-import { page } from '$app/stores';
+import { browser } from '$app/env';
+import { afterNavigate } from '$app/navigation';
 import { inject, pageview, track } from '../generic';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
 import { getBasePath, getConfigString } from './utils';
@@ -17,13 +17,13 @@ function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
       getConfigString(),
     );
 
-    page.subscribe(({ route, url }) => {
-      if (route?.id) {
-        pageview({ route: route.id, path: url.pathname });
+    afterNavigate(({ to }) => {
+      if (to?.route.id) {
+        pageview({ route: to.route.id, path: to.url.pathname });
       }
     });
   }
 }
 
-export { injectAnalytics, track };
 export type { AnalyticsProps, BeforeSend, BeforeSendEvent };
+export { injectAnalytics, track };
