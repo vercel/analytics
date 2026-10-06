@@ -1,3 +1,4 @@
+<script lang="ts">
 import {
   type BeforeSendEvent,
   injectAnalytics,
@@ -11,3 +12,6 @@ injectAnalytics({
     return event;
   },
 });
+</script>
+
+<slot />

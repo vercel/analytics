@@ -1,6 +1,6 @@
 import type {} from '@sveltejs/kit';
 import { browser } from '$app/environment';
-import { page } from '$app/state';
+import { afterNavigate } from '$app/navigation';
 import { inject, pageview, track } from '../generic';
 import type { AnalyticsProps, BeforeSend, BeforeSendEvent } from '../types';
 import { getBasePath, getConfigString } from './utils';
@@ -17,25 +17,12 @@ function injectAnalytics(props: Omit<AnalyticsProps, 'framework'> = {}): void {
       getConfigString(),
     );
 
-    // $app/stores was removed in SvelteKit 3; use $app/state's reactive `page` + History API
-    const trackPageview = () => {
-      const route = page.route.id;
-      if (route) pageview({ route, path: page.url.pathname });
-    };
-
-    trackPageview();
-
-    for (const type of ['pushState', 'replaceState'] as const) {
-      const original = history[type];
-      history[type] = function (...args: Parameters<typeof original>) {
-        original.apply(this, args);
-        trackPageview();
-      };
-    }
-
-    window.addEventListener('popstate', trackPageview);
+    // SvelteKit owns registration and cleanup; callers must invoke this from component initialization.
+    afterNavigate(({ to }) => {
+      if (to?.route.id) pageview({ route: to.route.id, path: to.url.pathname });
+    });
   }
 }
 
-export { injectAnalytics, track };
 export type { AnalyticsProps, BeforeSend, BeforeSendEvent };
+export { injectAnalytics, track };
