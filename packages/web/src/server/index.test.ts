@@ -123,7 +123,6 @@ describe('server track', () => {
           }),
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -145,7 +144,6 @@ describe('server track', () => {
           method: 'POST',
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -173,7 +171,6 @@ describe('server track', () => {
           method: 'POST',
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -201,7 +198,6 @@ describe('server track', () => {
           method: 'POST',
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -244,7 +240,6 @@ describe('server track', () => {
           },
           body: JSON.stringify({
             o: referer,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -287,7 +282,6 @@ describe('server track', () => {
           },
           body: JSON.stringify({
             o: referer,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -330,7 +324,6 @@ describe('server track', () => {
           },
           body: JSON.stringify({
             o: referer,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -354,7 +347,6 @@ describe('server track', () => {
           method: 'POST',
           body: JSON.stringify({
             o: new URL(endpoint).origin,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -412,7 +404,6 @@ describe('server track', () => {
           method: 'POST',
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -437,7 +428,6 @@ describe('server track', () => {
           method: 'POST',
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -469,7 +459,6 @@ describe('server track', () => {
           method: 'POST',
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -503,7 +492,6 @@ describe('server track', () => {
           method: 'POST',
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -635,7 +623,6 @@ describe('server track', () => {
             },
             body: JSON.stringify({
               o: referer,
-              ts: vi.getMockedSystemTime()?.getTime(),
               sdkn,
               sdkv,
               r: '',
@@ -667,7 +654,6 @@ describe('server track', () => {
             method: 'POST',
             body: JSON.stringify({
               o: `https://${appDomain}`,
-              ts: vi.getMockedSystemTime()?.getTime(),
               sdkn,
               sdkv,
               r: '',
@@ -701,7 +687,6 @@ describe('server track', () => {
             method: 'POST',
             body: JSON.stringify({
               o: `https://${appDomain}`,
-              ts: vi.getMockedSystemTime()?.getTime(),
               sdkn,
               sdkv,
               r: '',

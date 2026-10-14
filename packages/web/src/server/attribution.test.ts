@@ -145,7 +145,6 @@ describe.each([
           }),
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -165,7 +164,6 @@ describe.each([
         expect.objectContaining({
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -190,7 +188,6 @@ describe.each([
         expect.objectContaining({
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -227,7 +224,6 @@ describe.each([
         expect.objectContaining({
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',

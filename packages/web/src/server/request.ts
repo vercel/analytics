@@ -247,7 +247,6 @@ export async function dispatch({
 
     const body = {
       o: resolveUrl(options?.url, requestContext, requestHeaders, endpoint),
-      ts: Date.now(),
       sdkn: `${packageName}/server`,
       sdkv: version,
       r: '',

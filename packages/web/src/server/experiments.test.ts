@@ -111,7 +111,6 @@ describe('trackExposure', () => {
           }),
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -141,7 +140,6 @@ describe('trackExposure', () => {
           method: 'POST',
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -174,7 +172,6 @@ describe('trackExposure', () => {
         expect.objectContaining({
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
@@ -209,7 +206,6 @@ describe('trackExposure', () => {
         expect.objectContaining({
           body: JSON.stringify({
             o: `https://${appDomain}`,
-            ts: vi.getMockedSystemTime()?.getTime(),
             sdkn,
             sdkv,
             r: '',
